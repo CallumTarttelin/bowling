@@ -1,0 +1,3 @@
+Remove @OneToMany and @ManyToOne to cause crash
+
+Just have the test
