@@ -45,11 +45,13 @@ public class LeagueControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "http://localhost/api/league/" + result.getId()));
 
-        mockMvc.perform(get("/api/leagues/{id}", "id").param("id", result.getId().toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Some Course")));
-
         mockMvc.perform(get("/api/leagues"))
-                .andExpect((MockMvcResultMatchers.jsonPath("$.data", Matchers.containsInAnyOrder("{\"name\":\"Brian\", \"games\": null, \"teams\": null}"))));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data", Matchers.contains("Brian")));
+
+
+        mockMvc.perform(get("/api/leagues/{id}", "id").param("id", result.getId().toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Brian")));
+
 
     }
 }

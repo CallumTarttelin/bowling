@@ -2,13 +2,11 @@ package com.saskcow.bowling.controller;
 
 import com.saskcow.bowling.domain.League;
 import com.saskcow.bowling.repository.LeagueRepository;
+import com.saskcow.bowling.view.LeagueViewSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -26,16 +24,17 @@ public class LeagueController {
     }
 
     @RequestMapping(value = "/api/league", method = RequestMethod.GET)
-    public ResponseEntity<List<League>> findLeagues() {
-        List<League> leagues = new ArrayList<>();
-        repo.findAll().forEach(leagues::add);
+    public ResponseEntity<Iterable<LeagueViewSummary>> findLeagues() {
+        List<LeagueViewSummary> leagues = new ArrayList<>();
+        repo.findAll().forEach(league -> leagues.add(new LeagueViewSummary(league)));
         return ResponseEntity.ok(leagues);
     }
 
     @RequestMapping(value = "/api/league/{id}", method = RequestMethod.GET)
-    public ResponseEntity<League> findLeague(@RequestParam("id") Long id) {
+    public ResponseEntity<LeagueViewSummary> findLeague(@PathVariable("id") Long id) {
         League league = repo.findOne(id);
-        return ResponseEntity.ok(league);
+        LeagueViewSummary leagueView = new LeagueViewSummary(league);
+        return ResponseEntity.ok(leagueView);
     }
 
     @RequestMapping(value = "/api/league", method = RequestMethod.POST)

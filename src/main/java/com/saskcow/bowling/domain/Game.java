@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @Entity
 public class Game {
+    //TODO add Pins for Against GGH stuff HHS stuff and points
     private @Id @GeneratedValue Long id;
     private Date time;
     private String venue;
