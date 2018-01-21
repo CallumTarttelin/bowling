@@ -1,12 +1,13 @@
 package com.saskcow.bowling.view;
 
 import com.saskcow.bowling.domain.League;
+import com.saskcow.bowling.domain.Player;
 import com.saskcow.bowling.domain.Team;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +22,6 @@ public class TeamView {
         this.league = team.getLeague();
         this.name = team.getName();
         this.id = team.getId();
-        this.players = new ArrayList<>();
-        team.getPlayers().forEach(player -> this.players.add(player.getName()));
+        this.players = team.getPlayers().stream().map(Player::getName).collect(Collectors.toList());
     }
 }
