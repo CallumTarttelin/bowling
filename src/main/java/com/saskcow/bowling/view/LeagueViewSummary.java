@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 public class LeagueViewSummary {
     private Long id;
     private String name;
-    private Integer teams;
 
 
     public LeagueViewSummary(League league) {
         this.name = league.getName();
         this.id = league.getId();
-        this.teams = league.getTeams().size();
     }
 }
