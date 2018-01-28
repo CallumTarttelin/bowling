@@ -1,9 +1,12 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+// import LeagueList from "./LeagueList";
+import LeagueStore from "./LeagueStore"
 
 class App extends React.Component {
   render() {
-    return <p>HELLO!</p>
+    const leagueStore = new LeagueStore;
+    return <addLeague store={leagueStore}/>
   }
 }
 
