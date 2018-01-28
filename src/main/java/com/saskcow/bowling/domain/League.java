@@ -1,6 +1,8 @@
 package com.saskcow.bowling.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class League {
     private @Id @GeneratedValue Long id;
     private String name;
@@ -18,13 +22,10 @@ public class League {
     @OneToMany
     private List<Team> teams;
 
-    private League(){}
-
     public League(String name, List<Game> games, List<Team> teams){
         this.name = name;
         this.games = games;
         this.teams = teams;
     }
-
 
 }
