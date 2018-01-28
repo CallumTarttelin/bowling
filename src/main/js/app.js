@@ -14,7 +14,6 @@ class App extends React.Component {
           <Route path="/add" component={AddLeague}/>
           <Link to={"/add"}>Add a League!</Link>
         </div>
-        {/*<AddLeague/>*/}
       </Router>
     )
   }

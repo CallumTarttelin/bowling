@@ -1,4 +1,4 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
     entry: './src/main/js/app.js',
@@ -17,7 +17,8 @@ module.exports = {
                 loader: 'babel',
                 query: {
                     cacheDirectory: true,
-                    presets: ['env', 'react']
+                    presets: ['env', 'react', 'stage-0'],
+                    plugins: ['transform-decorators-legacy']
                 }
             }
         ]

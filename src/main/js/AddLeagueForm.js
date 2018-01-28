@@ -1,7 +1,8 @@
 import React from 'react';
 import {observer} from "mobx-react";
 
-const AddLeagueForm = observer(class AddLeagueForm extends React.Component {
+@observer
+class AddLeagueForm extends React.Component {
   updateName(e) {
     this.props.store.name = e.target.value
   }
@@ -13,6 +14,6 @@ const AddLeagueForm = observer(class AddLeagueForm extends React.Component {
       </div>
     )
   }
-});
+}
 
 export default AddLeagueForm;

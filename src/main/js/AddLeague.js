@@ -5,7 +5,8 @@ import AddLeagueForm from "./AddLeagueForm";
 import LeagueStore from "./LeagueStore";
 import {Link} from "react-router-dom";
 
-const AddLeague = observer(class AddLeague extends React.Component {
+@observer
+class AddLeague extends React.Component {
   constructor() {
     super();
     this.state = ({store: LeagueStore});
@@ -31,6 +32,6 @@ const AddLeague = observer(class AddLeague extends React.Component {
       </div>
     )
   }
-});
+}
 
 export default AddLeague;
