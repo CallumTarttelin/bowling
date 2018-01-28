@@ -12,10 +12,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -38,20 +42,53 @@ public class LeagueControllerTest {
         League league = new League(1L, "Brian", null, null);
         when(repo.save(isA(League.class))).thenReturn(league);
         when(repo.findOne(league.getId())).thenReturn(league);
+        when(repo.findAll()).thenReturn(Collections.singletonList(league));
 
-        mockMvc.perform(post("/api/league")
+        String uri = mockMvc.perform(post("/api/league")
                 .content("{\"name\":\"Brian\"}")
                 .contentType("application/json"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost/api/league/" + league.getId()));
+                .andExpect(header().string("Location", "http://localhost/api/league/" + league.getId()))
+                .andReturn().getResponse().getHeader("Location");
 
         mockMvc.perform(get("/api/league"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)));
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.*", hasItem("Brian")));
-
-        mockMvc.perform(get("/api/league/" + league.getId().toString()))
                 .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")));
+
+        mockMvc.perform(get(uri))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo("Brian")))
                 .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Brian")));
 
+    }
+
+    @Test
+    public void getLeague_shouldFilter() throws Exception {
+        League dave = new League(1L, "Dave", null, null);
+        League david = new League(2L, "David", null, null);
+        League brian = new League(3L, "Brian", null, null);
+        when(repo.findAll()).thenReturn(Arrays.asList(dave, david, brian));
+        when(repo.findByNameContaining("Dav")).thenReturn(Arrays.asList(dave, david));
+        when(repo.findByNameContaining("Bri")).thenReturn(Collections.singletonList(brian));
+
+        mockMvc.perform(get("/api/league?name=Dav"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Dave")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", equalTo("David")));
+
+        mockMvc.perform(get("/api/league?name=Bri"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")));
+    }
+
+    @Test
+    public void deleteLeague_shouldDeleteLeague() throws Exception {
+        doNothing().when(repo).delete(isA(Long.class));
+        mockMvc.perform(delete("/api/league/1"))
+                .andExpect(status().isNoContent());
+        verify(repo, times(1)).delete(1L);
     }
 }
