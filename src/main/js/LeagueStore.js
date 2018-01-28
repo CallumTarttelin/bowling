@@ -1,7 +1,11 @@
-import {observable} from 'mobx';
+import {extendObservable} from 'mobx';
 
 class LeagueStore {
-  @observable name = "";
+  constructor() {
+    extendObservable(this, {
+      name:  "",
+    });
+  }
 }
 
-export default LeagueStore;
+export default new LeagueStore();

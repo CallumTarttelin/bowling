@@ -55,7 +55,7 @@ class LeagueList extends React.Component {
           <button className={"RefreshButton"} onClick={this.refresh}>Refresh Courses</button>
           <ul>
             {this.state.leagues.map(league => (
-              <LeagueSummary key={league.id}>{league.name}</LeagueSummary>
+              <LeagueSummary key={league.id} id={league.id}>{league.name}</LeagueSummary>
             ))}
           </ul>
         </div>
