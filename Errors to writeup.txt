@@ -1,3 +1,11 @@
 Remove @OneToMany and @ManyToOne to cause crash
 
 Just have the test
+
+findByName => findByNameContaining
+
+Decorators require babel fixing
+
+forgot to mock function nullpointer
+
+no /add endpoint
