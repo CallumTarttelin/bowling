@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import LeagueSummary from "./LeagueSummary";
+import {Link} from 'react-router-dom';
 
 class LeagueList extends React.Component {
   constructor() {
@@ -58,6 +59,7 @@ class LeagueList extends React.Component {
               <LeagueSummary key={league.id} id={league.id}>{league.name}</LeagueSummary>
             ))}
           </ul>
+          <Link to={"/add"}>Add a League!</Link>
         </div>
       )
     }
