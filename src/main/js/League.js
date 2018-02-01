@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from "axios/index";
 import TeamSummary from "./TeamSummary";
+import Button from "material-ui";
+import AddIcon from "material-ui-icons/add";
 
 class League extends React.Component {
 
@@ -44,6 +46,7 @@ class League extends React.Component {
               <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary>
             ))}
           </ul>
+          <Button fab color="primary" aria-label="add" className={"addTeam"}><AddIcon /></Button>
         </div>
       )
     } else if (this.state.status === "OK"){
@@ -51,6 +54,7 @@ class League extends React.Component {
         <div className={'league'}>
           <h1 className={'leagueName'}>{this.state.name}</h1>
           <h2>This league doesn't have any teams yet!</h2>
+          <Button fab color="primary" aria-label="add" className={"addTeam"}><AddIcon /></Button>
         </div>
       )
     } else {

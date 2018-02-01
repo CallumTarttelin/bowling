@@ -28,4 +28,11 @@ public class League {
         this.teams = teams;
     }
 
+    public void addTeam(Team team) {
+        this.teams.add(team);
+    }
+
+    public void deleteTeam(Team team) {
+        this.teams.remove(team);
+    }
 }

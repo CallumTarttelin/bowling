@@ -2,6 +2,7 @@ package com.saskcow.bowling.controller;
 
 import com.saskcow.bowling.domain.League;
 import com.saskcow.bowling.repository.LeagueRepository;
+import com.saskcow.bowling.view.LeagueView;
 import com.saskcow.bowling.view.LeagueViewSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
@@ -41,9 +42,9 @@ public class LeagueController {
     }
 
     @RequestMapping(value = "/api/league/{id}", method = RequestMethod.GET)
-    public ResponseEntity<LeagueViewSummary> findLeague(@PathVariable("id") Long id) {
+    public ResponseEntity<LeagueView> findLeague(@PathVariable("id") Long id) {
         League league = repo.findOne(id);
-        LeagueViewSummary leagueView = new LeagueViewSummary(league);
+        LeagueView leagueView = new LeagueView(league);
         return ResponseEntity.ok(leagueView);
     }
 

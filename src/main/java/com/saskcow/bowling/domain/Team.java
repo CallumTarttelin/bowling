@@ -27,4 +27,9 @@ public class Team {
         this.games = games;
         this.league = league;
     }
+
+    public Team(String name, League league) {
+        this.name = name;
+        this.league = league;
+    }
 }
