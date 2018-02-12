@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -17,9 +14,9 @@ import java.util.List;
 public class League {
     private @Id @GeneratedValue Long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
     private List<Game> games;
-    @OneToMany
+    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
     private List<Team> teams;
 
     public League(String name, List<Game> games, List<Team> teams){

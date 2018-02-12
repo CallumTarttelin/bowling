@@ -1,5 +1,6 @@
 package com.saskcow.bowling.controller;
 
+import com.saskcow.bowling.domain.League;
 import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.LeagueRepository;
 import com.saskcow.bowling.repository.TeamRepository;
@@ -39,8 +40,10 @@ public class TeamController {
 
     @RequestMapping(value = "/api/team", method = RequestMethod.POST)
     public ResponseEntity<?> saveLeague(@RequestBody TeamRest team) {
-        Team savedTeam = repo.save(new Team(team.getName(), leagueRepository.findOne(team.getLeagueId())));
-        leagueRepository.findOne(team.getLeagueId()).addTeam(savedTeam);
+        League league = leagueRepository.findOne(team.getLeagueId());
+        Team savedTeam = repo.save(new Team(team.getName(), league));
+        league.addTeam(savedTeam);
+        leagueRepository.save(league);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedTeam.getId()).toUri();

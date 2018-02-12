@@ -22,10 +22,14 @@
     "babel-polyfill": "^6.16.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-preset-stage-0": "^6.24.1",
+    "nightwatch": "^0.9.19",
+    "selenium-standalone": "^6.12.0"
   },
   "scripts": {
-    "watch": "webpack --watch -d"
+    "watch": "webpack --watch -d",
+    "nightwatch": "./node_modules/.bin/nightwatch",
+    "nightwatch-setup": "selenium-standalone install --version=3.9.1 --drivers.chrome.version=2.35 --drivers.gecko.version=0.19.1"
   },
   "repository": {
     "type": "git",

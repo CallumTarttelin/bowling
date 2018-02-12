@@ -14,14 +14,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,9 +85,12 @@ public class LeagueControllerTest {
 
     @Test
     public void deleteLeague_shouldDeleteLeague() throws Exception {
+        League league = new League(1L, "Brian", null, new LinkedList<>());
+
         doNothing().when(repo).delete(isA(Long.class));
+
         mockMvc.perform(delete("/api/league/1"))
                 .andExpect(status().isNoContent());
         verify(repo, times(1)).delete(1L);
-    }
+        }
 }

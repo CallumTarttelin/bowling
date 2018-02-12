@@ -13,9 +13,9 @@ class App extends React.Component {
         <div className="App">
           <Route exact path="/" component={LeagueList}/>
           <Route exact path="/league" component={LeagueList}/>
-          <Route path="/league/:id" component={League}/>
-          <Route path="/add/league" component={AddLeague}/>
+          <Route exact path="/league/:id" component={League}/>
           <Route path={"/league/:id/add-team"} component={AddTeam}/>
+          <Route path="/add/league" component={AddLeague}/>
         </div>
       </Router>
     )

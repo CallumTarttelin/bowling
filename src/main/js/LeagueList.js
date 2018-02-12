@@ -17,7 +17,7 @@ class LeagueList extends React.Component {
   updateLeagues() {
     axios.get('/api/league')
       .then(response => {
-        // this.setState({status: "OK", leagues: response.data})
+        this.setState({status: "OK", leagues: response.data})
       })
       .catch(error => {
         if (error.response) {
@@ -57,7 +57,9 @@ class LeagueList extends React.Component {
         <div className={"Leagues"}>
           <ul>
             {this.state.leagues.map(league => (
-              <LeagueSummary key={league.id} id={league.id}>{league.name}</LeagueSummary>
+              <div key={league.id}>
+                <LeagueSummary id={league.id}>{league.name}</LeagueSummary>
+              </div>
             ))}
           </ul>
           <Button raised color={"primary"} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>

@@ -14,11 +14,13 @@ public class LeagueView {
     private Long id;
     private String name;
     private List<TeamViewSummary> teams;
+    private List<GameViewSummary> games;
 
 
     public LeagueView(League league) {
         this.name = league.getName();
         this.id = league.getId();
         this.teams = league.getTeams() == null ? null : league.getTeams().stream().map(TeamViewSummary::new).collect(Collectors.toList());
+        this.games = league.getGames() == null ? null : league.getGames().stream().map(GameViewSummary::new).collect(Collectors.toList());
     }
 }
