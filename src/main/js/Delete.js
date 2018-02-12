@@ -13,6 +13,7 @@ class LeagueList extends React.Component {
   deleteThing() {
     axios.delete('/api/' + this.state.type + '/' + this.state.id)
       .then(response => {
+        location.reload();
         console.log("deleted " + response.headers.location);
       })
       .catch(error => {

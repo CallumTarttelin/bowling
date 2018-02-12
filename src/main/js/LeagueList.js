@@ -49,7 +49,7 @@ class LeagueList extends React.Component {
       return (
         <div className={"Error"}>
           <h2>Error</h2>
-          <Button raised color={'primary'} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
+          <Button variant={"raised"} color={'primary'} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
         </div>
       )
     } else {
@@ -62,8 +62,8 @@ class LeagueList extends React.Component {
               </div>
             ))}
           </ul>
-          <Button raised color={"primary"} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
-          <Link to={"/add/league"}><Button className={'add'} fab color={"primary"}><AddIcon /></Button></Link>
+          <Button variant={"raised"} color={"primary"} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
+          <Link to={"/add/league"}><Button className={'add'} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
         </div>
       )
     }

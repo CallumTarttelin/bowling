@@ -47,7 +47,7 @@ class League extends React.Component {
               <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary>
             ))}
           </ul>
-          <Link to={"/league/" + this.state.id + '/add-team'}><Button fab color={"primary"}><AddIcon /></Button></Link>
+          <Link to={"/league/" + this.state.id + '/add-team'}><Button variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
         </div>
       )
     } else if (this.state.status === "error") {
