@@ -1,6 +1,6 @@
 {
   "src_folders" : ["src/test/js"],
-  "output_folder" : "reports",
+  "output_folder" : "reports/data",
   "custom_commands_path" : "",
   "custom_assertions_path" : "",
   "page_objects_path" : "",
@@ -22,10 +22,6 @@
       "selenium_port"  : 4444,
       "selenium_host"  : "localhost",
       "silent": true,
-      "screenshots" : {
-        "enabled" : false,
-        "path" : ""
-      },
       "desiredCapabilities": {
         "browserName": "chrome"
       }

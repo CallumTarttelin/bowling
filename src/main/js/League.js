@@ -42,12 +42,13 @@ class League extends React.Component {
       return (
         <div className={'League'}>
           <h2>{this.state.name}</h2>
-          <ul>
+          <h3>Teams</h3>
+          <ul className={"Teams"}>
             {this.state.teams.map(team => (
               <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary>
             ))}
           </ul>
-          <Link to={"/league/" + this.state.id + '/add-team'}><Button variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+          <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
         </div>
       )
     } else if (this.state.status === "error") {
