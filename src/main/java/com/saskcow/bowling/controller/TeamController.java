@@ -1,10 +1,13 @@
 package com.saskcow.bowling.controller;
 
+import com.saskcow.bowling.domain.League;
 import com.saskcow.bowling.domain.Team;
+import com.saskcow.bowling.repository.LeagueRepository;
 import com.saskcow.bowling.repository.TeamRepository;
+import com.saskcow.bowling.rest.TeamRest;
 import com.saskcow.bowling.view.TeamView;
-import com.saskcow.bowling.view.TeamViewSummary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,24 +17,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class TeamController {
 
     private TeamRepository repo;
+    private LeagueRepository leagueRepository;
 
     @Autowired
-    public TeamController(TeamRepository repo){
+    public TeamController(TeamRepository repo, LeagueRepository leagueRepository){
         this.repo = repo;
-    }
-
-    @RequestMapping(value = "/api/team", method = RequestMethod.GET)
-    public ResponseEntity<Iterable<TeamViewSummary>> findLeagues() {
-        List<TeamViewSummary> teams = new ArrayList<>();
-        repo.findAll().forEach(team -> teams.add(new TeamViewSummary((team))));
-        return ResponseEntity.ok(teams);
+        this.leagueRepository = leagueRepository;
     }
 
     @RequestMapping(value = "/api/team/{id}", method = RequestMethod.GET)
@@ -42,13 +39,28 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/api/team", method = RequestMethod.POST)
-    public ResponseEntity<?> saveLeague(@RequestBody Team team) {
-        Team savedTeam = repo.save(team);
+    public ResponseEntity<?> saveLeague(@RequestBody TeamRest team) {
+        League league = leagueRepository.findOne(team.getLeagueId());
+        Team savedTeam = repo.save(new Team(team.getName(), league));
+        league.addTeam(savedTeam);
+        leagueRepository.save(league);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedTeam.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
-
+    @RequestMapping(value = "/api/team/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+        try {
+            Team team = repo.findOne(id);
+            List<Team> teams = team.getLeague().getTeams();
+            teams.remove(team);
+            team.getLeague().setTeams(teams);
+            repo.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

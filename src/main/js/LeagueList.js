@@ -1,17 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 import LeagueSummary from "./LeagueSummary";
+import {Link} from 'react-router-dom';
+import {Button, CircularProgress} from 'material-ui';
+import AddIcon from 'material-ui-icons/Add';
 
 class LeagueList extends React.Component {
   constructor() {
     super();
     this.state = ({status: "Loading"});
-    this.updateCourses = this.updateCourses.bind(this);
+    this.updateLeagues = this.updateLeagues.bind(this);
     this.refresh = this.refresh.bind(this);
-    this.updateCourses()
+    this.updateLeagues()
   }
 
-  updateCourses() {
+  updateLeagues() {
     axios.get('/api/league')
       .then(response => {
         this.setState({status: "OK", leagues: response.data})
@@ -31,7 +34,7 @@ class LeagueList extends React.Component {
 
   refresh() {
     this.setState({status: "Loading"});
-    this.updateCourses()
+    this.updateLeagues()
   }
 
   render() {
@@ -39,25 +42,28 @@ class LeagueList extends React.Component {
     if (this.state.status === "Loading") {
       return (
         <div className={"Loading"}>
-          <h3>Loading, Please wait</h3>
+          <CircularProgress color={"primary"} />
         </div>
       )
     } else if (this.state.status === "Error") {
       return (
         <div className={"Error"}>
           <h2>Error</h2>
-          <button className={"RefreshButton"} onClick={this.refresh}>Refresh Courses</button>
+          <Button variant={"raised"} color={'primary'} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
         </div>
       )
     } else {
       return (
-        <div className={"Courses"}>
-          <button className={"RefreshButton"} onClick={this.refresh}>Refresh Courses</button>
+        <div className={"Leagues"}>
           <ul>
             {this.state.leagues.map(league => (
-              <LeagueSummary key={league.id} id={league.id}>{league.name}</LeagueSummary>
+              <div key={league.id}>
+                <LeagueSummary id={league.id}>{league.name}</LeagueSummary>
+              </div>
             ))}
           </ul>
+          <Button variant={"raised"} color={"primary"} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
+          <Link to={"/add/league"}><Button className={'add'} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
         </div>
       )
     }

@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import LeagueList from "./LeagueList";
 import AddLeague from "./AddLeague";
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import League from "./League";
+import AddTeam from './AddTeam'
 
 class App extends React.Component {
   render() {
@@ -10,11 +12,11 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <Route exact path="/" component={LeagueList}/>
-          <Route path="/league" component={LeagueList}/>
-          <Route path="/add" component={AddLeague}/>
-          <Link to={"/add"}>Add a League!</Link>
+          <Route exact path="/league" component={LeagueList}/>
+          <Route exact path="/league/:id" component={League}/>
+          <Route path={"/league/:id/add-team"} component={AddTeam}/>
+          <Route path="/add/league" component={AddLeague}/>
         </div>
-        {/*<AddLeague/>*/}
       </Router>
     )
   }

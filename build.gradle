@@ -30,6 +30,14 @@ task webpack(type: NodeTask, dependsOn: 'npmInstall') {
     script = file('node_modules/webpack/bin/webpack.js')
 }
 
+task nightwatchSetup(type: NpmTask) {
+    args = ['run', 'nightwatch-setup']
+}
+
+task nightwatch(type: NpmTask, dependsOn: 'nightwatchSetup') {
+    args = ['run', 'nightwatch']
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-freemarker')

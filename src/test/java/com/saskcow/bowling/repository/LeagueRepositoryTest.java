@@ -2,6 +2,7 @@ package com.saskcow.bowling.repository;
 
 import com.saskcow.bowling.BowlingApplication;
 import com.saskcow.bowling.domain.League;
+import com.saskcow.bowling.domain.Team;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +50,9 @@ public class LeagueRepositoryTest {
 
     @Test
     public void thingsSaved_canBeDeleted() {
-        League bestLeague = new League("brian", null, null);
+        League bestLeague = new League("brian", null, new LinkedList<>());
+        Team bestTeam = new Team("dave", null, null, bestLeague);
+        bestLeague.addTeam(bestTeam);
         repo.save(bestLeague);
         repo.delete(bestLeague.getId());
         League foundGame = repo.findOne(bestLeague.getId());

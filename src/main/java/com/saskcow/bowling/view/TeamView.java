@@ -1,7 +1,5 @@
 package com.saskcow.bowling.view;
 
-import com.saskcow.bowling.domain.League;
-import com.saskcow.bowling.domain.Player;
 import com.saskcow.bowling.domain.Team;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,16 +10,18 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class TeamView {
-    private League league;
+    private LeagueViewSummary league;
     private Long id;
     private String name;
-    private List<String> players;
+    private List<PlayerViewSummary> players;
+    private List<GameViewSummary> games;
 
 
     public TeamView(Team team) {
-        this.league = team.getLeague();
+        this.league = new LeagueViewSummary(team.getLeague());
         this.name = team.getName();
         this.id = team.getId();
-        this.players = team.getPlayers().stream().map(Player::getName).collect(Collectors.toList());
+        this.players = team.getPlayers() == null ? null : team.getPlayers().stream().map(PlayerViewSummary::new).collect(Collectors.toList());
+        this.games = team.getGames()== null ? null : team.getGames().stream().map(GameViewSummary::new).collect(Collectors.toList());
     }
 }
