@@ -21,3 +21,5 @@ Button fab -> Button variant="fab" change in library
 Player player = teamRepository.get(id) won't work as types and stuff
 
 No @AllArgsConstructor means can't construct for tests
+
+Blank page after JS not updating, restart fixed it
