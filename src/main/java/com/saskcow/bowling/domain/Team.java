@@ -35,4 +35,12 @@ public class Team {
         this.players = new LinkedList<>();
         this.games = new LinkedList<>();
     }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
+
+    public void deletePlayer(Player player) {
+        this.players.remove(player);
+    }
 }
