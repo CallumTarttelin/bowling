@@ -31,3 +31,5 @@ missing runwith not allowing object.class mocks
 @EqualsAndHashCode(of="id") stops stack overflow and id is unique
 
 nullpointer streaming null add ```null ? new LinkedList<>()```
+
+premature assertions cause dissapointing nightwatch tests
