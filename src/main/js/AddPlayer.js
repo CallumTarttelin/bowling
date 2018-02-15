@@ -2,19 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import {Button, TextField} from 'material-ui';
 
-class AddLeague extends React.Component {
+class AddPlayer extends React.Component {
   constructor(props) {
     super();
-    this.state = ({name: "No Name", leagueId: props.match.params.id});
+    this.state = ({name: "No Name", teamId: props.match.params.id});
     this.submit = this.submit.bind(this);
     this.updateName = this.updateName.bind(this);
   }
 
   submit(event) {
     event.preventDefault();
-    axios.post("/api/team", {name: this.state.name, leagueId: this.state.leagueId})
+    axios.post("/api/player", {name: this.state.name, teamId: this.state.teamId})
       .then(response => {
-        window.location.href = '/league/' + this.state.leagueId;
+        window.location.href = '/team/' + this.state.teamId;
         this.state.name = "";
         console.log("created at " + response.headers.location);
       })
@@ -31,12 +31,12 @@ class AddLeague extends React.Component {
     return (
       <div className={"AddScreen"}>
         <h1>Add a Team to the League!</h1>
-        <form className={"theTeamForm"} onSubmit={this.submit}>
+        <form className={"thePlayerForm"} onSubmit={this.submit}>
           <TextField
-            id="TeamName"
-            label="Team Name"
-            placeholder="Team Name"
-            className={"TeamNameInput"}
+            id="PlayerName"
+            label="Player Name"
+            placeholder="Player Name"
+            className={"PlayerNameInput"}
             onChange={this.updateName}
           /> <br />
           <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
@@ -46,4 +46,4 @@ class AddLeague extends React.Component {
   }
 }
 
-export default AddLeague;
+export default AddPlayer;

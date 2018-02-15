@@ -1,11 +1,11 @@
 import React from 'react';
 import axios from "axios/index";
-import TeamSummary from "./TeamSummary";
+import PlayerSummary from "./PlayerSummary";
 import {Button, CircularProgress} from "material-ui";
 import AddIcon from "material-ui-icons/add";
 import {Link} from "react-router-dom";
 
-class League extends React.Component {
+class Team extends React.Component {
 
   constructor(props) {
     super();
@@ -15,13 +15,14 @@ class League extends React.Component {
   }
 
   getLeague(id) {
-    axios.get('/api/league/' + id)
+    axios.get('/api/team/' + id)
       .then(response => {
         this.setState({
           status: "OK",
           id: id,
           name: response.data.name,
-          teams: response.data.teams
+          league: response.data.league,
+          players: response.data.players
         })
       })
       .catch(error => {
@@ -40,16 +41,16 @@ class League extends React.Component {
   render() {
     if(this.state.status === "OK") {
       return (
-        <div className={'League'}>
+        <div className={'Team'}>
           <h2>{this.state.name}</h2>
-          <Link to={"/league"}>Back</Link>
-          <h3>Teams</h3>
-          <ul className={"Teams"}>
-            {this.state.teams.map(team => (
-              <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary>
+          <Link to={"/league/" + this.state.league.id}>{this.state.league.name}</Link>
+          <h3>Players</h3>
+          <ul className={"Players"}>
+            {this.state.players.map(player => (
+              <PlayerSummary key={player.id} id={player.id}>{player.name}</PlayerSummary>
             ))}
           </ul>
-          <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+          <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
         </div>
       )
     } else if (this.state.status === "error") {
@@ -62,4 +63,4 @@ class League extends React.Component {
   }
 }
 
-export default League;
+export default Team;

@@ -15,9 +15,9 @@ import java.util.List;
 public class Team {
     private @Id @GeneratedValue Long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Player> players;
-    @OneToMany
+    @ManyToMany
     private List<Game> games;
     @ManyToOne
     private League league;
