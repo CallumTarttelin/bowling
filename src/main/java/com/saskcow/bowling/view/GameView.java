@@ -19,7 +19,7 @@ public class GameView {
 
     public GameView(Game game){
         this.id = game.getId();
-        this.time = game.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.time = game.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         this.teams = game.getTeams().stream().map(TeamViewSummary::new).collect(Collectors.toList());
         this.venue = game.getVenue();
         this.league = new LeagueViewSummary(game.getTeams().get(0).getLeague());

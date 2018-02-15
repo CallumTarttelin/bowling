@@ -3,6 +3,7 @@ import axios from "axios/index";
 import TeamSummary from "../summary/TeamSummary";
 import {Button, CircularProgress} from "material-ui";
 import {Link} from "react-router-dom";
+import GameSummary from "../summary/GameSummary";
 
 class League extends React.Component {
 
@@ -41,22 +42,26 @@ class League extends React.Component {
     if(this.state.status === "OK") {
       return (
         <div className={'League'}>
+
           <h2>{this.state.name}</h2>
           <Link to={"/league"}>Back</Link>
+
           <h3>Teams</h3>
           <ul className={"Teams"}>
             {this.state.teams.map(team => (
               <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary>
             ))}
           </ul>
-          <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"Raised"} color={"primary"}>Add A Team</Button></Link>
+          <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
+
           <h3>Games</h3>
-          <ul className={"Teams"}>
+          <ul className={"Games"}>
             {this.state.games.map(game => (
-              <TeamSummary key={game.id} id={game.id}>{game.name}</TeamSummary>
+              <GameSummary key={game.id} id={game.id} time={game.time} teams={game.teams} venue={game.venue}/>
             ))}
           </ul>
           <Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>
+
         </div>
       )
     } else if (this.state.status === "error") {

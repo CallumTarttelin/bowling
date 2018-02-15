@@ -46,7 +46,7 @@ public class GameController {
         Team team1 = teamRepository.findOne(game.getTeamId1());
         Team team2 = teamRepository.findOne(game.getTeamId2());
         List<Team> teams = new LinkedList<>(Arrays.asList(team1, team2));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         LocalDateTime dateTime = LocalDateTime.parse(game.getTime(), formatter);
         Game savedGame = repo.save(new Game(dateTime, game.getVenue(), teams));
         team1.addGame(savedGame);
