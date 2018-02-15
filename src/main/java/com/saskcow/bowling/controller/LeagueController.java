@@ -55,9 +55,6 @@ public class LeagueController {
         if(league.getTeams() == null){
             league.setTeams(new LinkedList<>());
         }
-        if(league.getGames() == null){
-            league.setGames(new LinkedList<>());
-        }
         League savedLeague = repo.save(league);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")

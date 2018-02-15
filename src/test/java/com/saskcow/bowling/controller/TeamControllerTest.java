@@ -40,8 +40,8 @@ public class TeamControllerTest {
     }
 
     @Test
-    public void addLeague_shouldSaveTheCourse() throws Exception {
-        League league = new League(1L, "Brian", null, new LinkedList<>());
+    public void addTeam_shouldSaveTheTeam() throws Exception {
+        League league = new League(1L, "Brian",  new LinkedList<>());
         Team team = new Team(1L, "Brian", null, null, league);
         when(repo.save(isA(Team.class))).thenReturn(team);
         when(repo.findOne(team.getId())).thenReturn(team);
@@ -62,8 +62,8 @@ public class TeamControllerTest {
     }
 
     @Test
-    public void deleteLeague_shouldDeleteLeague() throws Exception {
-        League league = new League(1L, "Brian", null, new LinkedList<>());
+    public void deleteTeam_shouldDeleteTeam() throws Exception {
+        League league = new League(1L, "Brian", new LinkedList<>());
         Team team = new Team(1L, "Brian", null, null, league);
         Team team2 = new Team(2L, "Dave", null, null, league);
         league.addTeam(team);

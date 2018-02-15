@@ -5,7 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -15,13 +18,10 @@ public class League {
     private @Id @GeneratedValue Long id;
     private String name;
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
-    private List<Game> games;
-    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
     private List<Team> teams;
 
-    public League(String name, List<Game> games, List<Team> teams){
+    public League(String name, List<Team> teams){
         this.name = name;
-        this.games = games;
         this.teams = teams;
     }
 
@@ -31,5 +31,11 @@ public class League {
 
     public void deleteTeam(Team team) {
         this.teams.remove(team);
+    }
+
+    public List<Game> getGames() {
+        List<List<Game>> listGames = this.teams == null ? new LinkedList<>() : this.teams.stream().map(Team::getGames).collect(Collectors.toList());
+        List<Game> games = listGames.stream().flatMap(List::stream).collect(Collectors.toList());
+        return new LinkedList<>(new LinkedHashSet<>(games));
     }
 }

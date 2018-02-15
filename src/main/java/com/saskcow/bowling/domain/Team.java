@@ -43,4 +43,12 @@ public class Team {
     public void deletePlayer(Player player) {
         this.players.remove(player);
     }
+
+    public void addGame(Game game) {
+        this.games.add(game);
+    }
+
+    public void deleteGame(Game game) {
+        this.games.remove(game);
+    }
 }

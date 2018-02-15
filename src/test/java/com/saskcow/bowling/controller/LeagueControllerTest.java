@@ -37,8 +37,8 @@ public class LeagueControllerTest {
     }
 
     @Test
-    public void addLeague_shouldSaveTheCourse() throws Exception {
-        League league = new League(1L, "Brian", null, null);
+    public void addLeague_shouldSaveTheLeague() throws Exception {
+        League league = new League(1L, "Brian", null);
         when(repo.save(isA(League.class))).thenReturn(league);
         when(repo.findOne(league.getId())).thenReturn(league);
         when(repo.findAll()).thenReturn(Collections.singletonList(league));
@@ -64,9 +64,9 @@ public class LeagueControllerTest {
 
     @Test
     public void getLeague_shouldFilter() throws Exception {
-        League dave = new League(1L, "Dave", null, null);
-        League david = new League(2L, "David", null, null);
-        League brian = new League(3L, "Brian", null, null);
+        League dave = new League(1L, "Dave", null );
+        League david = new League(2L, "David", null );
+        League brian = new League(3L, "Brian", null);
         when(repo.findAll()).thenReturn(Arrays.asList(dave, david, brian));
         when(repo.findByNameContaining("Dav")).thenReturn(Arrays.asList(dave, david));
         when(repo.findByNameContaining("Bri")).thenReturn(Collections.singletonList(brian));
@@ -85,7 +85,7 @@ public class LeagueControllerTest {
 
     @Test
     public void deleteLeague_shouldDeleteLeague() throws Exception {
-        League league = new League(1L, "Brian", null, new LinkedList<>());
+        League league = new League(1L, "Brian", new LinkedList<>());
 
         doNothing().when(repo).delete(isA(Long.class));
 
