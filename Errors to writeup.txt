@@ -35,3 +35,5 @@ nullpointer streaming null add ```null ? new LinkedList<>()```
 premature assertions cause dissapointing nightwatch tests
 
 different date formats YYYY-MM-DDTHH:mm:ss
+
+this.state.time =/= this.state.time(), causing state to not have funtion time 
