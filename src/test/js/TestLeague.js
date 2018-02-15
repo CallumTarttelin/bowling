@@ -33,7 +33,8 @@ module.exports = {
     browser.expect.element('.Leagues').text.to.contain('nightwatch');
     browser
       .saveScreenshot(directory + "5-Deleted daywatch.png")
-      .click('button[name=delete-nightwatch]');
+      .click('button[name=delete-nightwatch]')
+      .pause(1000);
     browser.expect.element('.Leagues').text.to.not.contain('nightwatch');
     browser
       .end();

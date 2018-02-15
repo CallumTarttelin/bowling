@@ -50,11 +50,13 @@ module.exports = {
     browser.expect.element('.Teams').text.to.contain('Sam Vimes');
     browser
       .saveScreenshot(directory + "6-Deleted swing.png")
-      .click('button[name=delete-sam-vimes]');
+      .click('button[name=delete-sam-vimes]')
+      .pause(1000);
     browser.expect.element('.Teams').text.to.not.contain('Sam Vimes');
     browser
       .url('http://localhost:8080/league')
-      .click('button[name=delete-nights-watch]');
+      .click('button[name=delete-nights-watch]')
+      .pause(1000);
     browser.expect.element('.Leagues').text.to.not.contain('Nights Watch');
       browser.end();
   }
