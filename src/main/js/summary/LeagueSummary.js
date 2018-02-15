@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import Delete from "./Delete";
+import Delete from "../Delete";
 
 class LeagueSummary extends React.Component {
   render() {

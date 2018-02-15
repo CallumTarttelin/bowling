@@ -1,11 +1,10 @@
 import React from 'react';
 import axios from "axios/index";
-import PlayerSummary from "./PlayerSummary";
+import TeamSummary from "../summary/TeamSummary";
 import {Button, CircularProgress} from "material-ui";
-import AddIcon from "material-ui-icons/add";
 import {Link} from "react-router-dom";
 
-class Team extends React.Component {
+class League extends React.Component {
 
   constructor(props) {
     super();
@@ -15,14 +14,14 @@ class Team extends React.Component {
   }
 
   getLeague(id) {
-    axios.get('/api/team/' + id)
+    axios.get('/api/league/' + id)
       .then(response => {
         this.setState({
           status: "OK",
           id: id,
           name: response.data.name,
-          league: response.data.league,
-          players: response.data.players
+          teams: response.data.teams,
+          games: response.data.games
         })
       })
       .catch(error => {
@@ -41,16 +40,23 @@ class Team extends React.Component {
   render() {
     if(this.state.status === "OK") {
       return (
-        <div className={'Team'}>
+        <div className={'League'}>
           <h2>{this.state.name}</h2>
-          <Link to={"/league/" + this.state.league.id}>{this.state.league.name}</Link>
-          <h3>Players</h3>
-          <ul className={"Players"}>
-            {this.state.players.map(player => (
-              <PlayerSummary key={player.id} id={player.id}>{player.name}</PlayerSummary>
+          <Link to={"/league"}>Back</Link>
+          <h3>Teams</h3>
+          <ul className={"Teams"}>
+            {this.state.teams.map(team => (
+              <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary>
             ))}
           </ul>
-          <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+          <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"Raised"} color={"primary"}>Add A Team</Button></Link>
+          <h3>Games</h3>
+          <ul className={"Teams"}>
+            {this.state.games.map(game => (
+              <TeamSummary key={game.id} id={game.id}>{game.name}</TeamSummary>
+            ))}
+          </ul>
+          <Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>
         </div>
       )
     } else if (this.state.status === "error") {
@@ -63,4 +69,4 @@ class Team extends React.Component {
   }
 }
 
-export default Team;
+export default League;

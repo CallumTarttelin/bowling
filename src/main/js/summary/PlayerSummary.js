@@ -1,5 +1,5 @@
 import React from 'react';
-import Delete from "./Delete";
+import Delete from "../Delete";
 import {Link} from "react-router-dom";
 
 class PlayerSummary extends React.Component {

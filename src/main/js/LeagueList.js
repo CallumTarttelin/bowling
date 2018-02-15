@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import LeagueSummary from "./LeagueSummary";
+import LeagueSummary from "./summary/LeagueSummary";
 import {Link} from 'react-router-dom';
 import {Button, CircularProgress} from 'material-ui';
 import AddIcon from 'material-ui-icons/Add';

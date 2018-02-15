@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import LeagueList from "./LeagueList";
-import AddLeague from "./AddLeague";
+import AddLeague from "./add/AddLeague";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import League from "./League";
-import AddTeam from './AddTeam'
-import Team from "./Team";
-import AddPlayer from "./AddPlayer";
-import Player from "./Player";
+import League from "./domain/League";
+import AddTeam from './add/AddTeam'
+import Team from "./domain/Team";
+import AddPlayer from "./add/AddPlayer";
+import Player from "./domain/Player";
 
 class App extends React.Component {
   render() {
