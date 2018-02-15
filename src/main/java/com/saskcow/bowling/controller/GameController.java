@@ -51,6 +51,8 @@ public class GameController {
         Game savedGame = repo.save(new Game(dateTime, game.getVenue(), teams));
         team1.addGame(savedGame);
         team2.addGame(savedGame);
+        teamRepository.save(team1);
+        teamRepository.save(team2);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedGame.getId()).toUri();

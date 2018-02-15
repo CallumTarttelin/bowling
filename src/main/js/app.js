@@ -8,6 +8,7 @@ import AddTeam from './add/AddTeam'
 import Team from "./domain/Team";
 import AddPlayer from "./add/AddPlayer";
 import Player from "./domain/Player";
+import AddGame from "./add/AddGame";
 
 class App extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
           <Route exact path="/team/:id" component={Team}/>
           <Route exact path="/player/:id" component={Player}/>
           <Route path={"/league/:id/add-team"} component={AddTeam}/>
+          <Route path={"/league/:id/add-game"} component={AddGame}/>
           <Route path={"/team/:id/add-player"} component={AddPlayer}/>
           <Route path="/add/league" component={AddLeague}/>
         </div>

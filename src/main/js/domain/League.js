@@ -57,7 +57,7 @@ class League extends React.Component {
           <h3>Games</h3>
           <ul className={"Games"}>
             {this.state.games.map(game => (
-              <GameSummary key={game.id} id={game.id} time={game.time} teams={game.teams} venue={game.venue}/>
+              <GameSummary key={game.id} id={game.id} time={game.time} teams={game.teams}>{game.venue}</GameSummary>
             ))}
           </ul>
           <Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>
