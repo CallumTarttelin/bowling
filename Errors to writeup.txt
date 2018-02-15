@@ -23,3 +23,11 @@ Player player = teamRepository.get(id) won't work as types and stuff
 No @AllArgsConstructor means can't construct for tests
 
 Blank page after JS not updating, restart fixed it
+
+missing runwith not allowing object.class mocks
+
+@ToString(ignore="object") stopping stack overflow error
+
+@EqualsAndHashCode(of="id") stops stack overflow and id is unique
+
+nullpointer streaming null add ```null ? new LinkedList<>()```
