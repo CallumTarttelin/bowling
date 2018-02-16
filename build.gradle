@@ -41,7 +41,7 @@ task nightwatch(type: NpmTask, dependsOn: 'nightwatchSetup') {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-freemarker')
-//	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('com.h2database:h2')
 	compileOnly('org.projectlombok:lombok')

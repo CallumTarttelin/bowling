@@ -2,7 +2,7 @@ module.exports = {
   'Setup' : function (browser) {
     let directory = "./reports/screenshots/TestPlayers/";
     browser
-      .url('http://localhost:8080/league')
+      .url('http://user:saskcow@localhost:8080/league')
       .pause(1000)
       .waitForElementVisible('body', 1000)
       .click('button[class~=add]')

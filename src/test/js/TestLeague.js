@@ -2,7 +2,7 @@ module.exports = {
   'Test adding leagues' : function (browser) {
     let directory = "./reports/screenshots/TestLeague/";
     browser
-      .url('http://localhost:8080/league')
+      .url('http://user:saskcow@localhost:8080/league')
       .pause(1000)
       .waitForElementVisible('body', 1000)
       .saveScreenshot(directory + "1-start.png")
