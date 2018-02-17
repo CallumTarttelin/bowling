@@ -6,10 +6,12 @@ import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.GameRepository;
 import com.saskcow.bowling.repository.TeamRepository;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,12 +27,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.*;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameControllerTest {
+
+    @Rule
+    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("reports/java-snippets");
 
     @Mock
     private GameRepository repo;
@@ -40,7 +47,9 @@ public class GameControllerTest {
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new GameController(repo, teamRepository)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new GameController(repo, teamRepository))
+                .apply(documentationConfiguration(this.restDocumentation))
+                .build();
     }
 
     @Test
@@ -67,7 +76,8 @@ public class GameControllerTest {
                 .content(content)
                 .contentType("application/json"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost/api/game/" + game.getId()))
+                .andExpect(header().string("Location", "http://localhost:8080/api/game/" + game.getId()))
+                .andDo(document("game/create"))
                 .andReturn().getResponse().getHeader("Location");
 
         mockMvc.perform(get(uri))
@@ -75,7 +85,8 @@ public class GameControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.venue", equalTo("Brian Bowling Centre")))
                 .andExpect(MockMvcResultMatchers.jsonPath("venue", equalTo("Brian Bowling Centre")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.league.name", equalTo("Brian")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.time", equalTo(dateTime.format(formatter))));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.time", equalTo(dateTime.format(formatter))))
+                .andDo(document("game/get"));
     }
 
     @Test
@@ -97,7 +108,8 @@ public class GameControllerTest {
         when(repo.findOne(game.getId())).thenReturn(game);
 
         mockMvc.perform(delete("/api/game/1"))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(document("game/delete"));
         verify(repo, times(1)).delete(1L);
         assertThat(team1.getGames()).doesNotContain(game);
         assertThat(team1.getGames()).contains(game2);

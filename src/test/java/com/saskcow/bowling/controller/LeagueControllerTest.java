@@ -4,22 +4,25 @@ package com.saskcow.bowling.controller;
 import com.saskcow.bowling.domain.League;
 import com.saskcow.bowling.repository.LeagueRepository;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.*;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,13 +30,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class LeagueControllerTest {
 
+    @Rule
+    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("reports/java-snippets");
+
     @Mock
     private LeagueRepository repo;
     private MockMvc mockMvc;
 
     @Before
     public void setUp(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new LeagueController(repo)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new LeagueController(repo))
+                .apply(documentationConfiguration(this.restDocumentation))
+                .build();
     }
 
     @Test
@@ -47,18 +55,21 @@ public class LeagueControllerTest {
                 .content("{\"name\":\"Brian\"}")
                 .contentType("application/json"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost/api/league/" + league.getId()))
+                .andExpect(header().string("Location", "http://localhost:8080/api/league/" + league.getId()))
+                .andDo(document("league/create"))
                 .andReturn().getResponse().getHeader("Location");
 
         mockMvc.perform(get("/api/league"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")))
+                .andDo(document("league/many"));
 
         mockMvc.perform(get(uri))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo("Brian")))
-                .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Brian")));
+                .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Brian")))
+                .andDo(document("league/single"));
 
     }
 
@@ -80,17 +91,17 @@ public class LeagueControllerTest {
         mockMvc.perform(get("/api/league?name=Bri"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")))
+                .andDo(document("league/filter"));
     }
 
     @Test
     public void deleteLeague_shouldDeleteLeague() throws Exception {
-        League league = new League(1L, "Brian", new LinkedList<>());
-
         doNothing().when(repo).delete(isA(Long.class));
 
         mockMvc.perform(delete("/api/league/1"))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(document("league/delete"));
         verify(repo, times(1)).delete(1L);
         }
 }
