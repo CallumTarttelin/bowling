@@ -27,7 +27,7 @@ public class LeagueRepositoryTest {
 
     @Test
     public void thingsSaved_canBeRetrieved() {
-        League bestLeague = new League( "brian", null, null);
+        League bestLeague = new League( "brian", null);
         repo.save(bestLeague);
         League foundGame = repo.findOne(bestLeague.getId());
         assertThat(foundGame.getName()).isEqualTo(bestLeague.getName());
@@ -36,8 +36,8 @@ public class LeagueRepositoryTest {
 
     @Test
     public void thingsSaved_canBeQueried() {
-        League bestGame = new League( "Brian", null, null);
-        League worstGame = new League( "Dave", null, null);
+        League bestGame = new League( "Brian", null);
+        League worstGame = new League( "Dave", null);
         repo.save(bestGame);
         repo.save(worstGame);
         List<League> foundGame = repo.findByNameContaining("Brian");
@@ -50,7 +50,7 @@ public class LeagueRepositoryTest {
 
     @Test
     public void thingsSaved_canBeDeleted() {
-        League bestLeague = new League("brian", null, new LinkedList<>());
+        League bestLeague = new League("brian", new LinkedList<>());
         Team bestTeam = new Team("dave", null, null, bestLeague);
         bestLeague.addTeam(bestTeam);
         repo.save(bestLeague);

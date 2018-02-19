@@ -39,7 +39,7 @@ class AddLeague extends React.Component {
             className={"LeagueNameInput"}
             onChange={this.updateName}
           /> <br />
-          <Button type={"submit"} raised color={"primary"} className={"submitForm"}>Submit</Button>
+          <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
         </form>
       </div>
     )

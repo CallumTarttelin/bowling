@@ -1,28 +1,30 @@
 package com.saskcow.bowling.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of="id")
+@ToString(exclude="teams")
 public class Game {
     private @Id @GeneratedValue Long id;
-    private Date time;
+    private LocalDateTime time;
     private String venue;
-    @OneToMany
+    @ManyToMany
     private List<Team> teams;
-    @ManyToOne
-    private League league;
 
-    public Game(Date time, String venue, List<Team> teams, League league) {
+    public Game(LocalDateTime time, String venue, List<Team> teams) {
         this.time = time;
         this.venue = venue;
         this.teams = teams;
-        this.league = league;
     }
 }

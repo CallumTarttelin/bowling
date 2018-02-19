@@ -1,5 +1,6 @@
 package com.saskcow.bowling.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Player {
     private @Id @GeneratedValue Long id;
     private String name;

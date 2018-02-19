@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @Controller
 public class TeamController {
@@ -54,9 +53,7 @@ public class TeamController {
     public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
         try {
             Team team = repo.findOne(id);
-            List<Team> teams = team.getLeague().getTeams();
-            teams.remove(team);
-            team.getLeague().setTeams(teams);
+            team.getLeague().deleteTeam(team);
             repo.delete(id);
             return ResponseEntity.noContent().build();
         } catch (ResourceNotFoundException e) {

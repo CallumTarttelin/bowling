@@ -15,9 +15,9 @@ import java.util.List;
 public class Team {
     private @Id @GeneratedValue Long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Player> players;
-    @OneToMany
+    @ManyToMany
     private List<Game> games;
     @ManyToOne
     private League league;
@@ -34,5 +34,21 @@ public class Team {
         this.league = league;
         this.players = new LinkedList<>();
         this.games = new LinkedList<>();
+    }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
+
+    public void deletePlayer(Player player) {
+        this.players.remove(player);
+    }
+
+    public void addGame(Game game) {
+        this.games.add(game);
+    }
+
+    public void deleteGame(Game game) {
+        this.games.remove(game);
     }
 }

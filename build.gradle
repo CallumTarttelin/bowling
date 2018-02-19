@@ -12,6 +12,7 @@ buildscript {
 
 plugins {
 	id "com.moowork.node" version "1.2.0"
+	id "org.asciidoctor.convert" version "1.5.6"
 }
 
 apply plugin: 'java'
@@ -38,6 +39,28 @@ task nightwatch(type: NpmTask, dependsOn: 'nightwatchSetup') {
     args = ['run', 'nightwatch']
 }
 
+ext {
+    snippetsDir = file('./reports/java-snippets')
+}
+
+ext['spring-restdocs.version']='1.2.3.RELEASE'
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+jar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-freemarker')
@@ -45,7 +68,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('com.h2database:h2')
 	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    asciidoctor('org.springframework.restdocs:spring-restdocs-asciidoctor:1.2.3.RELEASE')
+    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc:1.2.3.RELEASE')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
 	testCompile('org.assertj:assertj-core:3.9.0')
 }

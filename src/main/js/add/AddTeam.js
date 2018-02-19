@@ -31,7 +31,7 @@ class AddLeague extends React.Component {
     return (
       <div className={"AddScreen"}>
         <h1>Add a Team to the League!</h1>
-        <form className={"theLeagueForm"} onSubmit={this.submit}>
+        <form className={"theTeamForm"} onSubmit={this.submit}>
           <TextField
             id="TeamName"
             label="Team Name"
@@ -39,7 +39,7 @@ class AddLeague extends React.Component {
             className={"TeamNameInput"}
             onChange={this.updateName}
           /> <br />
-          <Button type={"submit"} raised color={"primary"} className={"submitForm"}>Submit</Button>
+          <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
         </form>
       </div>
     )

@@ -36,7 +36,7 @@ class LeagueList extends React.Component {
       )
     } else {
       return (
-        <IconButton onClick={this.deleteThing} id={"delete" + this.props.id} className={"deleteButton"} aria-label="Delete"><DeleteIcon /></IconButton>
+        <IconButton onClick={this.deleteThing} id={"delete-" + this.props.id.toString()} name={"delete-"+this.props.name.replace(/\s+/g, '-').toLowerCase()}><DeleteIcon /></IconButton>
       )
     }
   }
