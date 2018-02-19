@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"id":1,"team":{"id":1,"name":"Brian's Bowlers!"},"name":"Brian"}
+----

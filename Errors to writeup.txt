@@ -1,6 +1,6 @@
-Remove @OneToMany and @ManyToOne to cause crash
+Done - Remove @OneToMany and @ManyToOne to cause crash
 
-Just have the test
+Done - Just have the test
 
 findByName => findByNameContaining
 

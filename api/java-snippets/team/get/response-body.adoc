@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"league":{"id":1,"name":"Brian"},"id":1,"name":"Brian","players":null,"games":null}
+----

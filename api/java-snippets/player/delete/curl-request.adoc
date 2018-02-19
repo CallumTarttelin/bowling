@@ -1,0 +1,4 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/api/player/1' -i -X DELETE
+----

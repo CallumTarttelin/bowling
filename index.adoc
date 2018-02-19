@@ -10,7 +10,7 @@ Callum Tarttelin, 1164, 51617
 :toc:
 :toclevels: 3
 ifdef::backend-pdf[]
-:title-logo-image: image:bowling_ball.png[pdfwidth=4.25in,align=center]
+:title-logo-image: image:other-pictures/bowling_ball.png[pdfwidth=4.25in,align=center]
 //:source-highlighter: rouge
 //:rouge-style: github
 :source-highlighter: pygments
@@ -43,15 +43,16 @@ A bowler with an average of 180 has a handicap of 16 ((200-180)*0.8), an average
 A bowler with an average of 90 has a handicap of 80 ((200-90)*0.8) = 88 (more than the maximum)
 A new bowler joining the league will not have an average, hence no handicap; they will receive a handicap based on their first night’s scores.  So, if Lucy, in the example below, had bowled those scores on the first night, her handicap would have been 64 based on her average of 120.  This then is applied to her scratch scores – she would have won her individual match 6-2 instead of losing 3-5!
 To keep the handicap current, we use the last 24 scratch game scores to calculate the average for each bowler.  Just to be confusing, we do also note the average for all league matches through the season (this is used to determine the “high season average” award – but enough of awards!
-The “blind” score is simply calculated by adding the bowler’s average to their handicap and rounding down… average of 120 = handicap of 64 = blind score of 164 which they would need to beat to win points if the opponent didn’t turn up.
+The “blind” score is simply calculated by adding the bowler’s average to their handicap and rounding down… average of 120 = handicap of 64 = blind score of 164 which they would need to beat to win points if the opponent didn't turn up.
 
 ==== Scoring
 Each week 3 bowlers per team take part and play 3 games each.  In reality, it is more complicated or flexible than this.  It could be that each game is played by a different bowler, in the event people get injured; so we need the flexibility for each game to be attributed to a different bowler with a different handicap.
 Example scoresheet (from the website)
 
-image::LeagueStandings.png[leagueTable,pdfwidth=100%]
+image::other-pictures/LeagueStandings.png[leagueTable,pdfwidth=100%]
 
-In the match above Lucy Scott is competing directly against David Henn (first bowler for each team).  Their individual match is made up of 4 elements; game 1, game 2, game 3 and the series.  I currently record the scratch score (131 for Lucy and 108 for David), their handicap and the bowler name.  Once the handicap is added to the scratch score we get the handicapped score, this is what is compared to determine who won the points.  In this case Lucy’s handicapped score is 189 which beats David’s handicapped score of 163, so Lucy is awarded 2 points for game 1.  The points are awarded for games 2 and 3 and finally for the series totals.  In this instance because the scores are tied (534) they both are awarded 1 point.
+In the match above Lucy Scott is competing directly against David Henn (first bowler for each team).
+Their individual match is made up of 4 elements; game 1, game 2, game 3 and the series.  I currently record the scratch score (131 for Lucy and 108 for David), their handicap and the bowler name.  Once the handicap is added to the scratch score we get the handicapped score, this is what is compared to determine who won the points.  In this case Lucy’s handicapped score is 189 which beats David’s handicapped score of 163, so Lucy is awarded 2 points for game 1.  The points are awarded for games 2 and 3 and finally for the series totals.  In this instance because the scores are tied (534) they both are awarded 1 point.
 In theory, we could calculate the handicap “on the fly”, however recording the handicap as a static value it allows for the anomalies we see at various times during a season (postponement of matches).
 Score is each 2 points for a win,1 point for a draw (equal score). 32 points are available each week:
 Each bowler 2 points per game (3 games) plus 2 points for the total (series) score with handicap. Scored against their equivalent bowler on the opposite team (based on who bowls 1st/2nd/3rd). So each bowler can score up to 8 points 
@@ -59,33 +60,39 @@ The team total counts as another pseudo-bowler and is scored the same way – to
 The handicap score (meaning the bowlers actual or “scratch” score plus their handicap) is always used to work out who won/lost/tied.
 
 ==== League Standings
-image::TeamVTeam.png[leagueTable,pdfwidth=100%]
+image::other-pictures/TeamVTeam.png[leagueTable,pdfwidth=100%]
 
 The league table page shows
-*HHG** = High Handicap Game (the total team score not per bowler) +
-*HHS** = High Handicap Series (series = sum of the 3 games played any week, again for the team total) +
-*Pins for* = total of the scratch scores scored by the team to date +
-*Pins against*  = total of their oppositions scores each week to date +
-*Team Pts* = total points won by the team pseudo bowler each week +
-*Total Pts* = all points won by the team +
-*There is a “Season” and “All” value for each of these – based on the fact we run a cup competition each season.
+
+* *HHG** = High Handicap Game (the total team score not per bowler) +
+* *HHS** = High Handicap Series (series = sum of the 3 games played any week, again for the team total) +
+* *Pins for* = total of the scratch scores scored by the team to date +
+* *Pins against*  = total of their oppositions scores each week to date +
+* *Team Pts* = total points won by the team pseudo bowler each week +
+* *Total Pts* = all points won by the team +
+* *There is a “Season” and “All” value for each of these – based on the fact we run a cup competition each season.
+
 That covers the basics of the scoring and how points are allocated.  From all of this, I provide a large number of stats (because I am go through phases of being interested in it. +
-The Cup
+
+===== The Cup
 The cup competition that runs for a few weeks during the year is also managed this way – but more as an afterthought.  The mechanism for determining points can be different to the normal league depending upon how we manage it; normally it’s different when we have an odd number of teams.
 For each team we see a summary of the score each week and some individual achievements.  There is a great deal of detail (which I have put together because it was available)… we can make this “phase 2”
 Ian’s comments I haven’t addressed elsewhere
+
 Some weeks teams will agree to postpone their game. They catch up the missed games later in the season +
- – This is where the static handicap is useful, with the option to override it.
+
+* This is where the static handicap is useful, with the option to override it.
 Bowler’s stats are rolled over between seasons (so they continue with the average from last season at the start of a new season) +
-- Their last 24 games are used to roll their average to the new season.  If they haven’t bowled 24 games, then up to 24 games are carried over; if it’s less than 6 games then they will start as if new.  All achievements are carried over (awards for a 200 game, or 6 consecutive strikes) +
+* Their last 24 games are used to roll their average to the new season.  If they haven’t bowled 24 games, then up to 24 games are carried over; if it’s less than 6 games then they will start as if new.  All achievements are carried over (awards for a 200 game, or 6 consecutive strikes) +
 There could be a different number of teams some seasons +
-- If it’s an odd number the league make the decision to either bowl against the “blind”, or to have a week of no bowling.
+* If it’s an odd number the league make the decision to either bowl against the “blind”, or to have a week of no bowling.
 A team could drop out mid-season and scores must be removed from each weeks results (is that right Phil?) +
-- It depends, I will check the constitution; if they have bowled against each team just once but a couple of teams twice, we might remove the extra couple of results.  We normally encourage them to bowl to a natural break point, but it’s not always possible.
-At the start of the season the system needs to generate a list of matches – which team is playing which other team and on which lanes. The teams need to be put on each lane an equal number of times as far as possible and play each other team twice (maybe 3 times if the number of teams is low enough and there are enough weeks available). If the league has 10 teams assume lanes 1 to 10 are used each week +
-- We are typically a 10 team league and to be awkward we use lanes 3 to 12 but if we have 10 lane identifiers, we can modify them to be the lanes we actually use. +
+* It depends, I will check the constitution; if they have bowled against each team just once but a couple of teams twice, we might remove the extra couple of results.  We normally encourage them to bowl to a natural break point, but it’s not always possible.
+At the start of the season the system needs to generate a list of matches – which team is playing which other team and on which lanes. The teams need to be put on each lane an equal number of times as far as possible and play each other team twice (maybe 3 times if the number of teams is low enough and there are enough weeks available).
+If the league has 10 teams assume lanes 1 to 10 are used each week +
+*  We are typically a 10 team league and to be awkward we use lanes 3 to 12 but if we have 10 lane identifiers, we can modify them to be the lanes we actually use. +
 Some weeks are used for non-league matches (special competitions as teams or individuals tournaments). Some weeks each summer there is no bowling (too maybe people on holiday so we stop). Also bank holidays there is no playing. +
-- We need a mechanism for recording these scores (we currently use a different area of the spreadsheet to record these, so they are not included within the range used for calculating averages and handicaps but within the range used for awards. +
+*  We need a mechanism for recording these scores (we currently use a different area of the spreadsheet to record these, so they are not included within the range used for calculating averages and handicaps but within the range used for awards. +
 
 === Next stuff
 On top of this existing criteria the current project should have a login system to allow users to add scores for their games. This will need to be confirmed by the other team.
@@ -131,9 +138,9 @@ Game{
 === Technologies
 I will use springboot and java for the backend. I will use this as java runs well on many platforms. Springboot makes it easy for me to add things into the project.
 The front end will be written in React JS. I used this as it is very easy to find documentation and sources on how to write it. I will also use material design for styling.
-The database structure will probably be best in a relational database so a springboot SQL database will be used such as JPA
+The database structure will probably be best in a relational database so a springboot SQL database will be used such as H2 and JPA to communicate nicely.
 I will use nightwatch for integration testing. This will allow me to automatically use the website, expect behaviour, and take screenshots during. I will use a python script to put all the testing data into the writeup automatically.
-To allow easy script modification of the writeup it will be written in asciidoctor-pdf, this allows it to be easily exported into a pdf and the source is plain text and can be easily modified. It supports code highlighting etc as well.
+To allow easy script modification of the writeup it will be written in asciidoc and made into a pdf with asciidoctor-pdf, the source is plain text and can be easily modified. It supports code highlighting etc as well.
 
 === Design
 Upon talking to the client it was established that all original features of the site were important. +
@@ -160,25 +167,467 @@ Copy the old season as a league, change the start and end times, regenerate the 
 === Initial Setup
 Using IDEA and springboot I can generate a springboot project with certain libraries pre added.
 
-.New Project
+.New ProjectS
 [caption="Step 1: "]
-image::Setup1.png[leagueTable,pdfwidth=100%]
+image::dev-pictures/Setup1.png[leagueTable,pdfwidth=100%]
 
 .Springboot Project
 [caption="Step 2: "]
-image::Setup2.png[leagueTable,pdfwidth=100%]
+image::dev-pictures/Setup2.png[leagueTable,pdfwidth=100%]
 
 .Setting up metadata
 [caption="Step 3: "]
-image::Setup3.png[leagueTable,pdfwidth=100%]
+image::dev-pictures/Setup3.png[leagueTable,pdfwidth=100%]
 
 .Choosing dependancies
 [caption="Step 4: "]
-image::Setup4.png[leagueTable,pdfwidth=100%]
+image::dev-pictures/Setup4.png[leagueTable,pdfwidth=100%]
 
 
 .Naming Project
 [caption="Step 5: "]
-image::Setup5.png[leagueTable,pdfwidth=100%]
+image::dev-pictures/Setup5.png[leagueTable,pdfwidth=100%]
+
+This creates us a simple springboot project with a premade build.gradle and a BowlingApplication
+and BowlingApplicationTests.
+
+Theses can be left alone for now
+
+=== Modelling The Objects
+We already decided what objects should do what, so now we add most of the objects
+To start not all the objects were added so core functionality could be completed first.
+
+Inside the src/main/java/ folder we go into com.saskcow.bowling, this is where the domain package is made
+inside this is where the objects will be stored, each object should have most of the features in planning
+Notably scores and users have been omitted in this version.
+
+==== League.java
+_Imports condensed_
+[source,java]
+----
+package com.saskcow.bowling.domain;
+
+import ...
+
+@Data
+// Creates a getter and setter for each property
+@Entity
+// JPA annotation, makes it good to store in a database
+@NoArgsConstructor
+// Creates a constructor with nothing
+@AllArgsConstructor
+// Creates a constructor with everything
+public class League {
+    private @Id @GeneratedValue Long id;
+    // Generate a long value to be used as ID, always unique
+    private String name;
+    // Name Property of the class
+    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
+    // This prevents a "Failed to load ApplicationContext" error
+    // Additionally the properties of it say if the league is deleted, as are all the teams
+    private List<Team> teams;
+    // List<Team> just a list of the teams, type specified in java
+
+    public League(String name, List<Team> teams){
+        // A constructor, sets name and teams to what it was created with ID autogenerated
+        this.name = name;
+        this.teams = teams;
+    }
+}
+----
+WARNING: Ensure @ManyToOne etc set to avoid <<many-to-one-error,"Failed to load ApplicationContext">>
+
+==== Team.java
+_Imports condensed_
+[source,java]
+----
+package com.saskcow.bowling.domain;
+
+import ...
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+//Same as with League
+public class Team {
+    private @Id @GeneratedValue Long id;
+        private String name;
+        @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+        // Players part of team, so a team will change players on its change
+        private List<Player> players;
+        @ManyToMany
+        // Teams have many games, games have 2 teams so a manytomany is identified
+        private List<Game> games;
+        @ManyToOne
+        private League league;
+
+    // A constructor with everything but generating the id
+    public Team(String name, List<Player> players, List<Game> games, League league) {
+        this.name = name;
+        this.players = players;
+        this.games = games;
+        this.league = league;
+    }
+
+    // A second constructor is put in place in order to create a team which has no players or games
+    public Team(String name, League league) {
+        this.name = name;
+        this.league = league;
+        this.players = new LinkedList<>();
+        this.games = new LinkedList<>();
+    }
+}
+----
+
+==== Player.java
+_Imports condensed_ +
+Very similar to previous, nothing new used.
+[source,java]
+----
+package com.saskcow.bowling.domain;
+
+import ...
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+//Same as with League
+public class Team {
+    private @Id @GeneratedValue Long id;
+        private String name;
+        @ManyToOne
+        private Team team;
+
+        public Player(String name, Team team) {
+            this.name = name;
+            this.team = team;
+        }
+}
+----
+
+==== Game.java
+_Imports condensed_ +
+Also very similar to previous, nothing new used.
+[source,java]
+----
+package com.saskcow.bowling.domain;
+
+import ...
+
+@Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+public class Game {
+    private @Id @GeneratedValue Long id;
+    private LocalDateTime time;
+    private String venue;
+    @ManyToMany
+    private List<Team> teams;
+    // Should only ever have 2 values, not enforced
+
+    public Game(LocalDateTime time, String venue, List<Team> teams) {
+        this.time = time;
+        this.venue = venue;
+        this.teams = teams;
+    }
+}
+----
+
+==== Errors at this stage
+This stage was fairly simple so few errors occurred other than occasional mistypes picked up by
+the ide as it went along. It is also hard to find errors at this stage due to nothing happening.
+
+[#many-to-one-error]
+===== @ManyToOne, @OneToMany, @ManyToMany annotations
+Without these annotations in place a java.lang.IllegalStateException is raised
+
+.Start of stacktrace
+image::error-pictures/failed-context.png[AppContext,pdfwidth=100%]
+
+by adding the
+[source,java]
+----
+@ManyToOne
+@OneToMany
+@ManyToMany
+----
+this exception is no longer raised allowing it to compile
+
+=== Repositories
+Repositories in java are very simple to implement, all repositories can be created with
+_{ObjectName} to be substituted with League, Team, Player and Game_
+
+[source,java]
+----
+package com.saskcow.bowling.repository;
+
+import ...
+
+// Create a new Repository which copies a CrudRepository so it has all the functions
+//<{ObjectName}, Long> shows it stores {ObjectName} by a Long, the Long being the id of the object.
+public interface {ObjectName}Repository extends CrudRepository<{ObjectName}, Long> {
+}
+----
+
+At this stage this is all that was done for each object and it was saved as {ObjectName}Repository.java
+inside com.saskcow.bowling.repository
+
+==== Errors at this stage
+Errors this stage were created by trying to figure out whether or not some CrudRepository things were worth changing +
+They weren't.
+
+[#crud-repo]
+===== CrudRepository checking
+If the <{ObjectName}, Long> is changed it stores a different type object and returns a different type,
+so the object cannot be retrieved as itself.
+
+.Compiler Error
+image::error-pictures/crudrepo-string.png[AppContext,pdfwidth=100%]
+
+this occurs as a Game object cannot be made from a String, which is the returned object.
+
+=== Controllers
+There are a lot of controllers in this project, and they are a crucial part to communicate
+with the frontend to start with, a HomeController will be made to return some basic HTML
+
+==== index.ftl
+This file is where all the front end will be, currently it will just show a blank page,
+due to spring security, a default password can be set in spring application.properties
+
+.Authentication
+image::dev-pictures/auth.png[Auth]
+
+[source,html]
+----
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Bowling</title>
+    <link rel="stylesheet" href="/style.css"/>
+    <link rel="stylesheet" href="/material.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <#--These are in place to get some css to make some elements look slightly nicer-->
+    <#--/style.css is currently blank-->
+</head>
+<body>
+
+<div id="react"></div>
+<#--create a div for ReactDOM to later use-->
+
+<script src="/built/bundle.js"></script>
+<#--load the webpack script, this will be created later-->
+<#--webpack is what takes all the js and makes it one file-->
+
+</body>
+</html>
+----
+
+==== HomeController.java
+This will route to the javascript and ftl to sort out the front end
+
+[source,java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@Controller
+// Look here for request mappings
+public class HomeController {
+
+    @RequestMapping(value = {"/"})
+    // Any requests to / call this function
+    // Later more will be added as more paths are in the front end
+    public String index(){
+        return "index";
+        // Show index file extension guessed, currently .ftl
+    }
+}
+----
+
+==== Errors at this stage
+Only here as they are waiting for future things, which don't exist yet.
+Or due to user error.
+
+===== 404 Errors
+Due to some parts being missing, the browser shows errors in console where it can't find
+bundle.js or other parts.
+
+.404 on bundle.js
+image::error-pictures/no-bundle.png[MissingBundle]
+
+===== Multiple Launched Errors
+When launched, anything else trying to use the port is blocked, this gives the
+not especially clear Execution failed for task bootRun as it fails to launch
+
+.Launch Interrupted
+image::error-pictures/already-launched.png[AlreadyLaunched,pdfwidth=100%]
+
+=== League Controller
+Create mappings for the creating, getting and removing leagues, these will be called from the frontend
+
+==== LeagueControllerTest.java
+Inside the src/test/java I create a folder called controller, this is where I will put controller tests.
+It is important to test controllers as REST Apis should have consistent features.
+
+[source,java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@RunWith(MockitoJUnitRunner.class)
+// This runs the tests with a testRunner, this allows assertions which would otherwise be not allowed
+// See Errors below for an example
+public class LeagueControllerTest {
+
+    @Mock
+    private LeagueRepository repo;
+    // Create a LeagueRepository like thing, which does nothing, just pretends it exists, that's what @Mock does
+    private MockMvc mockMvc;
+    // Creates a MockMvc to test the api endpoints
+
+    @Before
+    //Run before tests
+    public void setUp(){
+        mockMvc = MockMvcBuilders.standaloneSetup(new LeagueController(repo)).build();
+        // Create a LeagueController and run it
+    }
+
+    @Test
+    // Run this when running tests, ran by MockitoJUnitRunner
+    public void addLeague_shouldSaveTheLeague() throws Exception {
+        // Doesn't return anything, throws Exception if any part fails, calls test addLeague_shouldSaveTheLeague
+        League league = new League(1L, "Brian", null);
+        // Create an instance of a League, the object from earlier
+        when(repo.save(isA(League.class))).thenReturn(league);
+        // If someone saves a league, return a League, this is what the repo would do, but the League here is always the same
+        when(repo.findOne(league.getId())).thenReturn(league);
+        // If someone tries to find this league by its ID, return it
+        when(repo.findAll()).thenReturn(Collections.singletonList(league));
+        // If someone tries to find all leagues, return this in a list as the only League
+
+        String uri = mockMvc.perform(post("/api/league")
+                // String uri, save the output as a string
+                // mockMvc stuff sends a post request to the endpoint
+                .content("{\"name\":\"Brian\"}")
+                // Send it with this content
+                .contentType("application/json"))
+                // This content is JSON
+                .andExpect(status().isCreated())
+                // Should return a 201 (created), if it isn't throw Exception
+                .andExpect(header().string("Location", "http://localhost:8080/api/league/" + league.getId()))
+                // Inside the header the location of where the saved object can be retrieved should be present
+                .andReturn().getResponse().getHeader("Location");
+                // Save the location header to uri
+
+        mockMvc.perform(get("/api/league"))
+                // Send a get request to the endpoint
+                .andExpect(status().isOk())
+                // Check status is 200 (OK)
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
+                // Check that the JSON is an array with size 1
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")));
+                // Check the first part of the json has a name of "Brian", like the league earlier
+
+        mockMvc.perform(get(uri))
+                // Send a get request to where the location of the league is
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo("Brian")))
+                // Check that it has the name Brian
+                .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Brian")));
+                // Check again, by a slightly different method
+
+    }
+
+    @Test
+    public void getLeague_shouldFilter() throws Exception {
+        League dave = new League(1L, "Dave", null );
+        League david = new League(2L, "David", null );
+        League brian = new League(3L, "Brian", null);
+        // Create 3 leagues
+        when(repo.findAll()).thenReturn(Arrays.asList(dave, david, brian));
+        // when it calls findByNameContaining("Dav") then it should return all which have "Dav" in the name
+        // findByNameContaining must be added as it is not in CrudRepository
+        when(repo.findByNameContaining("Dav")).thenReturn(Arrays.asList(dave, david));#
+        // Same but with Bri
+        when(repo.findByNameContaining("Bri")).thenReturn(Collections.singletonList(brian));
+
+        // We don't do the post request as one already exists
+        mockMvc.perform(get("/api/league?name=Dav"))
+                // call the endpoint with a query string with name=Dav
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
+                // Expect 2 items in the returned array
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Dave")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", equalTo("David")));
+                // Expect that the list is as expected, we only know the order as it is set earlier
+                // Ordinarily order can not be expected
+
+        mockMvc.perform(get("/api/league?name=Bri"))
+                // get all leagues with Bri
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", equalTo("Brian")));
+                // Check it has 1 item, which is Brian
+    }
+
+    @Test
+    public void deleteLeague_shouldDeleteLeague() throws Exception {
+        doNothing().when(repo).delete(isA(Long.class));
+        // When repo.delete is called with an ID, do nothing, nothing at all
+        // When this is missing NullPointerExceptions happen ******************************************
+
+        mockMvc.perform(delete("/api/league/1"))
+                // Send a delete request
+                .andExpect(status().isNoContent());
+                // Expect a 204, No Content is returned
+        verify(repo, times(1)).delete(1L);
+        // Check it actually called delete
+        }
+}
+----
+
+Note at this point there is no controller, so all this fails, and is therefore an error,
+this is fixed by creating the controller.
+
+.No Controller Exists
+image::error-pictures/no-controller.png[NoController,pdfwidth=100%]
+
+==== LeagueController
 
 
+==== LeagueRepository
+findByName => findByNameContaining
+
+==== LeagueView
+
+==== LeagueViewSummary
+
+==== Errors at this stage
+
+== Test Formatter
+I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
+doing all this manually now can I?
+
+=== Research
+
+=== Planning
+
+=== Development
+
+=== Testing
+
+== Testing
+
+
+
+
+It is important to do testing throughout the project, screenshots and logs start from an early stage in development
+
+include::test/test.adoc[]
+
+include::api/index.adoc[]

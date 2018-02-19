@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"time":"2018-02-18T12:22:54.174", "venue": "Brian Bowling Centre", "teamId1": "1", "teamId2": "2"}' | http POST 'http://localhost:8080/api/game' \
+    'Content-Type:application/json'
+----

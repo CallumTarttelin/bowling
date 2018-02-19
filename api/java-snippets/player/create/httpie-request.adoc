@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"name":"Brian", "teamId": "1"}' | http POST 'http://localhost:8080/api/player' \
+    'Content-Type:application/json'
+----

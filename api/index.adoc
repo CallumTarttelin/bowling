@@ -1,0 +1,118 @@
+:toc: left
+:toclevels: 3
+:sectlinks:
+:sectnums:
+
+== Api Docs
+General API stuff
+
+=== League API
+
+==== Create A League
+include::java-snippets/league/create/http-request.adoc[]
+include::java-snippets/league/create/http-response.adoc[]
+Object sent usually will just be a name to create a league off,
+ and all other objects will be created off of league.
+
+==== Get a list of Leagues
+include::java-snippets/league/many/http-request.adoc[]
+include::java-snippets/league/many/http-response.adoc[]
+Get's a summary of ALL leagues, returns as a list of "LeagueViewSummary" objects
+
+==== Get one League
+include::java-snippets/league/single/http-request.adoc[]
+include::java-snippets/league/single/http-response.adoc[]
+Gets one league based off of it's id.
+Single League gives more detail, returns a "LeagueView" not a "LeagueViewSummary"
+
+==== Get a list of leagues by name
+include::java-snippets/league/filter/http-request.adoc[]
+include::java-snippets/league/filter/http-response.adoc[]
+The same as getting a list of all leagues, but will only show leagues with matching criteria.
+Matches off contains not exact match.
+
+==== Delete A league
+include::java-snippets/league/delete/http-request.adoc[]
+include::java-snippets/league/delete/http-response.adoc[]
+Also removes any teams associated with the league.
+
+=== Team API
+The Team API is simpler than the league API due to a "LeagueView"
+ returning a list of "TeamViewSummary" already,
+  this makes the use of a list redundant for the application.
+
+==== Create A Team
+include::java-snippets/team/create/http-request.adoc[]
+include::java-snippets/team/create/http-response.adoc[]
+The team creation takes a name for the team and a leagueid, to create a team with the league.
+
+==== Get A Team
+include::java-snippets/team/get/http-request.adoc[]
+include::java-snippets/team/get/http-response.adoc[]
+This returns one team based off of ID, a list is not necessary due to a league giving a list. +
+Returns a "TeamView"
+
+==== Delete A Team
+include::java-snippets/team/delete/http-request.adoc[]
+include::java-snippets/team/delete/http-response.adoc[]
+Deletes the team, does not delete if the team has games.
+
+=== Player API
+Similar to team API as a team gives a list of players
+
+==== Create A Player
+include::java-snippets/player/create/http-request.adoc[]
+include::java-snippets/player/create/http-response.adoc[]
+The player creation takes a name for the player and a teamid, to create a player with the team.
+
+==== Get A Player
+include::java-snippets/player/get/http-request.adoc[]
+include::java-snippets/player/get/http-response.adoc[]
+This returns one player based off of ID, a list is not necessary due to a team giving a list. +
+Returns a "PlayerView"
+
+==== Delete A Player
+include::java-snippets/player/delete/http-request.adoc[]
+include::java-snippets/player/delete/http-response.adoc[]
+Deletes the player.
+
+=== Team API
+The Team API is simpler than the league API due to a "LeagueView"
+ returning a list of "TeamViewSummary" already,
+  this makes the use of a list redundant for the application.
+
+==== Create A Team
+include::java-snippets/team/create/http-request.adoc[]
+include::java-snippets/team/create/http-response.adoc[]
+The team creation takes a name for the team and a leagueid, to create a team with the league.
+
+==== Get A Team
+include::java-snippets/team/get/http-request.adoc[]
+include::java-snippets/team/get/http-response.adoc[]
+This returns one team based off of ID, a list is not necessary due to a league giving a list. +
+Returns a "TeamView"
+
+==== Delete A Team
+include::java-snippets/team/delete/http-request.adoc[]
+include::java-snippets/team/delete/http-response.adoc[]
+Deletes the team, does not delete if the team has games.
+
+=== Game API
+Games between 2 teams, at a given venue and time
+
+==== Create A Game
+include::java-snippets/game/create/http-request.adoc[]
+include::java-snippets/game/create/http-response.adoc[]
+The game creation takes a time (ISO local datetime string) and a venue (string) as well as
+ids for both teams involved in the game, upcoming games are not currently supported
+
+==== Get A Game
+include::java-snippets/game/get/http-request.adoc[]
+include::java-snippets/game/get/http-response.adoc[]
+This returns one game based off of ID, a list is not necessary due to a team giving a list. +
+Returns a "GameView" should rarely be used as a league and a team shows games as "GameView"
+
+==== Delete A Game
+include::java-snippets/game/delete/http-request.adoc[]
+include::java-snippets/game/delete/http-response.adoc[]
+Deletes the game.
