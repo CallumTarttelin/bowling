@@ -2,6 +2,7 @@ package com.saskcow.bowling.controller;
 
 
 import com.saskcow.bowling.domain.League;
+import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.LeagueRepository;
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -46,7 +48,9 @@ public class LeagueControllerTest {
 
     @Test
     public void addLeague_shouldSaveTheLeague() throws Exception {
-        League league = new League(1L, "Brian", null);
+        League league = new League(1L, "Brian", new LinkedList<>());
+        Team team = new Team("Team Brian", league);
+        league.addTeam(team);
         when(repo.save(isA(League.class))).thenReturn(league);
         when(repo.findOne(league.getId())).thenReturn(league);
         when(repo.findAll()).thenReturn(Collections.singletonList(league));
