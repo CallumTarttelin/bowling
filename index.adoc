@@ -152,6 +152,9 @@ To start a new season of a league it should duplicate the previous and delete pa
 To move players only a leagueAdmin can move them. +
 A shortcut should be made to use the API without a frontend to allow for scripts to do a task faster.
 
+=== Research
+I did some research on web applications with data support. Spring boot with react seems to be a popular solution due to the support with both web controllers and also JPA support for sql databases. After modelling the database it appears that a relational database would be most fitting so I used a sql database in H2 as it is easy to setup in http://start.spring.io/ . I decided to use react despite facebook licensing due to it being a popular language with many examples online. React allows me to write JSX which is similar to HTML.
+
 === Testing
 Testing will be automated by use of unit testing and nightwatch. +
 Nightwatch will be used in order to test the entire application by it's user interface and report on wheter or not it is working as intended. It will also take screenshots of the application to allow a developer to quickly look over these screenshots as opposed to having to navigate the website. This allows for quick testing of all versions without the necessity for user input. +
