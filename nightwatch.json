@@ -24,6 +24,11 @@
       "silent": true,
       "desiredCapabilities": {
         "browserName": "chrome"
+      },
+      "screenshots" : {
+        "enabled" : true,
+        "path" : "./reports/screenshots/errors",
+        "on_failure": true
       }
     }
   }
