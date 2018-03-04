@@ -2,8 +2,10 @@ package com.saskcow.bowling.controller;
 
 
 import com.saskcow.bowling.domain.League;
+import com.saskcow.bowling.domain.Rota;
 import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.LeagueRepository;
+import com.saskcow.bowling.repository.RotaRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,18 +39,21 @@ public class LeagueControllerTest {
 
     @Mock
     private LeagueRepository repo;
+    @Mock
+    private RotaRepository rotaRepository;
     private MockMvc mockMvc;
 
     @Before
     public void setUp(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new LeagueController(repo))
+        mockMvc = MockMvcBuilders.standaloneSetup(new LeagueController(repo, rotaRepository))
                 .apply(documentationConfiguration(this.restDocumentation))
                 .build();
     }
 
     @Test
     public void addLeague_shouldSaveTheLeague() throws Exception {
-        League league = new League(1L, "Brian", new LinkedList<>());
+        League league = new League(1L, "Brian", new Rota(), new LinkedList<>());
+        league.getRota().setLeague(league);
         Team team = new Team("Team Brian", league);
         league.addTeam(team);
         when(repo.save(isA(League.class))).thenReturn(league);
@@ -79,9 +84,9 @@ public class LeagueControllerTest {
 
     @Test
     public void getLeague_shouldFilter() throws Exception {
-        League dave = new League(1L, "Dave", null );
-        League david = new League(2L, "David", null );
-        League brian = new League(3L, "Brian", null);
+        League dave = new League(1L, "Dave", new Rota(), null);
+        League david = new League(2L, "David", new Rota(), null);
+        League brian = new League(3L, "Brian", new Rota(), null);
         when(repo.findAll()).thenReturn(Arrays.asList(dave, david, brian));
         when(repo.findByNameContaining("Dav")).thenReturn(Arrays.asList(dave, david));
         when(repo.findByNameContaining("Bri")).thenReturn(Collections.singletonList(brian));

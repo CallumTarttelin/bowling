@@ -2,6 +2,7 @@ package com.saskcow.bowling.controller;
 
 import com.saskcow.bowling.domain.Game;
 import com.saskcow.bowling.domain.League;
+import com.saskcow.bowling.domain.Rota;
 import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.GameRepository;
 import com.saskcow.bowling.repository.TeamRepository;
@@ -54,7 +55,7 @@ public class GameControllerTest {
 
     @Test
     public void addGame_shouldSaveTheGame() throws Exception {
-        League league = new League(1L, "Brian", new LinkedList<>());
+        League league = new League(1L, "Brian", new Rota(), new LinkedList<>());
         Team team1 = new Team(1L, "Dave", null, new LinkedList<>(), league);
         Team team2 = new Team(2L, "David", null, new LinkedList<>(), league);
         LocalDateTime dateTime = LocalDateTime.now(Clock.systemUTC());
@@ -91,7 +92,7 @@ public class GameControllerTest {
 
     @Test
     public void deleteGame_shouldDeleteGame() throws Exception {
-        League league = new League(1L, "Brian", new LinkedList<>());
+        League league = new League(1L, "Brian", new Rota(), new LinkedList<>());
         Team team1 = new Team(1L, "Brian", null, new LinkedList<>(), league);
         Team team2 = new Team(2L, "Brian", null, new LinkedList<>(), league);
         LocalDateTime dateTime = LocalDateTime.now(Clock.systemUTC());

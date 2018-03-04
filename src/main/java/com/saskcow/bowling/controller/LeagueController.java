@@ -1,7 +1,9 @@
 package com.saskcow.bowling.controller;
 
 import com.saskcow.bowling.domain.League;
+import com.saskcow.bowling.domain.Rota;
 import com.saskcow.bowling.repository.LeagueRepository;
+import com.saskcow.bowling.repository.RotaRepository;
 import com.saskcow.bowling.view.LeagueView;
 import com.saskcow.bowling.view.LeagueViewSummary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,12 @@ import java.util.stream.StreamSupport;
 public class LeagueController {
 
     private LeagueRepository repo;
+    private RotaRepository rotaRepository;
 
     @Autowired
-    // This happens
-    public LeagueController(LeagueRepository repo){
+    public LeagueController(LeagueRepository repo, RotaRepository rotaRepository){
         this.repo = repo;
+        this.rotaRepository = rotaRepository;
     }
 
     @RequestMapping(value = "/api/league", method = RequestMethod.GET)
@@ -53,7 +56,12 @@ public class LeagueController {
         if(league.getTeams() == null){
             league.setTeams(new LinkedList<>());
         }
+        Rota rota = new Rota();
+        league.setRota(rota);
         League savedLeague = repo.save(league);
+        rota.setLeague(league);
+        repo.save(league);
+        rotaRepository.save(rota);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedLeague.getId()).toUri();

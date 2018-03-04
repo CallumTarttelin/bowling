@@ -2,6 +2,7 @@ package com.saskcow.bowling.controller;
 
 
 import com.saskcow.bowling.domain.League;
+import com.saskcow.bowling.domain.Rota;
 import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.LeagueRepository;
 import com.saskcow.bowling.repository.TeamRepository;
@@ -50,7 +51,7 @@ public class TeamControllerTest {
 
     @Test
     public void addTeam_shouldSaveTheTeam() throws Exception {
-        League league = new League(1L, "Brian",  new LinkedList<>());
+        League league = new League(1L, "Brian", new Rota(),  new LinkedList<>());
         Team team = new Team(1L, "Brian", null, null, league);
         when(repo.save(isA(Team.class))).thenReturn(team);
         when(repo.findOne(team.getId())).thenReturn(team);
@@ -74,7 +75,7 @@ public class TeamControllerTest {
 
     @Test
     public void deleteTeam_shouldDeleteTeam() throws Exception {
-        League league = new League(1L, "Brian", new LinkedList<>());
+        League league = new League(1L, "Brian", new Rota(), new LinkedList<>());
         Team team = new Team(1L, "Brian", null, null, league);
         Team team2 = new Team(2L, "Dave", null, null, league);
         league.addTeam(team);

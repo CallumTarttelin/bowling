@@ -17,12 +17,15 @@ import java.util.stream.Collectors;
 public class League {
     private @Id @GeneratedValue Long id;
     private String name;
+    @OneToOne
+    private Rota rota;
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
     private List<Team> teams;
 
-    public League(String name, List<Team> teams){
+    public League(String name, Rota rota, List<Team> teams){
         this.name = name;
         this.teams = teams;
+        this.rota = rota;
     }
 
     public void addTeam(Team team) {
