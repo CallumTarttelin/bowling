@@ -2,10 +2,7 @@ package com.saskcow.bowling.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,12 +14,15 @@ import java.util.List;
 @ToString(exclude="teams")
 public class Game {
     private @Id @GeneratedValue Long id;
+    @ManyToOne
+    private Rota rota;
     private LocalDateTime time;
     private String venue;
     @ManyToMany
     private List<Team> teams;
 
-    public Game(LocalDateTime time, String venue, List<Team> teams) {
+    public Game(Rota rota, LocalDateTime time, String venue, List<Team> teams) {
+        this.rota = rota;
         this.time = time;
         this.venue = venue;
         this.teams = teams;

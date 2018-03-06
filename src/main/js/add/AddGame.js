@@ -17,7 +17,7 @@ class AddGame extends React.Component {
 
   submit(event) {
     event.preventDefault();
-    axios.post("/api/game", {venue: this.state.venue, time: this.state.time, teamId1: this.state.team1, teamId2: this.state.team2})
+    axios.post("/api/game", {venue: this.state.venue, time: this.state.time, teamId1: this.state.team1, teamId2: this.state.team2, rotaId: this.state.rota})
       .then(response => {
         window.location.href = '/league/' + this.state.id;
         this.state.name = "";
@@ -37,7 +37,8 @@ class AddGame extends React.Component {
           teams: response.data.teams,
           leagueName: response.data.name,
           team1: response.data.teams[0].id,
-          team2: response.data.teams[1].id
+          team2: response.data.teams[1].id,
+          rota: response.data.rotaId
         })
       })
       .catch(error => {

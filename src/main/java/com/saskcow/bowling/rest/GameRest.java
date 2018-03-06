@@ -8,6 +8,7 @@ import lombok.Data;
 public class GameRest {
     private String time;
     private String venue;
+    private Long rotaId;
     private Long teamId1;
     private Long teamId2;
 }

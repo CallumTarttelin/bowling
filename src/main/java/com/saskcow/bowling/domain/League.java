@@ -37,8 +37,6 @@ public class League {
     }
 
     public List<Game> getGames() {
-        List<List<Game>> listGames = this.teams == null ? new LinkedList<>() : this.teams.stream().map(Team::getGames).collect(Collectors.toList());
-        List<Game> games = listGames.stream().flatMap(List::stream).collect(Collectors.toList());
-        return new LinkedList<>(new LinkedHashSet<>(games));
+        return rota.getGames();
     }
 }

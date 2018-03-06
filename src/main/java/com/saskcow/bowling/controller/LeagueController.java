@@ -56,12 +56,11 @@ public class LeagueController {
         if(league.getTeams() == null){
             league.setTeams(new LinkedList<>());
         }
-        Rota rota = new Rota();
-        league.setRota(rota);
         League savedLeague = repo.save(league);
-        rota.setLeague(league);
-        repo.save(league);
+        Rota rota = new Rota(league);
         rotaRepository.save(rota);
+        savedLeague.setRota(rota);
+        repo.save(savedLeague);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedLeague.getId()).toUri();

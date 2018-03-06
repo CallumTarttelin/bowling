@@ -21,7 +21,7 @@ public class GameRepositoryTest {
 
     @Test
     public void thingsSaved_canBeRetrieved() {
-        Game bestGame = new Game(null, "brian", null);
+        Game bestGame = new Game(null, null, "brian", null);
         repo.save(bestGame);
         Game foundGame = repo.findOne(bestGame.getId());
         assertThat(foundGame.getVenue()).isEqualTo(bestGame.getVenue());
