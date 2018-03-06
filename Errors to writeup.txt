@@ -39,3 +39,5 @@ different date formats YYYY-MM-DDTHH:mm:ss
 this.state.time =/= this.state.time(), causing state to not have funtion time 
 
 Planning and Research *
+
+Changing a constructor
