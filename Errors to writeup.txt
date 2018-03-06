@@ -43,3 +43,5 @@ Planning and Research *
 Changing a constructor
 
 cascade type causing org.h2.jdbc.JdbcSQLException: Referential integrity constraint violation: "FK6QUHQDCPQO5X8PQLJKYELMMH7: PUBLIC.ROTA FOREIGN KEY(LEAGUE_ID) REFERENCES PUBLIC.LEAGUE(ID) (1)"; SQL statement:
+
+id=id=The value
