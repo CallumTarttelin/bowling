@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class League {
     private @Id @GeneratedValue Long id;
     private String name;
-    @OneToOne
+    @OneToOne(mappedBy = "league", cascade = CascadeType.ALL)
     private Rota rota;
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
     private List<Team> teams;

@@ -105,12 +105,14 @@ class AddGame extends React.Component {
             <Select
               value={this.state.team1}
               onChange={this.updateTeam1}
+              id='team1'
+              className={'team1'}
               inputProps={{
                 name: 'team1',
                 id: 'team1',
               }}>
               {this.state.teams.map(team => (
-                <MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>
+                <MenuItem key={team.id} value={team.id} name={"team1-" + team.name.replace(/\s+/g, '-').toLowerCase()}>{team.name}</MenuItem>
               ))}
             </Select>
 
@@ -121,13 +123,15 @@ class AddGame extends React.Component {
             <Select
               value={this.state.team2}
               onChange={this.updateTeam2}
+              id='team2'
+              className={'team2'}
               inputProps={{
                 name: 'team2',
                 id: 'team2',
               }}
             >
               {this.state.teams.map(team => (
-                <MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>
+                <MenuItem key={team.id} value={team.id} name={"team2-" + team.name.replace(/\s+/g, '-').toLowerCase()}>{team.name}</MenuItem>
               ))}
             </Select>
 
