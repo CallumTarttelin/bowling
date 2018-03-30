@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios/index";
 import PlayerSummary from "../summary/PlayerSummary";
 import {Button, CircularProgress} from "material-ui";
-import AddIcon from "material-ui-icons/add";
+import {Add} from "material-ui-icons";
 import {Link} from "react-router-dom";
 
 class Team extends React.Component {
@@ -50,7 +50,7 @@ class Team extends React.Component {
               <PlayerSummary key={player.id} id={player.id}>{player.name}</PlayerSummary>
             ))}
           </ul>
-          <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+          <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"fab"} color={"primary"}><Add /></Button></Link>
         </div>
       )
     } else if (this.state.status === "error") {

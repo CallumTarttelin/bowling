@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.moowork.node" version "1.2.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -23,15 +27,30 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     compile('org.springframework.restdocs:spring-restdocs-mockmvc:2.0.0.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-freemarker')
-    compile('org.springframework.boot:spring-boot-starter-security')
+//    compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
     runtime('com.h2database:h2')
     compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.springframework.security:spring-security-test')
+//    testCompile('org.springframework.security:spring-security-test')
 }
+
+task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+    script = file('node_modules/webpack/bin/webpack.js')
+}
+
+task nightwatchSetup(type: NpmTask) {
+    args = ['run', 'nightwatch-setup']
+}
+
+task nightwatch(type: NpmTask, dependsOn: 'nightwatchSetup') {
+    args = ['run', 'nightwatch']
+}
+
+processResources.dependsOn 'webpack'
+
+clean.delete << file('src/main/webapp/dist')

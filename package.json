@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "material-ui": "^1.0.0-beta.31",
-    "material-ui-icons": "^1.0.0-beta.17",
+    "material-ui-icons": "^1.0.0-beta.36",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "react": "^15.3.2",
@@ -28,7 +28,7 @@
   "scripts": {
     "watch": "webpack --watch -d",
     "nightwatch": "./node_modules/.bin/nightwatch",
-    "nightwatch-setup": "selenium-standalone install --version=3.9.1 --drivers.chrome.version=2.35 --drivers.gecko.version=0.19.1"
+    "nightwatch-setup": "selenium-standalone install --version=3.9.1 --drivers.chrome.version=2.36 --drivers.gecko.version=0.19.1"
   },
   "repository": {
     "type": "git",
