@@ -25,6 +25,7 @@ repositories {
 
 
 dependencies {
+    compile('org.springframework.restdocs:spring-restdocs-mockmvc:2.0.0.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-freemarker')
     compile('org.springframework.boot:spring-boot-starter-security')
