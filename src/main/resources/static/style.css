@@ -1,0 +1,10 @@
+.add, .addTeam {
+    position: absolute;
+    bottom: -5px;
+    right: -10px;
+}
+
+.Leagues, .Loading{
+    position: absolute;
+    left:50%
+}
