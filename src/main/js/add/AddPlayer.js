@@ -19,7 +19,11 @@ class AddPlayer extends React.Component {
         console.log("created at " + response.headers.location);
       })
       .catch(function (error) {
-        console.log(error);
+        if(error.response.status === 401){
+          window.location.href = '/login';
+        } else {
+          console.log(error);
+        }
       });
   }
 

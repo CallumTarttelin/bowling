@@ -17,14 +17,10 @@ class LeagueList extends React.Component {
         console.log("deleted " + response.headers.location);
       })
       .catch(error => {
-        if (error.response) {
-          this.setState({status: "error", err: error.response.data});
-        } else if (error.request) {
-          this.setState({status: "error", err: "No Response"});
-          console.log(error.request);
+        if(error.response.status === 401){
+          window.location.href = '/login';
         } else {
-          this.setState({status: "error", err: "Error with Request"});
-          console.log('Error', error.message);
+          console.log(error);
         }
       });
   }
