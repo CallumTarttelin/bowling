@@ -11,16 +11,14 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Player {
-    private @Id @GeneratedValue Long id;
-    private String name;
+public class PlayerGame {
+    private @GeneratedValue @Id Long id;
+    @ManyToOne
+    private Player player;
     @ManyToOne
     private Team team;
-    @OneToMany
-    private List<PlayerGame> playerGames;
-
-    public Player(String name, Team team) {
-        this.name = name;
-        this.team = team;
-    }
+    @ManyToOne
+    private Game game;
+    @OneToMany(mappedBy = "playerGame", cascade = CascadeType.ALL)
+    private List<Score> setScores;
 }

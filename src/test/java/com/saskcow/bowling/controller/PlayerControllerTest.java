@@ -50,8 +50,8 @@ public class PlayerControllerTest {
 
     @Test
     public void addPlayer_shouldSaveThePlayer() throws Exception {
-        Team team = new Team(1L, "Brian's Bowlers!", new LinkedList<>(),null, null);
-        Player player = new Player(1L, "Brian", team);
+        Team team = new Team(1L, "Brian's Bowlers!", new LinkedList<>(),null, null, new LinkedList<>());
+        Player player = new Player(1L, "Brian", team, null);
         when(repo.save(isA(Player.class))).thenReturn(player);
         when(repo.findById(player.getId())).thenReturn(Optional.of(player));
         when(teamRepository.findById(team.getId())).thenReturn(Optional.of(team));
@@ -73,9 +73,9 @@ public class PlayerControllerTest {
 
     @Test
     public void deletePlayer_shouldDeletePlayer() throws Exception {
-        Team team = new Team(1L, "Brian's Bowlers!", new LinkedList<>(),null, null);
-        Player brian = new Player(1L, "Brian", team);
-        Player dave = new Player(2L, "Dave", team);
+        Team team = new Team(1L, "Brian's Bowlers!", new LinkedList<>(),null, null, new LinkedList<>());
+        Player brian = new Player(1L, "Brian", team, null);
+        Player dave = new Player(2L, "Dave", team, null);
         team.addPlayer(brian);
         team.addPlayer(dave);
 

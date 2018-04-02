@@ -22,7 +22,6 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -61,10 +60,10 @@ public class GameControllerTest {
     public void addGame_shouldSaveTheGame() throws Exception {
         League league = new League(1L, "Brian", null, new LinkedList<>());
         Rota rota = new Rota(1L, league, new LinkedList<>(), null, null, null);
-        Team team1 = new Team(1L, "Dave", null, new LinkedList<>(), league);
-        Team team2 = new Team(2L, "David", null, new LinkedList<>(), league);
+        Team team1 = new Team(1L, "Dave", null, new LinkedList<>(), league, new LinkedList<>());
+        Team team2 = new Team(2L, "David", null, new LinkedList<>(), league, new LinkedList<>());
         LocalDateTime dateTime = LocalDateTime.now(Clock.systemUTC());
-        Game game = new Game(1L, rota, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)));
+        Game game = new Game(1L, rota, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)), new LinkedList<>());
         team1.addGame(game);
         team2.addGame(game);
         rota.addGame(game);
@@ -101,11 +100,11 @@ public class GameControllerTest {
     public void deleteGame_shouldDeleteGame() throws Exception {
         League league = new League(1L, "Brian", null, new LinkedList<>());
         Rota rota = new Rota(1L, league, new LinkedList<>(), null, null, null);
-        Team team1 = new Team(1L, "Brian", null, new LinkedList<>(), league);
-        Team team2 = new Team(2L, "Brian", null, new LinkedList<>(), league);
+        Team team1 = new Team(1L, "Brian", null, new LinkedList<>(), league, new LinkedList<>());
+        Team team2 = new Team(2L, "Brian", null, new LinkedList<>(), league, new LinkedList<>());
         LocalDateTime dateTime = LocalDateTime.now(Clock.systemUTC());
-        Game game = new Game(1L, rota, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)));
-        Game game2 = new Game(2L, rota, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)));
+        Game game = new Game(1L, rota, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)), new LinkedList<>());
+        Game game2 = new Game(2L, rota, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)), new LinkedList<>());
         team1.addGame(game);
         team2.addGame(game);
         rota.addGame(game);

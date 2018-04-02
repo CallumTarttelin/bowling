@@ -21,6 +21,8 @@ public class Team {
     private List<Game> games;
     @ManyToOne
     private League league;
+    @OneToMany
+    private List<PlayerGame> playerGames;
 
     public Team(String name, List<Player> players, List<Game> games, League league) {
         this.name = name;

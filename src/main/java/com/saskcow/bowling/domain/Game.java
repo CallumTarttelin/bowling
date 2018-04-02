@@ -20,6 +20,8 @@ public class Game {
     private String venue;
     @ManyToMany
     private List<Team> teams;
+    @OneToMany
+    private List<PlayerGame> playerGames;
 
     public Game(Rota rota, LocalDateTime time, String venue, List<Team> teams) {
         this.rota = rota;
