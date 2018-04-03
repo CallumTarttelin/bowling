@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -22,5 +23,10 @@ public class Player {
     public Player(String name, Team team) {
         this.name = name;
         this.team = team;
+        this.playerGames = new LinkedList<>();
+    }
+
+    public Integer getHandicap(){
+        return 2;
     }
 }

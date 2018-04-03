@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -20,5 +21,20 @@ public class PlayerGame {
     @ManyToOne
     private Game game;
     @OneToMany(mappedBy = "playerGame", cascade = CascadeType.ALL)
-    private List<Score> setScores;
+    private List<Score> scores;
+
+    public PlayerGame(Player player, Team team, Game game) {
+        this.player = player;
+        this.team = team;
+        this.game = game;
+        this.scores = new LinkedList<>();
+    }
+
+    public void addScore(Score score) {
+        this.scores.add(score);
+    }
+
+    public void deleteScore(Score score) {
+        this.scores.remove(score);
+    }
 }

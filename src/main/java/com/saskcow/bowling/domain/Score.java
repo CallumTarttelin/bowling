@@ -3,6 +3,7 @@ package com.saskcow.bowling.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "playerGame")
 public class Score {
     private @GeneratedValue @Id Long id;
     @ManyToOne

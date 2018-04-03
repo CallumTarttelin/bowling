@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {BowlingApplication.class})
@@ -57,7 +56,7 @@ public class LeagueRepositoryTest {
         repo.save(bestLeague);
         repo.deleteById(bestLeague.getId());
         Optional<League> foundGame = repo.findById(bestLeague.getId());
-        assertThat(foundGame.isPresent());
+        assertThat(foundGame).isNotPresent();
     }
 
 
