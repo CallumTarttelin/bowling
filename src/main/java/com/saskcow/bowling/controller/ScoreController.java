@@ -34,7 +34,7 @@ public class ScoreController {
     public ResponseEntity<?> saveScore(@RequestBody ScoreRest score) {
         Optional<PlayerGame> optionalPlayerGame = playerGameRepository.findById(score.getPlayerGameId());
         if (! optionalPlayerGame.isPresent()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         PlayerGame playerGame = optionalPlayerGame.get();
         Score savedScore = repo.save(new Score(playerGame, score.getScratch(), score.getHandicap() != null ? score.getHandicap() : playerGame.getPlayer().getHandicap()));

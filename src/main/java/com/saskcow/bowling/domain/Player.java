@@ -29,4 +29,12 @@ public class Player {
     public Integer getHandicap(){
         return 2;
     }
+
+    public void addPlayerGame(PlayerGame playerGame) {
+        this.playerGames.add(playerGame);
+    }
+
+    public void deletePlayerGame(PlayerGame playerGame) {
+        this.playerGames.remove(playerGame);
+    }
 }

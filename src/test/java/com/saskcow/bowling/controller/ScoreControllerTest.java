@@ -63,7 +63,7 @@ public class ScoreControllerTest {
                 .contentType("application/json"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "http://localhost:8080/api/score/" + score3.getId()))
-                .andDo(document("player/create"))
+                .andDo(document("score/create"))
                 .andReturn().getResponse().getHeader("Location");
 
         assertThat(playerGame.getScores()).contains(score3);
@@ -83,7 +83,7 @@ public class ScoreControllerTest {
 
         mockMvc.perform(delete("/api/score/3"))
                 .andExpect(status().isNoContent())
-                .andDo(document("player/delete"));
+                .andDo(document("score/delete"));
         verify(repo, times(1)).deleteById(3L);
         assertThat(playerGame.getScores()).doesNotContain(score3);
         assertThat(playerGame.getScores()).contains(score1);

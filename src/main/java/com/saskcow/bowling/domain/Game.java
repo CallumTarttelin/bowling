@@ -29,4 +29,12 @@ public class Game {
         this.venue = venue;
         this.teams = teams;
     }
+
+    public void addPlayerGame(PlayerGame playerGame) {
+        this.playerGames.add(playerGame);
+    }
+
+    public void deletePlayerGame(PlayerGame playerGame) {
+        this.playerGames.remove(playerGame);
+    }
 }

@@ -55,7 +55,7 @@ public class GameController {
         Optional<Team> optionalTeam2 = teamRepository.findById(game.getTeamId2());
         Optional<Rota> optionalRota = rotaRepository.findById(game.getRotaId());
         if (! optionalRota.isPresent() ||! optionalTeam2.isPresent() || ! optionalTeam1.isPresent()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         Team team1 = optionalTeam1.get();
         Team team2 = optionalTeam2.get();
@@ -80,7 +80,7 @@ public class GameController {
     public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
         Optional<Game> optionalGame = repo.findById(id);
         if (! optionalGame.isPresent()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         Game game = optionalGame.get();
         game.getTeams().forEach(team -> team.deleteGame(game));
