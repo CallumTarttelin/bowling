@@ -32,7 +32,7 @@ missing runwith not allowing object.class mocks
 
 nullpointer streaming null add ```null ? new LinkedList<>()```
 
-premature assertions cause dissapointing nightwatch tests
+premature assertions cause dissapointing nightwatch tests, add pauses
 
 different date formats YYYY-MM-DDTHH:mm:ss
 
@@ -47,3 +47,5 @@ cascade type causing org.h2.jdbc.JdbcSQLException: Referential integrity constra
 id=id=The value
 
 wrong css selectors
+
+updateTeam2 setting team1, updateTeam1 setting team1
