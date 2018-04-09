@@ -14,7 +14,7 @@ public class TeamView {
     private Long id;
     private String name;
     private List<PlayerViewSummary> players;
-    private List<GameView> games;
+    private List<GameViewSummary> games;
 
 
     public TeamView(Team team) {
@@ -22,6 +22,6 @@ public class TeamView {
         this.name = team.getName();
         this.id = team.getId();
         this.players = team.getPlayers() == null ? null : team.getPlayers().stream().map(PlayerViewSummary::new).collect(Collectors.toList());
-        this.games = team.getGames()== null ? null : team.getGames().stream().map(GameView::new).collect(Collectors.toList());
+        this.games = team.getGames()== null ? null : team.getGames().stream().map(GameViewSummary::new).collect(Collectors.toList());
     }
 }

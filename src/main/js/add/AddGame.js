@@ -46,15 +46,7 @@ class AddGame extends React.Component {
         })
       })
       .catch(error => {
-        if (error.response) {
-          this.setState({status: "error", err: error.response.data});
-        } else if (error.request) {
-          this.setState({status: "error", err: "No Response"});
-          console.log(error.request);
-        } else {
-          this.setState({status: "error", err: "Error with Request"});
-          console.log('Error', error.message);
-        }
+        console.log(error)
       });
   }
 
@@ -63,7 +55,6 @@ class AddGame extends React.Component {
   }
 
   updateTime(event) {
-    console.log(event.target.value);
     this.setState({time: event.target.value});
   }
 
@@ -72,7 +63,7 @@ class AddGame extends React.Component {
   };
 
   updateTeam2(event) {
-    this.setState({team1: event.target.value});
+    this.setState({team2: event.target.value});
   };
 
   render() {

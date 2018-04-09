@@ -1,4 +1,4 @@
-package com.saskcow.bowling.config;
+/*package com.saskcow.bowling.config;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,4 +27,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .oauth2Login();
     }
-}
+}*/

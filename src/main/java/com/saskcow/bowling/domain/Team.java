@@ -58,6 +58,10 @@ public class Team {
         this.playerGames.add(playerGame);
     }
 
+    public void addAllPlayerGame(List<PlayerGame> playerGames) {
+        this.playerGames.addAll(playerGames);
+    }
+
     public void deletePlayerGame(PlayerGame playerGame) {
         this.playerGames.remove(playerGame);
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
@@ -37,30 +38,40 @@ public class PlayerGameController {
     @PostMapping("/api/playergame")
     public ResponseEntity<?> savePlayerGame(@RequestBody PlayerGameRest playerGameRest) {
 
-        Optional<Player> optionalPlayer = playerRepository.findById(playerGameRest.getPlayerId());
+        Optional<Player> optionalPlayer0 = playerRepository.findById(playerGameRest.getPlayerIds().get(0));
+        Optional<Player> optionalPlayer1 = playerRepository.findById(playerGameRest.getPlayerIds().get(1));
+        Optional<Player> optionalPlayer2 = playerRepository.findById(playerGameRest.getPlayerIds().get(2));
         Optional<Team> optionalTeam = teamRepository.findById(playerGameRest.getTeamId());
         Optional<Game> optionalGame = gameRepository.findById(playerGameRest.getGameId());
 
-        if (! optionalGame.isPresent() || ! optionalPlayer.isPresent() || ! optionalTeam.isPresent()){
-            return ResponseEntity.notFound().build();
+        if (! optionalGame.isPresent() || ! optionalPlayer0.isPresent() || ! optionalPlayer1.isPresent() || ! optionalPlayer2.isPresent() || ! optionalTeam.isPresent()){
+            return ResponseEntity.badRequest().build();
         }
-        Player player = optionalPlayer.get();
+        Player player0 = optionalPlayer0.get();
+        Player player1 = optionalPlayer1.get();
+        Player player2 = optionalPlayer2.get();
         Team team = optionalTeam.get();
         Game game = optionalGame.get();
 
-        PlayerGame playerGame = repo.save(new PlayerGame(player, team, game));
+        PlayerGame playerGame0 = repo.save(new PlayerGame(player0, team, game));
+        PlayerGame playerGame1 = repo.save(new PlayerGame(player1, team, game));
+        PlayerGame playerGame2 = repo.save(new PlayerGame(player2, team, game));
 
-        player.addPlayerGame(playerGame);
-        team.addPlayerGame(playerGame);
-        game.addPlayerGame(playerGame);
+        player0.addPlayerGame(playerGame0);
+        player1.addPlayerGame(playerGame1);
+        player2.addPlayerGame(playerGame2);
+        team.addAllPlayerGame(Arrays.asList(playerGame0, playerGame1, playerGame2));
+        game.addAllPlayerGame(Arrays.asList(playerGame0, playerGame1, playerGame2));
 
-        playerRepository.save(player);
+        playerRepository.save(player0);
+        playerRepository.save(player1);
+        playerRepository.save(player2);
         teamRepository.save(team);
         gameRepository.save(game);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(playerGame.getId()).toUri();
+                .buildAndExpand(game.getId()).toUri();
 
         return ResponseEntity.created(location).build();
     }

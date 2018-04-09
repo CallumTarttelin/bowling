@@ -92,23 +92,11 @@ public class PlayerGameControllerTest {
         when(teamRepository.findById(cableStreet.getId())).thenReturn(Optional.of(cableStreet));
 
         mockMvc.perform(post("/api/playergame")
-                .content("{\"playerId\": \"1\", \"teamId\": \"1\", \"gameId\": \"1\"}")
+                .content("{\"playerIds\": [1, 2, 3], \"teamId\": \"1\", \"gameId\": \"1\"}")
                 .contentType("application/json"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "http://localhost:8080/api/playergame/" + swingGame.getId()))
                 .andDo(document("playergame/create"));
-
-        mockMvc.perform(post("/api/playergame")
-                .content("{\"playerId\": \"2\", \"teamId\": \"1\", \"gameId\": \"1\"}")
-                .contentType("application/json"))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost:8080/api/playergame/" + carcerGame.getId()));
-
-        mockMvc.perform(post("/api/playergame")
-                .content("{\"playerId\": \"3\", \"teamId\": \"1\", \"gameId\": \"1\"}")
-                .contentType("application/json"))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost:8080/api/playergame/" + geraldGame.getId()));
 
         assertThat(game.getPlayerGames().get(0)).isEqualTo(swingGame);
         assertThat(game.getPlayerGames().get(1)).isEqualTo(carcerGame);
@@ -118,8 +106,8 @@ public class PlayerGameControllerTest {
         verify(repo, times(1)).save(new PlayerGame(cableStreet.getPlayers().get(1), cableStreet, game));
         verify(repo, times(1)).save(new PlayerGame(cableStreet.getPlayers().get(2), cableStreet, game));
         verify(playerRepository, times(3)).save(isA(Player.class));
-        verify(gameRepository, times(3)).save(isA(Game.class));
-        verify(teamRepository, times(3)).save(isA(Team.class));
+        verify(gameRepository, times(1)).save(isA(Game.class));
+        verify(teamRepository, times(1)).save(isA(Team.class));
     }
 
     @Test

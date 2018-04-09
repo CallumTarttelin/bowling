@@ -8,6 +8,7 @@ import com.saskcow.bowling.repository.RotaRepository;
 import com.saskcow.bowling.repository.TeamRepository;
 import com.saskcow.bowling.rest.GameRest;
 import com.saskcow.bowling.view.GameView;
+import com.saskcow.bowling.view.GameViewSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
