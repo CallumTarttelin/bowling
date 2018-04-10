@@ -1,14 +1,15 @@
 package com.saskcow.bowling.controller;
 
 import com.saskcow.bowling.domain.Game;
+import com.saskcow.bowling.domain.PlayerGame;
 import com.saskcow.bowling.domain.Rota;
 import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.GameRepository;
+import com.saskcow.bowling.repository.PlayerGameRepository;
 import com.saskcow.bowling.repository.RotaRepository;
 import com.saskcow.bowling.repository.TeamRepository;
 import com.saskcow.bowling.rest.GameRest;
 import com.saskcow.bowling.view.GameView;
-import com.saskcow.bowling.view.GameViewSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class GameController {
     }
 
     @RequestMapping(value = "/api/game/{id}", method = RequestMethod.GET)
-    public ResponseEntity<GameView> findLeague(@PathVariable("id") Long id) {
+    public ResponseEntity<GameView> findGame(@PathVariable("id") Long id) {
         Optional<Game> optionalGame = repo.findById(id);
         if (! optionalGame.isPresent()){
             return ResponseEntity.notFound().build();
@@ -50,8 +51,25 @@ public class GameController {
         return ResponseEntity.ok(gameView);
     }
 
+    @RequestMapping(value = "/api/game/{id}", method = RequestMethod.POST)
+    public ResponseEntity<?> saveGame(@PathVariable Long id) {
+        Optional<Game> optionalGame = repo.findById(id);
+        if (! optionalGame.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        Game game = optionalGame.get();
+        if (game.getPlayerGames().size() != 6 || ! game.getPlayerGames().stream().allMatch(playerGame -> playerGame.getScores().size() == 3)){
+            return ResponseEntity.badRequest().build();
+        }
+        game.addPlayerGame(3, new PlayerGame(null, game.getTeams().get(0), game));
+        game.addPlayerGame(new PlayerGame(null, game.getTeams().get(1), game));
+        game.completeGame();
+        repo.save(game);
+        return ResponseEntity.noContent().build();
+    }
+
     @RequestMapping(value = "/api/game", method = RequestMethod.POST)
-    public ResponseEntity<?> saveLeague(@RequestBody GameRest game) {
+    public ResponseEntity<?> saveGame(@RequestBody GameRest game) {
         Optional<Team> optionalTeam1 = teamRepository.findById(game.getTeamId1());
         Optional<Team> optionalTeam2 = teamRepository.findById(game.getTeamId2());
         Optional<Rota> optionalRota = rotaRepository.findById(game.getRotaId());
@@ -78,7 +96,7 @@ public class GameController {
     }
 
     @RequestMapping(value = "/api/game/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteGame(@PathVariable("id") Long id) {
         Optional<Game> optionalGame = repo.findById(id);
         if (! optionalGame.isPresent()){
             return ResponseEntity.badRequest().build();

@@ -19,7 +19,7 @@ public class PlayerGameView {
     public PlayerGameView (PlayerGame playerGame) {
         this.id = playerGame.getId();
 //        this.game = new GameViewSummary(playerGame.getGame());
-        this.player = new PlayerViewSummary(playerGame.getPlayer());
+        this.player = playerGame.getPlayer() != null ? new PlayerViewSummary(playerGame.getPlayer()) : null;
         this.team = new TeamViewSummary(playerGame.getTeam());
         this.scores = playerGame.getScores().stream().map(ScoreViewSummary::new).collect(Collectors.toList());
     }

@@ -34,4 +34,5 @@ public class Score {
         this.scratch = scratch;
         this.handicapped = scratch + handicap;
     }
+
 }

@@ -37,4 +37,8 @@ public class PlayerGame {
     public void deleteScore(Score score) {
         this.scores.remove(score);
     }
+
+    public Integer getPoints() {
+        return this.scores.stream().reduce(0, (a, b) -> a + b.getScore(), (a, b) -> a + b);
+    }
 }
