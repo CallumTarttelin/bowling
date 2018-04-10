@@ -31,11 +31,11 @@ class AddPlayers extends React.Component{
         playerIds: [this.state.player1, this.state.player2, this.state.player3]
       })
         .then(response => {
-          window.location.href = '/game/' + this.state.id;
+          location.reload();
           console.log("created at " + response.headers.location);
         })
         .catch(function (error) {
-          if(error.response.status === 401){
+          if(error.response && error.response.status === 401){
             window.location.href = '/login';
           } else {
             console.log(error);
@@ -48,11 +48,11 @@ class AddPlayers extends React.Component{
   }
 
   getData(teams) {
+    let teamsPlus = teams.map(team => team.id);
     teams.forEach(team => {
       axios.get('/api/team/' + team.id)
         .then( tResponse => {
-          let teamsPlus = this.state.teams.slice();
-          teamsPlus.push(tResponse.data);
+          teamsPlus[teamsPlus.indexOf(team.id)] = tResponse.data;
           this.setState({teams: teamsPlus, status: this.state.status + 1})
         })
         .catch(error => {
@@ -127,7 +127,7 @@ class AddPlayers extends React.Component{
             <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
 
           </form>
-          <p color={"red"}>{this.state.err}</p>
+          <p style={{color: 'red'}}>{this.state.err}</p>
         </div>
       )
     } else{return <CircularProgress />}

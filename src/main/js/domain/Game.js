@@ -10,6 +10,7 @@ import {
 import {KeyboardArrowDown} from 'material-ui-icons';
 import {Link} from "react-router-dom";
 import AddPlayers from "../add/AddPlayers";
+import AddScore from "../add/AddScore";
 
 class Game extends React.Component {
 
@@ -34,6 +35,27 @@ class Game extends React.Component {
       });
   }
 
+  submit(event) {
+    event.preventDefault();
+    if(this.isValid()){
+      axios.post("/api/game/", {id: this.state.id})
+        .then(response => {
+          location.reload();
+          console.log("created at " + response.headers.location);
+        })
+        .catch(function (error) {
+          if(error.response && error.response.status === 401){
+            window.location.href = '/login';
+          } else {
+            console.log(error);
+          }
+        });
+    } else {
+      console.log("Invalid input.");
+      this.setState({err: "Invalid input, check for unset or duplicates."})
+    }
+  }
+
   addPlayers(team) {
     return (
       <ExpansionPanel key={team}>
@@ -47,6 +69,78 @@ class Game extends React.Component {
     )
   }
 
+  genScores(playerGame) {
+    if(playerGame.scores.length < 3) {
+      let i = 0;
+      const data = [[
+        <React.Fragment key={playerGame.id + "-player"}>
+          <td rowSpan={2}>Handicap</td>
+          <td rowSpan={2}>{playerGame.player.name}</td>
+        </React.Fragment>]];
+      playerGame.scores.forEach(score => {
+        i++;
+        data.push([
+          <React.Fragment key={score.id}>
+            <td key={score.id + "-scratch"}>{score.scratch ? score.scratch : ""}</td>
+            <td key={score.id + "-handicapped"}>{score.handicapped ? score.handicapped : ""}</td>
+          </React.Fragment>,
+          <td colSpan={2} key={score.id + "-score"}>{score.score ? score.score : ""}</td>
+        ])
+      });
+      data.push([<td colSpan={2} rowSpan={2} key={playerGame.id + "-addScore"}><AddScore id={playerGame.id}/></td>]);
+      for (let j = i; j<2; j++) {
+        data.push([
+          <React.Fragment key={playerGame.id + "-" + j}>
+            <td key={j + "-0"}/>
+            <td key={j + "-1"}/>
+          </React.Fragment>,
+          <td key={j + "-2"} colSpan={2} />
+        ]);
+      }
+      data.push([
+        <React.Fragment key={playerGame.id + "-totals"}>
+          <td>totals</td>
+          <td>totals</td>
+          <td rowSpan={2}>Points</td>
+        </React.Fragment>,
+        <td key={playerGame.id + "-scoreTotals"} colSpan={2}>totals</td>]);
+      return (
+        <tbody key={playerGame.id + "-table"}>
+          <tr>
+            {data.map(thing => thing[0])}
+          </tr>
+          <tr>
+            {data.map(thing => thing[1])}
+          </tr>
+        </tbody>
+      )
+    } else {
+      return (
+        <tbody key={playerGame.id + "-full"}>
+        <tr>
+          <td rowSpan={2}>Handicap</td>
+          <td rowSpan={2}>{playerGame.player.name}</td>
+          <td>{playerGame.scores[0] ? playerGame.scores[0].scratch : ""}</td>
+          <td>{playerGame.scores[0] ? playerGame.scores[0].handicapped : ""}</td>
+          <td>{playerGame.scores[1] ? playerGame.scores[1].scratch : ""}</td>
+          <td>{playerGame.scores[1] ? playerGame.scores[1].handicapped : ""}</td>
+          <td>{playerGame.scores[2] ? playerGame.scores[2].scratch : ""}</td>
+          <td>{playerGame.scores[2] ? playerGame.scores[2].handicapped : ""}</td>
+          <td>totals</td>
+          <td>totals</td>
+          <td rowSpan={2}>Points</td>
+        </tr>
+        <tr>
+          <td colSpan={2}>{playerGame.scores[0] ? playerGame.scores[0].score : ""}</td>
+          <td colSpan={2}>{playerGame.scores[1] ? playerGame.scores[1].score : ""}</td>
+          <td colSpan={2}>{playerGame.scores[2] ? playerGame.scores[2].score : ""}</td>
+          <td colSpan={2}>totals</td>
+        </tr>
+        </tbody>
+      )
+    }
+  }
+
 
   table() {
     let tables = [];
@@ -55,42 +149,22 @@ class Game extends React.Component {
         tables.push(
           <table key={i}>
             <thead>
-            <tr>
-              <th colSpan={10}>{this.state.game.teams[i].name}</th>
-              <th>Score</th>
-            </tr>
-            <tr>
-              <th width="10%">HCP</th>
-              <th width="40%">Bowler</th>
-              <th width="10%" colSpan={2}>Game 1</th>
-              <th width="10%" colSpan={2}>Game 2</th>
-              <th width="10%" colSpan={2}>Game 3</th>
-              <th width="10%" colSpan={2}>Total</th>
-              <th width="10%">Pts</th>
-            </tr>
+              <tr>
+                <th colSpan={10}>{this.state.game.teams[i].name}</th>
+                <th>score</th>
+              </tr>
+              <tr>
+                <th width="10%">HCP</th>
+                <th width="40%">Bowler</th>
+                <th width="10%" colSpan={2}>Game 1</th>
+                <th width="10%" colSpan={2}>Game 2</th>
+                <th width="10%" colSpan={2}>Game 3</th>
+                <th width="10%" colSpan={2}>Total</th>
+                <th width="10%">Pts</th>
+              </tr>
             </thead>
             {this.state.game.playerGames.slice(3 * i, 3 * i + 3).map(playerGame => (
-              <tbody key={playerGame.id}>
-              <tr>
-                <td rowSpan={2}>Handicap</td>
-                <td rowSpan={2}>{playerGame.player.name}</td>
-                <td>{playerGame.scores[0] ? playerGame.scores[0].scratch : ""}</td>
-                <td>{playerGame.scores[0] ? playerGame.scores[0].handicapped : ""}</td>
-                <td>{playerGame.scores[1] ? playerGame.scores[1].scratch : ""}</td>
-                <td>{playerGame.scores[1] ? playerGame.scores[1].handicapped : ""}</td>
-                <td>{playerGame.scores[2] ? playerGame.scores[2].scratch : ""}</td>
-                <td>{playerGame.scores[2] ? playerGame.scores[2].handicapped : ""}</td>
-                <td>total scratch</td>
-                <td>total handicapped</td>
-                <td rowSpan={2}>Points</td>
-              </tr>
-              <tr>
-                <td colSpan={2}>{playerGame.scores[0] ? playerGame.scores[0].score : ""}</td>
-                <td colSpan={2}>{playerGame.scores[1] ? playerGame.scores[1].score : ""}</td>
-                <td colSpan={2}>{playerGame.scores[2] ? playerGame.scores[2].score : ""}</td>
-                <td colSpan={2}>total points</td>
-              </tr>
-              </tbody>
+              this.genScores(playerGame)
             ))}
           </table>)}
     }
