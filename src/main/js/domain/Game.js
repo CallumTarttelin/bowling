@@ -173,7 +173,7 @@ class Game extends React.Component {
         for(let i = 0; i< Math.floor(this.state.game.playerGames.length / 3); i++){
           tables.push(
             <React.Fragment key={i + "-empty"}>
-              <br/>
+              {(this.state.game.playerGames.length === 6 && i !== 0) && <br/>}
               <table key={i}>
                 <thead>
                 <tr>
@@ -205,27 +205,33 @@ class Game extends React.Component {
       return tables
     } else {
       let tables = [];
+      const teamTotals = [this.state.game.playerGames.slice(0, 4).reduce((a, b) => a + b.scores.reduce((a, b) => a + b.score, 0), 0),
+      this.state.game.playerGames.slice(4, 8).reduce((a, b) => a + b.scores.reduce((a, b) => a + b.score, 0), 0)];
       for(let i = 0; i<2; i++) {
-        tables.push(<table key={i}>
-          <thead>
-          <tr>
-            <th colSpan={10}>{this.state.game.teams[i].name}</th>
-            <th>{this.state.game.playerGames.slice(4 * i, 4 * i + 4).reduce((a, b) => a + b.scores.reduce((a, b) => a + b.score, 0), 0)}</th>
-          </tr>
-          <tr>
-            <th width="10%">HCP</th>
-            <th width="40%">Bowler</th>
-            <th width="10%" colSpan={2}>Game 1</th>
-            <th width="10%" colSpan={2}>Game 2</th>
-            <th width="10%" colSpan={2}>Game 3</th>
-            <th width="10%" colSpan={2}>Total</th>
-            <th width="10%">Pts</th>
-          </tr>
-          </thead>
-          {this.state.game.playerGames.slice(4 * i, 4 * i + 4).map(playerGame => (
-            this.genFullScores(playerGame)
-          ))}
-        </table>);
+        tables.push(
+          <React.Fragment key={i + "-fragment"}>
+            {i !== 0 && <br/>}
+            <table key={i} className={teamTotals[i] > teamTotals[(i + 1) % 2] ? "winner" : "loser"}>
+              <thead>
+              <tr>
+                <th colSpan={10}>{this.state.game.teams[i].name}</th>
+                <th>{teamTotals[i]}</th>
+              </tr>
+              <tr>
+                <th width="10%">HCP</th>
+                <th width="40%">Bowler</th>
+                <th width="10%" colSpan={2}>Game 1</th>
+                <th width="10%" colSpan={2}>Game 2</th>
+                <th width="10%" colSpan={2}>Game 3</th>
+                <th width="10%" colSpan={2}>Total</th>
+                <th width="10%">Pts</th>
+              </tr>
+              </thead>
+              {this.state.game.playerGames.slice(4 * i, 4 * i + 4).map(playerGame => {
+                return this.genFullScores(playerGame);
+              })}
+            </table>
+          </React.Fragment>);
       }
       return tables;
     }
