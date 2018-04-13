@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios/index";
 import {
+  Button,
   CircularProgress,
   ExpansionPanel,
   ExpansionPanelDetails,
@@ -18,6 +19,7 @@ class Game extends React.Component {
     super();
     this.state = {status: "Loading"};
     this.getGame = this.getGame.bind(this);
+    this.scoreGame = this.scoreGame.bind(this);
     this.getGame(props.match.params.id);
   }
 
@@ -35,30 +37,25 @@ class Game extends React.Component {
       });
   }
 
-  submit(event) {
+  scoreGame(event) {
     event.preventDefault();
-    if(this.isValid()){
-      axios.post("/api/game/", {id: this.state.id})
-        .then(response => {
-          location.reload();
-          console.log("created at " + response.headers.location);
-        })
-        .catch(function (error) {
-          if(error.response && error.response.status === 401){
-            window.location.href = '/login';
-          } else {
-            console.log(error);
-          }
-        });
-    } else {
-      console.log("Invalid input.");
-      this.setState({err: "Invalid input, check for unset or duplicates."})
-    }
+    axios.post("/api/game/" + this.state.id)
+      .then(response => {
+        this.getGame(this.state.id);
+        console.log("created at " + response.headers.location);
+      })
+      .catch(function (error) {
+        if(error.response && error.response.status === 401){
+          window.location.href = '/login';
+        } else {
+          console.log(error);
+        }
+      });
   }
 
   addPlayers(team) {
     return (
-      <ExpansionPanel key={team}>
+      <ExpansionPanel key={team} className={'add-to-' + this.state.game.teams[team].name.replace(/\s+/g, '-').toLowerCase()}>
         <ExpansionPanelSummary expandIcon={<KeyboardArrowDown />}>
           <Typography className={"add_players"}>Add players to {this.state.game.teams[team].name}</Typography>
         </ExpansionPanelSummary>
@@ -69,10 +66,10 @@ class Game extends React.Component {
     )
   }
 
-  genFullScores(playerGame) {
+  static genFullScores(playerGame) {
     return (<tbody key={playerGame.id + "-full"}>
     <tr>
-      <td rowSpan={2}>Handicap</td>
+      <td rowSpan={2}>{playerGame.handicap ? playerGame.handicap: ""}</td>
       <td rowSpan={2}>{playerGame.player ? playerGame.player.name: ""}</td>
       <td>{playerGame.scores[0].scratch}</td>
       <td>{playerGame.scores[0].handicapped}</td>
@@ -98,7 +95,7 @@ class Game extends React.Component {
       let i = 0;
       const data = [[
         <React.Fragment key={playerGame.id + "-player"}>
-          <td rowSpan={2}>Handicap</td>
+          <td rowSpan={2}>{playerGame.handicap}</td>
           <td rowSpan={2}>{playerGame.player.name}</td>
         </React.Fragment>]];
       playerGame.scores.forEach(score => {
@@ -111,7 +108,20 @@ class Game extends React.Component {
           <td colSpan={2} key={score.id + "-score"}>{score.score ? score.score : ""}</td>
         ])
       });
-      data.push([<td colSpan={2} rowSpan={2} key={playerGame.id + "-addScore"}><AddScore id={playerGame.id}/></td>]);
+      if (this.state.game.playerGames.length === 6){
+        data.push([
+          <td colSpan={2} rowSpan={2} key={playerGame.id + "-addScore"}>
+            <AddScore id={playerGame.id} name={playerGame.player.name.replace(/\s+/g, '-').toLowerCase()}/>
+          </td>]);
+      } else {
+        data.push([
+          <React.Fragment key={playerGame.id + "-" + "would-be-j"}>
+            <td key={"would-be-j" + "-0"}/>
+            <td key={"would-be-j" + "-1"}/>
+          </React.Fragment>,
+          <td key={"would-be-j" + "-2"} colSpan={2} />
+        ]);
+      }
       for (let j = i; j<2; j++) {
         data.push([
           <React.Fragment key={playerGame.id + "-" + j}>
@@ -140,9 +150,9 @@ class Game extends React.Component {
       )
     } else {
       return (
-        <tbody key={playerGame.id + "-full"}>
+        <tbody id={playerGame.player.name.replace(/\s+/g, '-').toLowerCase() + "-full"} key={playerGame.id + "-full"}>
         <tr>
-          <td rowSpan={2}>Handicap</td>
+          <td rowSpan={2}>{playerGame.handicap}</td>
           <td rowSpan={2}>{playerGame.player.name}</td>
           <td>{playerGame.scores[0] ? playerGame.scores[0].scratch : ""}</td>
           <td>{playerGame.scores[0] ? playerGame.scores[0].handicapped : ""}</td>
@@ -174,7 +184,7 @@ class Game extends React.Component {
           tables.push(
             <React.Fragment key={i + "-empty"}>
               {(this.state.game.playerGames.length === 6 && i !== 0) && <br/>}
-              <table key={i}>
+              <table key={i} id={this.state.game.teams[i].name.replace(/\s+/g, '-').toLowerCase()}>
                 <thead>
                 <tr>
                   <th colSpan={10}>{this.state.game.teams[i].name}</th>
@@ -201,6 +211,8 @@ class Game extends React.Component {
         tables.push(this.addPlayers(0))
       } else if (this.state.game.playerGames.length < 6){
         tables.push(this.addPlayers(1))
+      } else if (this.state.game.playerGames.length === 6 && this.state.game.playerGames.every(playerGame => playerGame.scores.length === 3)) {
+        tables.push(<Button variant={"raised"} color={"primary"} key={'scoreGame'} id={"scoreGame"} onClick={this.scoreGame}>Score Game</Button>)
       }
       return tables
     } else {
@@ -211,7 +223,7 @@ class Game extends React.Component {
         tables.push(
           <React.Fragment key={i + "-fragment"}>
             {i !== 0 && <br/>}
-            <table key={i} className={teamTotals[i] > teamTotals[(i + 1) % 2] ? "winner" : "loser"}>
+            <table key={i} id={this.state.game.teams[i].name.replace(/\s+/g, '-').toLowerCase()} className={teamTotals[i] > teamTotals[(i + 1) % 2] ? "winner" : "loser"}>
               <thead>
               <tr>
                 <th colSpan={10}>{this.state.game.teams[i].name}</th>
@@ -228,7 +240,7 @@ class Game extends React.Component {
               </tr>
               </thead>
               {this.state.game.playerGames.slice(4 * i, 4 * i + 4).map(playerGame => {
-                return this.genFullScores(playerGame);
+                return Game.genFullScores(playerGame);
               })}
             </table>
           </React.Fragment>);
@@ -240,7 +252,7 @@ class Game extends React.Component {
   render() {
     if(this.state.status === "OK") {
       return (
-        <div className="App">
+        <div className="Game">
           <header className="App-header">
             <h1 className="App-title"> <Link to={"/team/" + this.state.game.teams[0].id}>{this.state.game.teams[0].name}</Link> vs <Link to={"/team/" + this.state.game.teams[1].id}>{this.state.game.teams[1].name}</Link></h1>
             <h3>{new Date(Date.parse(this.state.game.time)).toLocaleString('en-GB', { timeZone: 'UTC' })} at {this.state.game.venue}</h3>

@@ -40,7 +40,7 @@ class Player extends React.Component {
       return (
         <div className={'Player'}>
           <h2>{this.state.name}</h2>
-          <Link to={"/team/" + this.state.team.id}>{this.state.team.name}</Link>
+          <span className={"back"}><Link to={"/team/" + this.state.team.id} >{this.state.team.name}</Link></span>
         </div>
       )
     } else if (this.state.status === "error") {

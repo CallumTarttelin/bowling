@@ -151,16 +151,16 @@ public class GameControllerTest {
         Game game = new Game(1L, cityWatch.getRota(), LocalDateTime.now(Clock.systemUTC()), "The Shades", Arrays.asList(cableStreet, nightWatch), new LinkedList<>());
         cableStreet.addGame(game); nightWatch.addGame(game);
 
-        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>());
-        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>());
-        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>());
+        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>(), null);
         cableStreet.addAllPlayerGame(Arrays.asList(swingGame, carcerGame, geraldGame));
         game.addAllPlayerGame(Arrays.asList(swingGame, carcerGame, geraldGame));
         cableStreet.getPlayers().get(0).addPlayerGame(swingGame); cableStreet.getPlayers().get(1).addPlayerGame(carcerGame); cableStreet.getPlayers().get(2).addPlayerGame(geraldGame);
 
-        PlayerGame samGame = new PlayerGame(4L, nightWatch.getPlayers().get(0), nightWatch, game, new LinkedList<>());
-        PlayerGame carrotGame = new PlayerGame(5L, nightWatch.getPlayers().get(1), nightWatch, game, new LinkedList<>());
-        PlayerGame nobbyGame = new PlayerGame(6L, nightWatch.getPlayers().get(2), nightWatch, game, new LinkedList<>());
+        PlayerGame samGame = new PlayerGame(4L, nightWatch.getPlayers().get(0), nightWatch, game, new LinkedList<>(), null);
+        PlayerGame carrotGame = new PlayerGame(5L, nightWatch.getPlayers().get(1), nightWatch, game, new LinkedList<>(), null);
+        PlayerGame nobbyGame = new PlayerGame(6L, nightWatch.getPlayers().get(2), nightWatch, game, new LinkedList<>(), null);
         nightWatch.addAllPlayerGame(Arrays.asList(samGame, carrotGame, nobbyGame));
         game.addAllPlayerGame(Arrays.asList(samGame, carrotGame, nobbyGame));
         nightWatch.getPlayers().get(0).addPlayerGame(samGame); nightWatch.getPlayers().get(1).addPlayerGame(carrotGame); nightWatch.getPlayers().get(2).addPlayerGame(nobbyGame);

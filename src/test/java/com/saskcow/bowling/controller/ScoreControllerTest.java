@@ -48,7 +48,7 @@ public class ScoreControllerTest {
 
     @Test
     public void addScore_shouldSaveTheScore() throws Exception {
-        PlayerGame playerGame = new PlayerGame(1L, null, null, null, new LinkedList<>());
+        PlayerGame playerGame = new PlayerGame(1L, null, null, null, new LinkedList<>(), 10);
         Score score1 = new Score(1L, playerGame, 101, 104, null);
         Score score2 = new Score(2L, playerGame, 102, 105, null);
         Score score3 = new Score(3L, playerGame, 103, 106, null);
@@ -72,7 +72,7 @@ public class ScoreControllerTest {
 
     @Test
     public void deleteScore_shouldDeleteScore() throws Exception {
-        PlayerGame playerGame = new PlayerGame(1L, null, null, null, new LinkedList<>());
+        PlayerGame playerGame = new PlayerGame(1L, null, null, null, new LinkedList<>(), 10);
         Score score1 = new Score(1L, playerGame, 101, 104, null);
         Score score2 = new Score(2L, playerGame, 102, 105, null);
         Score score3 = new Score(3L, playerGame, 103, 106, null);

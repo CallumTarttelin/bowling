@@ -15,6 +15,7 @@ public class PlayerGameView {
     private PlayerViewSummary player;
     private TeamViewSummary team;
     private List<ScoreViewSummary> scores;
+    private Integer handicap;
 
     public PlayerGameView (PlayerGame playerGame) {
         this.id = playerGame.getId();
@@ -22,5 +23,8 @@ public class PlayerGameView {
         this.player = playerGame.getPlayer() != null ? new PlayerViewSummary(playerGame.getPlayer()) : null;
         this.team = new TeamViewSummary(playerGame.getTeam());
         this.scores = playerGame.getScores().stream().map(ScoreViewSummary::new).collect(Collectors.toList());
+        if (playerGame.getPlayer() != null){
+            this.handicap = playerGame.getHandicap() == null ? playerGame.getPlayer().getHandicap() : playerGame.getHandicap();
+        }
     }
 }

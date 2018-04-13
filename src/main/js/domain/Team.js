@@ -43,7 +43,7 @@ class Team extends React.Component {
       return (
         <div className={'Team'}>
           <h2>{this.state.name}</h2>
-          <Link to={"/league/" + this.state.league.id}>{this.state.league.name}</Link>
+          <span className={"back"}><Link to={"/league/" + this.state.league.id}>{this.state.league.name}</Link></span>
           <h3>Players</h3>
           <ul className={"Players"}>
             {this.state.players.map(player => (

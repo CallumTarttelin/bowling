@@ -75,9 +75,9 @@ public class PlayerGameControllerTest {
         Game game = new Game(1L, cityWatch.getRota(), LocalDateTime.now(Clock.systemUTC()), "The Shades", Arrays.asList(cableStreet, nightWatch), new LinkedList<>());
         cableStreet.addGame(game); nightWatch.addGame(game);
 
-        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>());
-        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>());
-        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>());
+        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>(), null);
 
         when(repo.save(new PlayerGame(cableStreet.getPlayers().get(0), cableStreet, game))).thenReturn(swingGame);
         when(repo.save(new PlayerGame(cableStreet.getPlayers().get(1), cableStreet, game))).thenReturn(carcerGame);
@@ -125,9 +125,9 @@ public class PlayerGameControllerTest {
         Game game = new Game(1L, null, LocalDateTime.now(Clock.systemUTC()), "The Shades", Arrays.asList(cableStreet, nightWatch), new LinkedList<>());
         cableStreet.addGame(game); nightWatch.addGame(game);
 
-        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>());
-        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>());
-        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>());
+        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>(), null);
 
         cableStreet.getPlayers().get(0).addPlayerGame(swingGame); cableStreet.getPlayers().get(1).addPlayerGame(carcerGame); cableStreet.getPlayers().get(2).addPlayerGame(geraldGame);
         cableStreet.addPlayerGame(swingGame); cableStreet.addPlayerGame(carcerGame); cableStreet.addPlayerGame(geraldGame);

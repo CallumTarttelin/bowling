@@ -127,7 +127,7 @@ class AddPlayers extends React.Component{
             <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
 
           </form>
-          <p style={{color: 'red'}}>{this.state.err}</p>
+          <p className={"errorMessage"}>{this.state.err}</p>
         </div>
       )
     } else{return <CircularProgress />}

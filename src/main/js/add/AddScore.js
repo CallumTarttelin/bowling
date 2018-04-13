@@ -15,34 +15,35 @@ class AddScore extends React.Component{
   }
 
   submit(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  axios.post("/api/score", {
-    playerGameId: this.state.id,
-    scratch: this.state.scratch,
-    handicap: this.state.checkHandicap ? this.state.handicap : null
-  })
-    .then(response => {
-      location.reload();
-      console.log("created at " + response.headers.location);
+    axios.post("/api/score", {
+      playerGameId: this.state.id,
+      scratch: this.state.scratch,
+      handicap: this.state.checkHandicap ? this.state.handicap : null
     })
-    .catch(function (error) {
-      if(error.response && error.response.status === 401){
-        window.location.href = '/login';
-      } else {
-        console.log(error);
-        this.setState({err: error.response.data});
-      }
-    });
+      .then(response => {
+        location.reload();
+        console.log("created at " + response.headers.location);
+      })
+      .catch(error => {
+        if(error.response && error.response.status === 401){
+          window.location.href = '/login';
+        } else if(error.response && error.response.status === 400){
+          this.setState({err: "Invalid Data"});
+        } else {
+          console.log(error)
+        }
+      });
   }
 
   render() {
     return (
-      <div className={"AddScreen"}>
-        <form className={"theScoreForm"} onSubmit={this.submit} noValidate>
+      <div className={this.props.name + "-AddScreen"}>
+        <form className={this.props.name + "-theScoreForm"} onSubmit={this.submit} noValidate>
 
           <TextField
-            id="scratch"
+            id={this.props.name + "-scratch"}
             name="scratch"
             label="Scratch"
             fullWidth={true}
@@ -57,7 +58,7 @@ class AddScore extends React.Component{
           />
 
           <TextField
-            id="handicap"
+            id={this.props.name + "-handicap"}
             name="handicap"
             label="Override handicap"
             fullWidth={true}
@@ -75,7 +76,7 @@ class AddScore extends React.Component{
                     checked={this.state.checkHandicap}
                     onChange={this.handleUserInput}
                     name="checkHandicap"
-                    id={"checkHandicap"}
+                    id={this.props.name + "-checkHandicap"}
                     value="val"
                     color="primary"
                   />
@@ -87,10 +88,10 @@ class AddScore extends React.Component{
 
           <br/>
 
-          <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+          <Button id={this.props.name + '-submit'} type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
 
         </form>
-        <p style={{color: 'red'}}>{this.state.err}</p>
+        <p className={"errorMessage"}>{this.state.err}</p>
       </div>
     )
   }

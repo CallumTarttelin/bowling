@@ -44,7 +44,7 @@ class League extends React.Component {
         <div className={'League'}>
 
           <h2>{this.state.name}</h2>
-          <Link to={"/league"}>Back</Link>
+          <Link to={"/league"} className={"back"}>Back</Link>
 
           <h3>Teams</h3>
           <ul className={"Teams"}>
@@ -57,8 +57,18 @@ class League extends React.Component {
           <h3>Games</h3>
           <ul className={"Games"}>
             {this.state.games.map(game => (
-              <GameSummary key={game.id} id={game.id} time={game.time} teams={game.teams}>{game.venue}</GameSummary>
-            ))}
+              <GameSummary key={game.id} id={game.id} winner={game.winner} time={game.time} teams={game.teams}>{game.venue}</GameSummary>
+            )).sort((a, b) => {
+              if(Number.isInteger(a.props.winner) && !Number.isInteger(b.props.winner)) {
+                return 1;
+              } else if(!Number.isInteger(a.props.winner) && Number.isInteger(b.props.winner)) {
+                return -1;
+              } else {
+                const aTime = Date.parse(a.props.time);
+                const bTime = Date.parse(b.props.time);
+                return aTime - bTime;
+              }}
+            )}
           </ul>
           <Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>
 

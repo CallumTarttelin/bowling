@@ -22,6 +22,7 @@ public class PlayerGame {
     private Game game;
     @OneToMany(mappedBy = "playerGame", cascade = CascadeType.ALL)
     private List<Score> scores;
+    private Integer handicap;
 
     public PlayerGame(Player player, Team team, Game game) {
         this.player = player;

@@ -33,11 +33,12 @@ public class ScoreController {
     @RequestMapping(value = "/api/score", method = RequestMethod.POST)
     public ResponseEntity<?> saveScore(@RequestBody ScoreRest score) {
         Optional<PlayerGame> optionalPlayerGame = playerGameRepository.findById(score.getPlayerGameId());
-        if (! optionalPlayerGame.isPresent()){
+        if (! optionalPlayerGame.isPresent() || 0 > score.getScratch() || score.getScratch() > 300){
             return ResponseEntity.badRequest().build();
         }
         PlayerGame playerGame = optionalPlayerGame.get();
-        Score savedScore = repo.save(new Score(playerGame, score.getScratch(), score.getHandicap() != null ? score.getHandicap() : playerGame.getPlayer().getHandicap()));
+        if(playerGame.getHandicap() == null) playerGame.setHandicap(playerGame.getPlayer().getHandicap());
+        Score savedScore = repo.save(new Score(playerGame, score.getScratch(), score.getHandicap() != null ? score.getHandicap() : playerGame.getHandicap()));
         playerGame.addScore(savedScore);
         playerGameRepository.save(playerGame);
         URI location = ServletUriComponentsBuilder

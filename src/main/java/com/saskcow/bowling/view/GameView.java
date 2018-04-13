@@ -1,7 +1,6 @@
 package com.saskcow.bowling.view;
 
 import com.saskcow.bowling.domain.Game;
-import com.saskcow.bowling.domain.PlayerGame;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
