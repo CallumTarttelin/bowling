@@ -60,6 +60,7 @@ public class Game {
                                 (a, b) -> a + b.getHandicapped(), (a, b) -> a + b) -
                         playerGame.getScores().stream()
                                 .reduce(0, (a, b) -> a + b.getScratch(), (a, b) -> a + b)
+                , true
         )));
     }
 
@@ -120,6 +121,8 @@ public class Game {
                             );
                         }).collect(Collectors.toList())
         ));
+        this.teams.get(0).addPlayerGame(this.playerGames.get(3));
+        this.teams.get(1).addPlayerGame(this.playerGames.get(7));
     }
 
     public void completeGame() {

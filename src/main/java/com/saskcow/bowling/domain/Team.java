@@ -17,11 +17,11 @@ public class Team {
     private String name;
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Player> players;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Game> games;
     @ManyToOne
     private League league;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<PlayerGame> playerGames;
 
     public Team(String name, List<Player> players, List<Game> games, League league) {

@@ -69,7 +69,7 @@ class Game extends React.Component {
   static genFullScores(playerGame) {
     return (<tbody key={playerGame.id + "-full"}>
     <tr>
-      <td rowSpan={2}>{playerGame.handicap ? playerGame.handicap: ""}</td>
+      <td rowSpan={2}>{Number.isInteger(playerGame.handicap) ? playerGame.handicap: ""}</td>
       <td rowSpan={2}>{playerGame.player ? playerGame.player.name: ""}</td>
       <td>{playerGame.scores[0].scratch}</td>
       <td>{playerGame.scores[0].handicapped}</td>
@@ -102,8 +102,8 @@ class Game extends React.Component {
         i++;
         data.push([
           <React.Fragment key={score.id}>
-            <td key={score.id + "-scratch"}>{score.scratch ? score.scratch : ""}</td>
-            <td key={score.id + "-handicapped"}>{score.handicapped ? score.handicapped : ""}</td>
+            <td key={score.id + "-scratch"}>{Number.isInteger(score.scratch) ? score.scratch : ""}</td>
+            <td key={score.id + "-handicapped"}>{Number.isInteger(score.handicapped) ? score.handicapped : ""}</td>
           </React.Fragment>,
           <td colSpan={2} key={score.id + "-score"}>{score.score ? score.score : ""}</td>
         ])
@@ -154,20 +154,20 @@ class Game extends React.Component {
         <tr>
           <td rowSpan={2}>{playerGame.handicap}</td>
           <td rowSpan={2}>{playerGame.player.name}</td>
-          <td>{playerGame.scores[0] ? playerGame.scores[0].scratch : ""}</td>
-          <td>{playerGame.scores[0] ? playerGame.scores[0].handicapped : ""}</td>
-          <td>{playerGame.scores[1] ? playerGame.scores[1].scratch : ""}</td>
-          <td>{playerGame.scores[1] ? playerGame.scores[1].handicapped : ""}</td>
-          <td>{playerGame.scores[2] ? playerGame.scores[2].scratch : ""}</td>
-          <td>{playerGame.scores[2] ? playerGame.scores[2].handicapped : ""}</td>
+          <td>{Number.isInteger(playerGame.scores[0]) ? playerGame.scores[0].scratch : ""}</td>
+          <td>{Number.isInteger(playerGame.scores[0]) ? playerGame.scores[0].handicapped : ""}</td>
+          <td>{Number.isInteger(playerGame.scores[1]) ? playerGame.scores[1].scratch : ""}</td>
+          <td>{Number.isInteger(playerGame.scores[1]) ? playerGame.scores[1].handicapped : ""}</td>
+          <td>{Number.isInteger(playerGame.scores[2]) ? playerGame.scores[2].scratch : ""}</td>
+          <td>{Number.isInteger(playerGame.scores[2]) ? playerGame.scores[2].handicapped : ""}</td>
           <td>totals</td>
           <td>totals</td>
           <td rowSpan={2}>Points</td>
         </tr>
         <tr>
-          <td colSpan={2}>{playerGame.scores[0] ? playerGame.scores[0].score : ""}</td>
-          <td colSpan={2}>{playerGame.scores[1] ? playerGame.scores[1].score : ""}</td>
-          <td colSpan={2}>{playerGame.scores[2] ? playerGame.scores[2].score : ""}</td>
+          <td colSpan={2}>{Number.isInteger(playerGame.scores[0]) ? playerGame.scores[0].score : ""}</td>
+          <td colSpan={2}>{Number.isInteger(playerGame.scores[1]) ? playerGame.scores[1].score : ""}</td>
+          <td colSpan={2}>{Number.isInteger(playerGame.scores[2]) ? playerGame.scores[2].score : ""}</td>
           <td colSpan={2}>totals</td>
         </tr>
         </tbody>

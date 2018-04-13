@@ -23,10 +23,10 @@ public class PlayerView {
         this.team = new TeamViewSummary(player.getTeam());
         this.handicap = player.getHandicap();
         if (player.getPlayerGames() != null) {
-            List<PlayerGame> last24 = player.getPlayerGames().stream()
-                    .filter(playerGame -> playerGame.getScores().size() == 3 || playerGame.getScores().size() == 4)
+            List<PlayerGame> last6 = player.getPlayerGames().stream()
+                    .filter(playerGame -> playerGame.getScores().size() == 4)
                     .collect(Collectors.toList());
-            this.recentGames = last24.subList(0, last24.size() >= 6? 6 : last24.size()).stream().map(PlayerGameViewSummary::new).collect(Collectors.toList());
+            this.recentGames = last6.subList(0, last6.size() >= 6? 6 : last6.size()).stream().map(PlayerGameViewSummary::new).collect(Collectors.toList());
         }
     }
 }

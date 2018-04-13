@@ -22,6 +22,7 @@ public class Score {
     private Integer scratch;
     private Integer handicapped;
     private Integer score;
+    private boolean total;
 
     public Score(PlayerGame playerGame, Integer scratch){
         this.playerGame = playerGame;
@@ -33,6 +34,21 @@ public class Score {
         this.playerGame = playerGame;
         this.scratch = scratch;
         this.handicapped = scratch + handicap;
+    }
+
+    public Score(PlayerGame playerGame, Integer scratch, Integer handicap, boolean total){
+        this.playerGame = playerGame;
+        this.scratch = scratch;
+        this.total = total;
+        this.handicapped = scratch + handicap;
+    }
+
+    public Score(Long id, PlayerGame playerGame, Integer scratch, Integer handicapped, Integer score){
+        this.id = id;
+        this.playerGame = playerGame;
+        this.scratch = scratch;
+        this.handicapped = handicapped;
+        this.score = score;
     }
 
 }

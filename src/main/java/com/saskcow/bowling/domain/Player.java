@@ -18,7 +18,7 @@ public class Player {
     private String name;
     @ManyToOne
     private Team team;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<PlayerGame> playerGames;
 
     public Player(String name, Team team) {
@@ -39,7 +39,13 @@ public class Player {
                         .reduce(0, (c, d) -> c + d.getScratch(), (c, d) -> c + d)/3),
                 (a, b) -> a + b)/last24.size();
         handicap = 200 - Math.floorDiv(5 * handicap, 6);
-        return handicap <= 80 ? handicap : 80;
+        if (handicap < 0) {
+            return 0;
+        } else if (handicap > 80) {
+            return 80;
+        } else {
+            return handicap;
+        }
     }
 
     public void addPlayerGame(PlayerGame playerGame) {
