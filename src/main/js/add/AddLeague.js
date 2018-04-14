@@ -28,6 +28,8 @@ class AddLeague extends React.Component {
   }
 
   updateName(event) {
+    console.log(event.target);
+    console.log(event.target.id);
     this.setState({name: event.target.value})
   }
 

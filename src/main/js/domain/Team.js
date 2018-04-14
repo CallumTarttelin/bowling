@@ -18,11 +18,12 @@ class Team extends React.Component {
   constructor(props) {
     super();
     this.state = {status: "Loading"};
-    this.getLeague = this.getLeague.bind(this);
-    this.getLeague(props.match.params.id);
+    this.getTeam = this.getTeam.bind(this);
+    this.getNewTeam = this.getNewTeam.bind(this);
+    this.getTeam(props.match.params.id);
   }
 
-  getLeague(id) {
+  getTeam(id) {
     axios.get('/api/team/' + id)
       .then(response => {
         this.setState({
@@ -42,16 +43,15 @@ class Team extends React.Component {
         })
       })
       .catch(error => {
-        if (error.response) {
-          this.setState({status: "error", err: error.response.data});
-        } else if (error.request) {
-          this.setState({status: "error", err: "No Response"});
-          console.log(error.request);
-        } else {
-          this.setState({status: "error", err: "Error with Request"});
-          console.log('Error', error.message);
-        }
-      });
+        console.log(error)
+      })
+  };
+
+
+  getNewTeam(event) {
+    event.preventDefault();
+    console.log(event.currentTarget);
+    this.getTeam(event.currentTarget.id);
   }
 
   render() {
@@ -93,12 +93,12 @@ class Team extends React.Component {
                   <Typography className={"Player"}>{player.name}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                  <Player id={player.id}/>
+                  <Player refresh={this.getNewTeam} id={player.id}/>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             ))}
           </ul>
-          <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Player</Button></Link>
+          <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"raised"} color={"primary"}>Add A Player</Button></Link>
           <h3>Games</h3>
           <ul className={"Games"}>
             {this.state.games.map(game => (

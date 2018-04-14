@@ -78,7 +78,7 @@ class Player extends React.Component {
               <tbody key={game.id}>
                 <tr>
                   <td><Link to={"/game/" + game.gameId}>{new Date(Date.parse(game.date)).toLocaleString('en-GB', { timeZone: 'UTC' })}</Link></td>
-                  <td><Link to={"/team/" + game.opposition.id}>{game.opposition.name}</Link></td>
+                  <td><Link to={"/team/" + game.opposition.id} onClick={this.props.refresh} id={game.opposition.id.toString()}>{game.opposition.name}</Link></td>
                   {game.scores.map(score => (
                     <React.Fragment key={score.id}>
                       <td>{score.scratch}</td>

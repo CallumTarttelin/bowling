@@ -11,7 +11,7 @@ module.exports = {
       .waitForElementVisible('.League', 2000)
       .saveScreenshot(dir + 'The Day Watch no longer want to participate.png')
       .click('button[name=delete-the-day-watch]')
-      .waitForElementNotPresent('li[class~=the-day-watch]', 2000)
+      .waitForElementNotPresent('tr[class~=the-day-watch]', 2000)
       .saveScreenshot(dir + 'Team Deleted.png')
   },
 

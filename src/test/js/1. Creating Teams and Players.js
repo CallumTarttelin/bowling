@@ -75,7 +75,7 @@ module.exports = {
 
   'Add some Players to these Teams' : (browser) => {
     browser
-      .click('li[class~=the-night-watch]>a')
+      .click('tr[class~=the-night-watch] a')
       .waitForElementVisible('.Team', 1000)
       .saveScreenshot(dir + 'Click a team to go to the team page.png')
 
@@ -100,7 +100,7 @@ module.exports = {
       const team = keys[i];
       browser
         .waitForElementVisible('.League', 1000)
-        .click('li[class~=' + team.replace(/(_)+/g, '-') + ']>a')
+        .click('tr[class~=' + team.replace(/(_)+/g, '-') + ']>td>a')
         .waitForElementVisible('.Team', 1000);
       playersTeams[team].forEach(player => {
         browser
@@ -120,9 +120,9 @@ module.exports = {
 
   'Look at the Players' : (browser) => {
   browser
-    .click('li[class~=the-night-watch]>a')
+    .click('tr[class~=the-night-watch]>td>a')
     .waitForElementVisible('.Team', 1000)
-    .click('li[class~=sam-vimes]>a')
+    .click('div[class~=player-sam-vimes]>div>div')
     .waitForElementVisible('.Player', 1000)
     .saveScreenshot(dir + 'Sam vimes Profile.png')
     .end();
