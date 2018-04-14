@@ -15,6 +15,12 @@ public class TeamView {
     private String name;
     private List<PlayerViewSummary> players;
     private List<GameViewSummary> games;
+    private Integer pinsFor;
+    private Integer pinsAgainst;
+    private Integer highHandicapGame;
+    private Integer highHandicapSeries;
+    private Integer teamPoints;
+    private Integer totalPoints;
 
 
     public TeamView(Team team) {

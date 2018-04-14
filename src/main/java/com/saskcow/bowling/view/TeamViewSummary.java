@@ -9,6 +9,12 @@ import lombok.NoArgsConstructor;
 public class TeamViewSummary {
     private Long id;
     private String name;
+    private Integer pinsFor;
+    private Integer pinsAgainst;
+    private Integer highHandicapGame;
+    private Integer highHandicapSeries;
+    private Integer teamPoints;
+    private Integer totalPoints;
 
 
     public TeamViewSummary(Team team) {

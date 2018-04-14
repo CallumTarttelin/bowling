@@ -56,21 +56,9 @@ public class TeamRepositoryTest {
         game1.setPlayerGames(new LinkedList<>());
         game2.setPlayerGames(new LinkedList<>());
 
-        nightWatch.getPlayers().forEach(player -> {
-            player.addPlayerGame(new PlayerGame(player, nightWatch, game1));
-            player.addPlayerGame(new PlayerGame(player, nightWatch, game2));
-            game1.addPlayerGame(player.getPlayerGames().get(0));
-            game2.addPlayerGame(player.getPlayerGames().get(1));
-            nightWatch.addAllPlayerGame(player.getPlayerGames());
-        });
+        addPlayerGames(nightWatch, game1, game2);
 
-        cableStreet.getPlayers().forEach(player -> {
-            player.addPlayerGame(new PlayerGame(player, cableStreet, game1));
-            player.addPlayerGame(new PlayerGame(player, cableStreet, game2));
-            game1.addPlayerGame(player.getPlayerGames().get(0));
-            game2.addPlayerGame(player.getPlayerGames().get(1));
-            cableStreet.addAllPlayerGame(player.getPlayerGames());
-        });
+        addPlayerGames(cableStreet, game1, game2);
 
         cableStreet.getPlayerGames().stream().filter(playerGame -> playerGame.getGame() == game1).forEach(playerGame -> {
             playerGame.addScore(new Score(playerGame, 50));
@@ -103,6 +91,16 @@ public class TeamRepositoryTest {
 
         this.cableStreet = teamRepository.save(cableStreet);
 
+    }
+
+    private void addPlayerGames(Team cableStreet, Game game1, Game game2) {
+        cableStreet.getPlayers().forEach(player -> {
+            player.addPlayerGame(new PlayerGame(player, cableStreet, game1));
+            player.addPlayerGame(new PlayerGame(player, cableStreet, game2));
+            game1.addPlayerGame(player.getPlayerGames().get(0));
+            game2.addPlayerGame(player.getPlayerGames().get(1));
+            cableStreet.addAllPlayerGame(player.getPlayerGames());
+        });
     }
 
     @Test

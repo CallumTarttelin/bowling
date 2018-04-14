@@ -38,6 +38,10 @@ public class PlayerController {
         }
         Player player = optionalPlayer.get();
         PlayerView playerView = new PlayerView(player);
+        playerView.setHighGame(repo.highGame(player.getId()));
+        playerView.setHighSeries(repo.highSeries(player.getId()));
+        playerView.setLowGame(repo.lowGame(player.getId()));
+        playerView.setLowSeries(repo.lowSeries(player.getId()));
         return ResponseEntity.ok(playerView);
     }
 

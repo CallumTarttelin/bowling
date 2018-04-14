@@ -43,7 +43,6 @@ public class PlayerGameController {
         Optional<Player> optionalPlayer2 = playerRepository.findById(playerGameRest.getPlayerIds().get(2));
         Optional<Team> optionalTeam = teamRepository.findById(playerGameRest.getTeamId());
         Optional<Game> optionalGame = gameRepository.findById(playerGameRest.getGameId());
-
         if (! optionalGame.isPresent() || ! optionalPlayer0.isPresent() || ! optionalPlayer1.isPresent() || ! optionalPlayer2.isPresent() || ! optionalTeam.isPresent()){
             return ResponseEntity.badRequest().build();
         }
@@ -52,6 +51,9 @@ public class PlayerGameController {
         Player player2 = optionalPlayer2.get();
         Team team = optionalTeam.get();
         Game game = optionalGame.get();
+        if(game.getPlayerGames().size() > 3) {
+            return ResponseEntity.badRequest().build();
+        }
 
         PlayerGame playerGame0 = repo.save(new PlayerGame(player0, team, game));
         PlayerGame playerGame1 = repo.save(new PlayerGame(player1, team, game));

@@ -16,6 +16,10 @@ public class PlayerView {
     private String name;
     private Integer handicap;
     private List<PlayerGameViewSummary> recentGames;
+    private Integer highGame;
+    private Integer lowGame;
+    private Integer highSeries;
+    private Integer lowSeries;
 
     public PlayerView(Player player){
         this.id = player.getId();

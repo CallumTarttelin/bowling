@@ -38,6 +38,12 @@ public class TeamController {
         }
         Team team = optionalTeam.get();
         TeamView teamView = new TeamView(team);
+        teamView.setPinsFor(repo.pinsFor(team.getId()));
+        teamView.setPinsAgainst(repo.pinsAgainst(team.getId()));
+        teamView.setHighHandicapGame(repo.highHandicapGame(team.getId()));
+        teamView.setHighHandicapSeries(repo.highHandicapSeries(team.getId()));
+        teamView.setTeamPoints(repo.teamPoints(team.getId()));
+        teamView.setTotalPoints(repo.totalPoints(team.getId()));
         return ResponseEntity.ok(teamView);
     }
 

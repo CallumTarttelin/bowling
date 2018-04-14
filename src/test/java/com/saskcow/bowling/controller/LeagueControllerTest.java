@@ -6,6 +6,7 @@ import com.saskcow.bowling.domain.Rota;
 import com.saskcow.bowling.domain.Team;
 import com.saskcow.bowling.repository.LeagueRepository;
 import com.saskcow.bowling.repository.RotaRepository;
+import com.saskcow.bowling.repository.TeamRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,11 +43,13 @@ public class LeagueControllerTest {
     private LeagueRepository repo;
     @Mock
     private RotaRepository rotaRepository;
+    @Mock
+    private TeamRepository teamRepository;
     private MockMvc mockMvc;
 
     @Before
     public void setUp(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new LeagueController(repo, rotaRepository))
+        mockMvc = MockMvcBuilders.standaloneSetup(new LeagueController(repo, rotaRepository, teamRepository))
                 .apply(documentationConfiguration(this.restDocumentation))
                 .build();
     }
