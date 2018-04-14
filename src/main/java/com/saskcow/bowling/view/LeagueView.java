@@ -15,7 +15,7 @@ public class LeagueView {
     private Long id;
     private String name;
     private Long rotaId;
-    private List<TeamViewSummary> teams;
+    private List<TeamViewLeague> teams;
     private List<GameViewSummary> games;
 
 
@@ -23,7 +23,7 @@ public class LeagueView {
         this.name = league.getName();
         this.id = league.getId();
         this.rotaId = league.getRota().getId();
-        this.teams = league.getTeams() == null ? new LinkedList<>() : league.getTeams().stream().map(TeamViewSummary::new).collect(Collectors.toList());
+        this.teams = league.getTeams() == null ? new LinkedList<>() : league.getTeams().stream().map(TeamViewLeague::new).collect(Collectors.toList());
         this.games = league.getGames() == null ? new LinkedList<>() : league.getGames().stream().map(GameViewSummary::new).collect(Collectors.toList());
     }
 }

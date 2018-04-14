@@ -28,6 +28,14 @@
     color: red;
 }
 
+.invis {
+    border: 0;
+}
+
+.Stats {
+    table-layout: fixed;
+}
+
 table, th, td {
     border: 1px solid black;
 }

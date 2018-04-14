@@ -46,12 +46,39 @@ class League extends React.Component {
           <h2>{this.state.name}</h2>
           <Link to={"/league"} className={"back"}>Back</Link>
 
-          <h3>Teams</h3>
-          <ul className={"Teams"}>
-            {this.state.teams.map(team => (
-              <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary>
+          <h3>Team Standings</h3>
+          <table className={"Teams"}>
+            <thead>
+              <tr>
+                <th width="5%">Position</th>
+                <th width="20%">Team</th>
+                <th width="10%">Games</th>
+                <th width="10%">Pins For</th>
+                <th width="10%">Pins Against</th>
+                <th width="10%">HHG</th>
+                <th width="10%">HHS</th>
+                <th width="10%">Team Pts</th>
+                <th width="10%">Total Pts</th>
+                <th width="5%" className={"invis"} />
+              </tr>
+            </thead>
+            {this.state.teams.map((team, index) => (
+              <TeamSummary
+                key={team.id}
+                id={team.id}
+                position={index + 1}
+                numGames={team.numGames !== null ? team.numGames : "-"}
+                pinsFor={team.pinsFor !== null ? team.pinsFor : "-"}
+                pinsAgainst={team.pinsAgainst !== null ? team.pinsAgainst : "-"}
+                highHandicapGame={team.highHandicapGame !== null ? team.highHandicapGame : "-"}
+                highHandicapSeries={team.highHandicapSeries !== null ? team.highHandicapSeries : "-"}
+                teamPoints={team.teamPoints !== null ? team.teamPoints : "-"}
+                totalPoints={team.totalPoints !== null ? team.totalPoints : "-"}
+              >
+                {team.name}
+              </TeamSummary>
             ))}
-          </ul>
+          </table>
           <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
 
           <h3>Games</h3>

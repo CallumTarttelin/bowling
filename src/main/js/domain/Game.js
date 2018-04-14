@@ -154,20 +154,20 @@ class Game extends React.Component {
         <tr>
           <td rowSpan={2}>{playerGame.handicap}</td>
           <td rowSpan={2}>{playerGame.player.name}</td>
-          <td>{Number.isInteger(playerGame.scores[0]) ? playerGame.scores[0].scratch : ""}</td>
-          <td>{Number.isInteger(playerGame.scores[0]) ? playerGame.scores[0].handicapped : ""}</td>
-          <td>{Number.isInteger(playerGame.scores[1]) ? playerGame.scores[1].scratch : ""}</td>
-          <td>{Number.isInteger(playerGame.scores[1]) ? playerGame.scores[1].handicapped : ""}</td>
-          <td>{Number.isInteger(playerGame.scores[2]) ? playerGame.scores[2].scratch : ""}</td>
-          <td>{Number.isInteger(playerGame.scores[2]) ? playerGame.scores[2].handicapped : ""}</td>
+          <td>{playerGame.scores[0] !== null ? playerGame.scores[0].scratch : ""}</td>
+          <td>{playerGame.scores[0] !== null ? playerGame.scores[0].handicapped : ""}</td>
+          <td>{playerGame.scores[1] !== null ? playerGame.scores[1].scratch : ""}</td>
+          <td>{playerGame.scores[1] !== null ? playerGame.scores[1].handicapped : ""}</td>
+          <td>{playerGame.scores[2] !== null ? playerGame.scores[2].scratch : ""}</td>
+          <td>{playerGame.scores[2] !== null ? playerGame.scores[2].handicapped : ""}</td>
           <td>totals</td>
           <td>totals</td>
           <td rowSpan={2}>Points</td>
         </tr>
         <tr>
-          <td colSpan={2}>{Number.isInteger(playerGame.scores[0]) ? playerGame.scores[0].score : ""}</td>
-          <td colSpan={2}>{Number.isInteger(playerGame.scores[1]) ? playerGame.scores[1].score : ""}</td>
-          <td colSpan={2}>{Number.isInteger(playerGame.scores[2]) ? playerGame.scores[2].score : ""}</td>
+          <td colSpan={2}>{playerGame.scores[0] !== null ? playerGame.scores[0].score : ""}</td>
+          <td colSpan={2}>{playerGame.scores[1] !== null ? playerGame.scores[1].score : ""}</td>
+          <td colSpan={2}>{playerGame.scores[2] !== null ? playerGame.scores[2].score : ""}</td>
           <td colSpan={2}>totals</td>
         </tr>
         </tbody>

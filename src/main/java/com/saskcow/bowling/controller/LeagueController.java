@@ -67,7 +67,7 @@ public class LeagueController {
             team.setTeamPoints(teamRepository.teamPoints(team.getId()));
             team.setTotalPoints(teamRepository.totalPoints(team.getId()));
         });
-        leagueView.getTeams().sort(Comparator.comparing(team -> team.getTotalPoints() != null ? team.getTotalPoints() : 0));
+        leagueView.getTeams().sort(Comparator.comparing(team -> team.getTotalPoints() != null ? -team.getTotalPoints() : 0));
         return ResponseEntity.ok(leagueView);
     }
 

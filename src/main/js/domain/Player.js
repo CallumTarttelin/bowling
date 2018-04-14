@@ -9,7 +9,7 @@ class Player extends React.Component {
     super();
     this.state = {status: "Loading"};
     this.getPlayer = this.getPlayer.bind(this);
-    this.getPlayer(props.match.params.id);
+    this.getPlayer(props.id);
   }
 
   getPlayer(id) {
@@ -21,7 +21,11 @@ class Player extends React.Component {
           name: response.data.name,
           team: response.data.team,
           handicap: response.data.handicap,
-          recentGames: response.data.recentGames
+          recentGames: response.data.recentGames,
+          highGame: response.data.highGame,
+          highSeries: response.data.highSeries,
+          lowGame: response.data.lowGame,
+          lowSeries: response.data.lowSeries
         })
       })
       .catch(error => {
@@ -41,22 +45,33 @@ class Player extends React.Component {
     if(this.state.status === "OK") {
       return (
         <div className={'Player'}>
-          <h2>{this.state.name}</h2>
-          <span className={"back"}><Link to={"/team/" + this.state.team.id} >{this.state.team.name}</Link></span>
           <table>
             <thead>
               <tr>
-                <th colSpan={2}>{this.state.handicap}</th>
-                <th colSpan={9}>{this.state.name}</th>
+                <th rowSpan={2} colSpan={4}><h2>{this.state.name}</h2></th>
+                <th colSpan={2}>Team</th>
+                <th>Handicap</th>
+                <th>High Game</th>
+                <th>High Series</th>
+                <th>Low Game</th>
+                <th>Low Series</th>
               </tr>
               <tr>
-                <th>Date</th>
-                <th>Opposition</th>
-                <th colSpan={2}>Set 1</th>
-                <th colSpan={2}>Set 2</th>
-                <th colSpan={2}>Set 3</th>
-                <th colSpan={2}>Total</th>
-                <th>Points</th>
+                <td colSpan={2}><span className={"back"}><Link to={"/team/" + this.state.team.id} >{this.state.team.name}</Link></span></td>
+                <td>{Number.isInteger(this.state.handicap) ? this.state.handicap : "-"}</td>
+                <td>{Number.isInteger(this.state.highGame) ? this.state.highGame : "-"}</td>
+                <td>{Number.isInteger(this.state.highSeries) ? this.state.highSeries : "-"}</td>
+                <td>{Number.isInteger(this.state.lowGame) ? this.state.lowGame : "-"}</td>
+                <td>{Number.isInteger(this.state.lowSeries) ? this.state.lowSeries : "-"}</td>
+              </tr>
+              <tr>
+                <th width="19%">Date</th>
+                <th width="19%">Opposition</th>
+                <th width="14%" colSpan={2}>Set 1</th>
+                <th width="14%" colSpan={2}>Set 2</th>
+                <th width="14%" colSpan={2}>Set 3</th>
+                <th width="14%" colSpan={2}>Total</th>
+                <th width="6%">Points</th>
               </tr>
             </thead>
             {this.state.recentGames.map(game => (
