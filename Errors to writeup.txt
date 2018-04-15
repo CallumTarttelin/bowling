@@ -10,7 +10,7 @@ forgot to mock function nullpointer
 
 no /add endpoint
 
-Using Collectors.emptyList not LinkedList so no add
+* Using Collectors.emptyList not LinkedList so no add
 
 incorrect api path 404 / 405
 
