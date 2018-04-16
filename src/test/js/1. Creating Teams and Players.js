@@ -7,16 +7,16 @@ module.exports = {
       // Give auth if required
       .waitForElementVisible('body', 2000)
       .waitForElementVisible('.Leagues', 2000)
-      .saveScreenshot(dir + 'Before any data entry.png')
+      .saveScreenshot(dir + '01 - Before any data entry.png')
       .click('button[class~=add]')
       .waitForElementVisible('input[id=LeagueName]', 2000)
-      .saveScreenshot(dir + 'Click add a League button.png')
+      .saveScreenshot(dir + '02 - Click add a League button.png')
       .setValue('input[id=LeagueName]', 'City Watch')
-      .saveScreenshot(dir + 'Add the name of the League.png')
+      .saveScreenshot(dir + '03 - Add the name of the League.png')
       .click('button[class~=submitForm]')
       .waitForElementVisible('.Leagues', 2000)
       .assert.containsText('.Leagues', 'City Watch')
-      .saveScreenshot(dir + 'Submit the form to add the league.png')
+      .saveScreenshot(dir + '04 - Submit the form to add the league.png')
 
       .click('button[class~=add]')
       .waitForElementVisible('input[id=LeagueName]', 2000)
@@ -24,7 +24,7 @@ module.exports = {
       .click('button[class~=submitForm]')
       .waitForElementVisible('.Leagues', 2000)
       .assert.containsText('.Leagues', 'The Disc')
-      .saveScreenshot(dir + 'Add another League.png');
+      .saveScreenshot(dir + '05 - Add another League.png');
   },
 
   'Add some Teams to the City Watch' : (browser) => {
@@ -32,17 +32,17 @@ module.exports = {
       .click('li[class~=city-watch]>a')
       .waitForElementVisible('.League', 2000)
       .assert.containsText('.App-title', 'City Watch')
-      .saveScreenshot(dir + 'Click on the League to view the League page.png')
+      .saveScreenshot(dir + '06 - Click on the League to view the League page.png')
 
       .click('button[class~=addTeam]')
       .waitForElementVisible('input[id=TeamName]', 2000)
-      .saveScreenshot(dir + 'Click on the add a Team button, to add a Team.png')
+      .saveScreenshot(dir + '07 - Click on the add a Team button, to add a Team.png')
       .setValue('input[id=TeamName]', 'The Night Watch')
-      .saveScreenshot(dir + 'Enter the Team name.png')
+      .saveScreenshot(dir + '08 - Enter the Team name.png')
       .click('button[class~=submitForm]')
       .waitForElementVisible('.League', 2000)
       .assert.containsText('.Teams', 'The Night Watch')
-      .saveScreenshot(dir + 'One Team added to the League.png')
+      .saveScreenshot(dir + '09 - One Team added to the League.png')
 
       .click('button[class~=addTeam]')
       .waitForElementVisible('input[id=TeamName]', 2000)
@@ -70,24 +70,24 @@ module.exports = {
       .assert.containsText('.Teams', 'Cable Street Particulars')
       .assert.containsText('.Teams', 'Pseudopolis Yard')
 
-      .saveScreenshot(dir + 'Added all the Teams now, can\'t play with one team.png');
+      .saveScreenshot(dir + '10 - Added all the Teams now, can\'t play with one team.png');
   },
 
   'Add some Players to these Teams' : (browser) => {
     browser
       .click('tr[class~=the-night-watch] a')
       .waitForElementVisible('.Team', 2000)
-      .saveScreenshot(dir + 'Click a team to go to the team page.png')
+      .saveScreenshot(dir + '11 - Click a team to go to the team page.png')
 
       .click('button[class~=addPlayer]')
-      .saveScreenshot(dir + 'Click add a Player to go to the add a player page.png')
+      .saveScreenshot(dir + '12 - Click add a Player to go to the add a player page.png')
       .waitForElementVisible('input[id=PlayerName]', 2000)
       .setValue('input[id=PlayerName]', 'Sam Vimes')
-      .saveScreenshot(dir + 'Insert desired Player name into the input.png')
+      .saveScreenshot(dir + '13 - Insert desired Player name into the input.png')
       .click('button[class~=submitForm')
       .waitForElementVisible('.Team', 2000)
       .assert.containsText('.Players', 'Sam Vimes')
-      .saveScreenshot(dir + 'Submit the form to finish adding player.png')
+      .saveScreenshot(dir + '14 - Submit the form to finish adding player.png')
       .click('.back');
 
     const playersTeams = {the_night_watch: ["Carrot Ironfoundersson", "Nobby Nobbs", "Fred Colon"],
@@ -112,7 +112,7 @@ module.exports = {
           .assert.containsText('.Players', player)
       });
       browser
-        .saveScreenshot(dir + 'Added the rest of the Players to ' + team + '.png')
+        .saveScreenshot(dir + '15 - Added the rest of the Players to ' + team + '.png')
         .click('.back')
         .waitForElementVisible('.League', 2000);
     }
@@ -125,7 +125,7 @@ module.exports = {
     .click('div[class~=player-sam-vimes]>div>div')
     .waitForElementVisible('.Player', 2000)
     .pause(500)
-    .saveScreenshot(dir + 'Sam vimes Profile.png')
+    .saveScreenshot(dir + '16 - Sam vimes Profile.png')
     .end();
   }
 

@@ -9,22 +9,22 @@ module.exports = {
       .waitForElementVisible('.Leagues', 2000)
       .click('li[class~=city-watch]>a')
       .waitForElementVisible('.League', 2000)
-      .saveScreenshot(dir + 'The Day Watch no longer want to participate.png')
+      .saveScreenshot(dir + '01 - The Day Watch no longer want to participate.png')
       .click('button[name=delete-the-day-watch]')
       .waitForElementNotPresent('tr[class~=the-day-watch]', 2000)
-      .saveScreenshot(dir + 'Team Deleted.png')
+      .saveScreenshot(dir + '02 - Team Deleted.png')
   },
 
   'League Over' : browser => {
     browser
       .click('.back')
       .waitForElementVisible('.Leagues', 2000)
-      .saveScreenshot(dir + 'Leagues both over.png')
+      .saveScreenshot(dir + '03 - Leagues both over.png')
       .click('button[name=delete-city-watch]')
       .waitForElementNotPresent('li[class~=city-watch]', 2000)
       .click('button[name=delete-the-disc]')
       .waitForElementNotPresent('li[class~=the-disc]', 2000)
-      .saveScreenshot(dir + 'Leagues deleted.png')
+      .saveScreenshot(dir + '04 - Leagues deleted.png')
       .end();
   }
 };
