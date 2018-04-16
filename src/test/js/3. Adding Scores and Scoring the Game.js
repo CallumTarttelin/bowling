@@ -60,8 +60,6 @@ module.exports = {
       .click('#scoreGame')
       .waitForElementVisible('.winner, .loser', 2000)
       .saveScreenshot(dir + 'All scores calculated, winner and loser selected.png')
-      .click('.App-title a')
-      .waitForElementVisible('.Team', 2000)
       .click('.back')
       .waitForElementVisible('.League', 2000)
       .assert.containsText('.Games', 'won!')

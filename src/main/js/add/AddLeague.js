@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Button, TextField} from 'material-ui';
+import {Link} from "react-router-dom";
 
 class AddLeague extends React.Component {
   constructor() {
@@ -28,15 +29,17 @@ class AddLeague extends React.Component {
   }
 
   updateName(event) {
-    console.log(event.target);
-    console.log(event.target.id);
     this.setState({name: event.target.value})
   }
 
   render() {
     return (
       <div className={"AddScreen"}>
-        <h1>Add a league!</h1>
+        <header className="App-header">
+          <Link className={"back"} to={"/league/"}><Button variant={"raised"}>Back to Leagues</Button></Link>
+          <h1 className="App-title">Add a League!</h1>
+        </header>
+
         <form className={"theLeagueForm"} onSubmit={this.submit}>
           <TextField
             id="LeagueName"
@@ -44,6 +47,7 @@ class AddLeague extends React.Component {
             placeholder="League Name"
             className={"LeagueNameInput"}
             onChange={this.updateName}
+            autoFocus={true}
           /> <br />
           <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
         </form>

@@ -1,8 +1,8 @@
-.add, .addTeam {
+/*.add, .addTeam {
     position: absolute;
     bottom: -5px;
     right: -10px;
-}
+}*/
 
 .Leagues, .Loading{
     position: absolute;
@@ -11,13 +11,28 @@
 
 .App-header {
     background-color: #222;
+    height: 75px;
+    padding: 20px;
+    color: white;
+}
+
+.Game .App-header {
+    background-color: #222;
     height: 150px;
     padding: 20px;
     color: white;
 }
 
 .App-title {
+    font-size: 3em;
+    width: 80%;
+    display: inline-block;
+}
+
+.App-title-game {
     font-size: 1.5em;
+    width: 80%;
+    display: inline-block;
 }
 
 .App-intro {
@@ -34,6 +49,10 @@
 
 .Stats {
     table-layout: fixed;
+}
+
+.back {
+    float: right;
 }
 
 table, th, td {

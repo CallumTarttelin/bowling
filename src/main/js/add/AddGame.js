@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Button, CircularProgress, InputLabel, MenuItem, Select, TextField} from 'material-ui';
+import {Link} from "react-router-dom";
 
 class AddGame extends React.Component {
   constructor(props) {
@@ -70,9 +71,12 @@ class AddGame extends React.Component {
     if(this.state.status === "OK") {
       return (
         <div className={"AddScreen"}>
-          <h1>Add game {this.state.name} to {this.state.leagueName}!</h1>
-          <form className={"theGameForm"} onSubmit={this.submit} noValidate>
+          <header className="App-header">
+            <Link className={"back"} to={"/league/" + this.state.id}><Button variant={"raised"}>{this.state.name}</Button></Link>
+            <h1 className="App-title">Add game {this.state.name} to {this.state.leagueName}!</h1>
+          </header>
 
+          <form className={"theGameForm"} onSubmit={this.submit} noValidate>
 
             <TextField
               id="Venue"
@@ -80,6 +84,7 @@ class AddGame extends React.Component {
               placeholder="Venue"
               className={"VenueInput"}
               onChange={this.updateVenue}
+              autoFocus={true}
             />
 
             <br />

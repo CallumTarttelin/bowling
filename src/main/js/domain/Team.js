@@ -58,8 +58,12 @@ class Team extends React.Component {
     if(this.state.status === "OK") {
       return (
         <div className={'Team'}>
-          <h2>{this.state.name}</h2>
-          <span className={"back"}><Link to={"/league/" + this.state.league.id}>{this.state.league.name}</Link></span>
+
+          <header className="App-header">
+            <Link className={"back"} to={"/league/" + this.state.league.id}><Button variant={"raised"}>{this.state.league.name}</Button></Link>
+            <h1 className="App-title">{this.state.name}</h1>
+          </header>
+
           <table className={"Stats"}>
             <thead>
             <tr>
@@ -98,7 +102,7 @@ class Team extends React.Component {
               </ExpansionPanel>
             ))}
           </ul>
-          <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"raised"} color={"primary"}>Add A Player</Button></Link>
+          <Link to={{pathname: ("/team/" + this.state.id + '/add-player'), state: {teamName: this.state.name}}}><Button className={"addPlayer"} variant={"raised"} color={"primary"}>Add A Player</Button></Link>
           <h3>Games</h3>
           <ul className={"Games"}>
             {this.state.games.map(game => (

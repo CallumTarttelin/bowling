@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios/index";
 import {CircularProgress} from "material-ui";
 import {Link} from "react-router-dom";
+import Delete from "../Delete";
 
 class Player extends React.Component {
 
@@ -55,6 +56,7 @@ class Player extends React.Component {
                 <th>High Series</th>
                 <th>Low Game</th>
                 <th>Low Series</th>
+                <th className={"invis"} />
               </tr>
               <tr>
                 <td colSpan={2}><span className={"back"}><Link to={"/team/" + this.state.team.id} >{this.state.team.name}</Link></span></td>
@@ -63,6 +65,7 @@ class Player extends React.Component {
                 <td>{Number.isInteger(this.state.highSeries) ? this.state.highSeries : "-"}</td>
                 <td>{Number.isInteger(this.state.lowGame) ? this.state.lowGame : "-"}</td>
                 <td>{Number.isInteger(this.state.lowSeries) ? this.state.lowSeries : "-"}</td>
+                <td className={"invis"}><Delete id={this.state.id} type={'player'} name={this.state.name}/></td>
               </tr>
               <tr>
                 <th width="19%">Date</th>

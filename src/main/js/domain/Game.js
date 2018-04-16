@@ -254,7 +254,8 @@ class Game extends React.Component {
       return (
         <div className="Game">
           <header className="App-header">
-            <h1 className="App-title"> <Link to={"/team/" + this.state.game.teams[0].id}>{this.state.game.teams[0].name}</Link> vs <Link to={"/team/" + this.state.game.teams[1].id}>{this.state.game.teams[1].name}</Link></h1>
+            <Link className={"back"} to={"/league/" + this.state.game.league.id}><Button variant={"raised"}>{this.state.game.league.name}</Button></Link>
+            <h1 className="App-title-game"> <Link to={"/team/" + this.state.game.teams[0].id}>{this.state.game.teams[0].name}</Link> vs <Link to={"/team/" + this.state.game.teams[1].id}>{this.state.game.teams[1].name}</Link></h1>
             <h3>{new Date(Date.parse(this.state.game.time)).toLocaleString('en-GB', { timeZone: 'UTC' })} at {this.state.game.venue}</h3>
           </header>
           {this.table()}

@@ -20,15 +20,8 @@ class LeagueList extends React.Component {
         this.setState({status: "OK", leagues: response.data})
       })
       .catch(error => {
-        if (error.response) {
-          this.setState({status: "error", err: error.response.data});
-        } else if (error.request) {
-          this.setState({status: "error", err: "No Response"});
-          console.log(error.request);
-        } else {
-          this.setState({status: "error", err: "Error with Request"});
-          console.log('Error', error.message);
-        }
+        this.setState({status: "Error"});
+        console.log(error);
       });
   }
 
@@ -54,16 +47,21 @@ class LeagueList extends React.Component {
       )
     } else {
       return (
-        <div className={"Leagues"}>
-          <ul>
-            {this.state.leagues.map(league => (
-              <div key={league.id}>
-                <LeagueSummary id={league.id}>{league.name}</LeagueSummary>
-              </div>
-            ))}
-          </ul>
-          <Button variant={"raised"} color={"primary"} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
-          <Link to={"/add/league"}><Button className={'add'} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+        <div className={"App"}>
+          <header className="App-header">
+            <h1 className="App-title">Bowling Leagues!</h1>
+          </header>
+          <div className={"Leagues"}>
+            <ul>
+              {this.state.leagues.map(league => (
+                <div key={league.id}>
+                  <LeagueSummary id={league.id}>{league.name}</LeagueSummary>
+                </div>
+              ))}
+            </ul>
+            <Button variant={"raised"} color={"primary"} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
+            <Link to={"/add/league"}><Button className={'add'} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+          </div>
         </div>
       )
     }

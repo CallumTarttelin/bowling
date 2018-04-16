@@ -43,8 +43,10 @@ class League extends React.Component {
       return (
         <div className={'League'}>
 
-          <h2>{this.state.name}</h2>
-          <Link to={"/league"} className={"back"}>Back</Link>
+          <header className="App-header">
+            <Link className={"back"} to={"/league/"}><Button variant={"raised"}>Back to Leagues</Button></Link>
+            <h1 className="App-title">{this.state.name}</h1>
+          </header>
 
           <h3>Team Standings</h3>
           <table className={"Teams"}>
@@ -79,7 +81,7 @@ class League extends React.Component {
               </TeamSummary>
             ))}
           </table>
-          <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
+          <Link to={{pathname: ("/league/" + this.state.id + '/add-team'), state: {leagueName: this.state.name}}}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
 
           <h3>Games</h3>
           <ul className={"Games"}>

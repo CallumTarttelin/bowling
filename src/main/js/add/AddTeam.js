@@ -1,12 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import {Button, TextField} from 'material-ui';
+import {Link} from "react-router-dom";
 
-class AddLeague extends React.Component {
+class addTeam extends React.Component {
   constructor(props) {
     super();
     this.state = ({name: "No Name", leagueId: props.match.params.id});
     this.submit = this.submit.bind(this);
+    this.getLeague = this.getLeague.bind(this);
     this.updateName = this.updateName.bind(this);
   }
 
@@ -31,10 +33,27 @@ class AddLeague extends React.Component {
     this.setState({name: event.target.value})
   }
 
+  getLeague(id) {
+    axios.get('/api/league/' + id)
+      .then(response => {
+        this.setState({leagueName: response.data.name})
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  };
+
   render() {
+    if (this.state.leagueName === null || this.state.leagueName === undefined) {
+      this.getLeague(this.state.leagueId)
+    }
     return (
       <div className={"AddScreen"}>
-        <h1>Add a Team to the League!</h1>
+        <header className="App-header">
+          <Link className={"back"} to={"/league/" + this.state.leagueId}><Button variant={"raised"}>{!(this.state.leagueName === null || this.state.leagueName === undefined) ? this.state.leagueName : "the League"}</Button></Link>
+          <h1 className="App-title">Add a Team to {!(this.state.leagueName === null || this.state.leagueName === undefined) ? this.state.leagueName : "the League"}</h1>
+        </header>
+
         <form className={"theTeamForm"} onSubmit={this.submit}>
           <TextField
             id="TeamName"
@@ -42,6 +61,7 @@ class AddLeague extends React.Component {
             placeholder="Team Name"
             className={"TeamNameInput"}
             onChange={this.updateName}
+            autoFocus={true}
           /> <br />
           <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
         </form>
@@ -50,4 +70,4 @@ class AddLeague extends React.Component {
   }
 }
 
-export default AddLeague;
+export default addTeam;
