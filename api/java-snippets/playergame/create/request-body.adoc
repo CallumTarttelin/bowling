@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"playerIds": [1, 2, 3], "teamId": "1", "gameId": "1"}
+----

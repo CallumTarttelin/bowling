@@ -1,0 +1,212 @@
+=== 5. Games Front and Back
+
+
+==== Nightwatch Tests
+
+==== errors
+'''
+Test Results
+
+'''
+
+
+'''
+Screenshots
+
+'''
+
+
+
+
+==== TestPlayers
+'''
+Test Results
+
+'''
+
+==== TestPlayers
+4 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestPlayers |Setup |7.269 |6
+|TestPlayers |Test Adding Players |4.508 |5
+|TestPlayers |Test Player |1.395 |2
+|TestPlayers |Deleting |3.799 |4
+|TestPlayers | |16.97  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.5-2 players
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestPlayers/5-2 players.png[5-2 players,pdfwidth=100%]
+
+.3-Add Player screen
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestPlayers/3-Add Player screen.png[3-Add Player screen,pdfwidth=100%]
+
+.2-Team view
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestPlayers/2-Team view.png[2-Team view,pdfwidth=100%]
+
+.1-init team
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestPlayers/1-init team.png[1-init team,pdfwidth=100%]
+
+.4-Sam Vimes in the Vimes
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestPlayers/4-Sam Vimes in the Vimes.png[4-Sam Vimes in the Vimes,pdfwidth=100%]
+
+.6-Mas Mives
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestPlayers/6-Mas Mives.png[6-Mas Mives,pdfwidth=100%]
+
+.7-Deleted Mives
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestPlayers/7-Deleted Mives.png[7-Deleted Mives,pdfwidth=100%]
+
+
+
+==== TestTeams
+'''
+Test Results
+
+'''
+
+==== TestTeams
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestTeams |Setup |4.887 |3
+|TestTeams |Test Adding Teams |4.564 |6
+|TestTeams |Deleting |3.800 |4
+|TestTeams | |13.25  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.5-2 teams
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestTeams/5-2 teams.png[5-2 teams,pdfwidth=100%]
+
+.6-Deleted swing
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
+
+.3-Add Team screen
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestTeams/3-Add Team screen.png[3-Add Team screen,pdfwidth=100%]
+
+.1-init league
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestTeams/1-init league.png[1-init league,pdfwidth=100%]
+
+.2-League view
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestTeams/2-League view.png[2-League view,pdfwidth=100%]
+
+.4-Sam Vimes in the watch
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestTeams/4-Sam Vimes in the watch.png[4-Sam Vimes in the watch,pdfwidth=100%]
+
+
+
+==== TestGames
+'''
+Test Results
+
+'''
+
+==== TestGames
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestGames |Setup |11.85 |16
+|TestGames |Test Adding Games |4.636 |4
+|TestGames |Cleanup |1.405 |1
+|TestGames | |17.89  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.1-init 4 teams
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestGames/1-init 4 teams.png[1-init 4 teams,pdfwidth=100%]
+
+.3-Added a game
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestGames/3-Added a game.png[3-Added a game,pdfwidth=100%]
+
+.2-Add Game Screen
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestGames/2-Add Game Screen.png[2-Add Game Screen,pdfwidth=100%]
+
+.filled in
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestGames/filled in.png[filled in,pdfwidth=100%]
+
+
+
+==== TestLeague
+'''
+Test Results
+
+'''
+
+==== TestLeague
+2 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestLeague |Test adding leagues |6.968 |5
+|TestLeague |Test removing leagues |2.531 |3
+|TestLeague | |9.499  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.5-Deleted daywatch
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
+
+.4-Second League
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
+
+.1-start
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestLeague/1-start.png[1-start,pdfwidth=100%]
+
+.3-Shows League
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
+
+.2-adding a league
+[caption="Testing set 5. Games Front and Back: "]
+image:test/5. Games Front and Back/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
+
+
+

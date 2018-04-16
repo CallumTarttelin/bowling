@@ -1,0 +1,165 @@
+=== 1. Teams Work
+
+
+==== JUnit Tests
+==== com.saskcow.bowling.repository.GameRepositoryTest
+1 tests, 0 failed, 0 errors,
+[cols="2,2,1",options="header",]
+|======================================
+|Classname |Name |Time 
+|com.saskcow.bowling.repository.GameRepositoryTest |thingsSaved_canBeRetrieved |0.067
+|com.saskcow.bowling.repository.GameRepositoryTest | |0.067
+|======================================
+
+
+
+
+==== com.saskcow.bowling.repository.LeagueRepositoryTest
+3 tests, 0 failed, 0 errors,
+[cols="2,2,1",options="header",]
+|======================================
+|Classname |Name |Time 
+|com.saskcow.bowling.repository.LeagueRepositoryTest |thingsSaved_canBeRetrieved |0.011
+|com.saskcow.bowling.repository.LeagueRepositoryTest |thingsSaved_canBeQueried |0.146
+|com.saskcow.bowling.repository.LeagueRepositoryTest |thingsSaved_canBeDeleted |0.032
+|com.saskcow.bowling.repository.LeagueRepositoryTest | |0.191
+|======================================
+
+
+
+
+==== com.saskcow.bowling.BowlingApplicationTests
+1 tests, 0 failed, 0 errors,
+[cols="2,2,1",options="header",]
+|======================================
+|Classname |Name |Time 
+|com.saskcow.bowling.BowlingApplicationTests |contextLoads |0.046
+|com.saskcow.bowling.BowlingApplicationTests | |0.046
+|======================================
+
+
+
+
+==== com.saskcow.bowling.controller.TeamControllerTest
+2 tests, 0 failed, 0 errors,
+[cols="2,2,1",options="header",]
+|======================================
+|Classname |Name |Time 
+|com.saskcow.bowling.controller.TeamControllerTest |deleteLeague_shouldDeleteLeague |0.036
+|com.saskcow.bowling.controller.TeamControllerTest |addLeague_shouldSaveTheCourse |0.076
+|com.saskcow.bowling.controller.TeamControllerTest | |0.112
+|======================================
+
+
+
+
+==== com.saskcow.bowling.controller.LeagueControllerTest
+3 tests, 0 failed, 0 errors,
+[cols="2,2,1",options="header",]
+|======================================
+|Classname |Name |Time 
+|com.saskcow.bowling.controller.LeagueControllerTest |deleteLeague_shouldDeleteLeague |0.22
+|com.saskcow.bowling.controller.LeagueControllerTest |getLeague_shouldFilter |0.126
+|com.saskcow.bowling.controller.LeagueControllerTest |addLeague_shouldSaveTheCourse |0.115
+|com.saskcow.bowling.controller.LeagueControllerTest | |0.462
+|======================================
+
+
+
+==== Nightwatch Tests
+
+==== TestTeams
+'''
+Test Results
+
+'''
+
+==== TestTeams
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestTeams |Setup |4.978 |3
+|TestTeams |Test Adding Teams |4.600 |6
+|TestTeams |Deleting |1.786 |4
+|TestTeams | |11.36  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.5-2 teams
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/5-2 teams.png[5-2 teams,pdfwidth=100%]
+
+.6-Deleted swing
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
+
+.3-Add Team screen
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/3-Add Team screen.png[3-Add Team screen,pdfwidth=100%]
+
+.1-init league
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/1-init league.png[1-init league,pdfwidth=100%]
+
+.2-League view
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/2-League view.png[2-League view,pdfwidth=100%]
+
+.4-Sam Vimes in the watch
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/4-Sam Vimes in the watch.png[4-Sam Vimes in the watch,pdfwidth=100%]
+
+
+
+==== TestLeague
+'''
+Test Results
+
+'''
+
+==== TestLeague
+2 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestLeague |Test adding leagues |7.651 |5
+|TestLeague |Test removing leagues |1.648 |3
+|TestLeague | |9.299  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.5-Deleted daywatch
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
+
+.4-Second League
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
+
+.1-start
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/1-start.png[1-start,pdfwidth=100%]
+
+.3-Shows League
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
+
+.2-adding a league
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
+
+
+

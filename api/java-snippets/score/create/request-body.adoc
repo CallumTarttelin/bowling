@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"playerGameId": "1", "scratch": "103", "handicap": "3"}
+----

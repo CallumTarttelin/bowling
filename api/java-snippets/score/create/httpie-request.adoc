@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"playerGameId": "1", "scratch": "103", "handicap": "3"}' | http POST 'http://localhost:8080/api/score' \
+    'Content-Type:application/json'
+----

@@ -1,4 +1,4 @@
 [source,options="nowrap"]
 ----
-{"league":{"id":1,"name":"Brian"},"id":1,"name":"Brian","players":null,"games":null}
+{"league":{"id":1,"name":"Brian"},"id":1,"name":"Brian","players":null,"games":null,"pinsFor":0,"pinsAgainst":0,"highHandicapGame":0,"highHandicapSeries":0,"teamPoints":0,"totalPoints":0}
 ----

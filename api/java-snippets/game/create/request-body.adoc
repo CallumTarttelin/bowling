@@ -1,4 +1,4 @@
 [source,options="nowrap"]
 ----
-{"time":"2018-02-18T12:22:54.174", "venue": "Brian Bowling Centre", "teamId1": "1", "teamId2": "2"}
+{"time":"2018-04-14T19:51:13.2", "venue": "Brian Bowling Centre", "rotaId": "1", "teamId1": "1", "teamId2": "2"}
 ----

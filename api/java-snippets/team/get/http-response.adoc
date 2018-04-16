@@ -2,7 +2,7 @@
 ----
 HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 84
+Content-Length: 187
 
-{"league":{"id":1,"name":"Brian"},"id":1,"name":"Brian","players":null,"games":null}
+{"league":{"id":1,"name":"Brian"},"id":1,"name":"Brian","players":null,"games":null,"pinsFor":0,"pinsAgainst":0,"highHandicapGame":0,"highHandicapSeries":0,"teamPoints":0,"totalPoints":0}
 ----

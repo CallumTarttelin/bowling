@@ -1,4 +1,4 @@
 [source,options="nowrap"]
 ----
-{"id":1,"name":"Brian","teams":[],"games":[]}
+{"id":1,"name":"Brian","rotaId":null,"teams":[{"id":null,"name":"Team Brian","pinsFor":0,"pinsAgainst":0,"highHandicapGame":0,"highHandicapSeries":0,"teamPoints":0,"totalPoints":0,"numGames":0}],"games":[]}
 ----

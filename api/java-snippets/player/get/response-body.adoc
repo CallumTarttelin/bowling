@@ -1,4 +1,4 @@
 [source,options="nowrap"]
 ----
-{"id":1,"team":{"id":1,"name":"Brian's Bowlers!"},"name":"Brian"}
+{"id":1,"team":{"id":1,"name":"Brian's Bowlers!"},"name":"Brian","handicap":0,"recentGames":null,"highGame":0,"lowGame":0,"highSeries":0,"lowSeries":0}
 ----

@@ -4,7 +4,7 @@
 :sectnums:
 
 == Api Docs
-General API stuff
+Api details on how mappings work and descriptions.
 
 === League API
 
@@ -76,27 +76,6 @@ include::java-snippets/player/delete/http-request.adoc[]
 include::java-snippets/player/delete/http-response.adoc[]
 Deletes the player.
 
-=== Team API
-The Team API is simpler than the league API due to a "LeagueView"
- returning a list of "TeamViewSummary" already,
-  this makes the use of a list redundant for the application.
-
-==== Create A Team
-include::java-snippets/team/create/http-request.adoc[]
-include::java-snippets/team/create/http-response.adoc[]
-The team creation takes a name for the team and a leagueid, to create a team with the league.
-
-==== Get A Team
-include::java-snippets/team/get/http-request.adoc[]
-include::java-snippets/team/get/http-response.adoc[]
-This returns one team based off of ID, a list is not necessary due to a league giving a list. +
-Returns a "TeamView"
-
-==== Delete A Team
-include::java-snippets/team/delete/http-request.adoc[]
-include::java-snippets/team/delete/http-response.adoc[]
-Deletes the team, does not delete if the team has games.
-
 === Game API
 Games between 2 teams, at a given venue and time
 
@@ -116,3 +95,34 @@ Returns a "GameView" should rarely be used as a league and a team shows games as
 include::java-snippets/game/delete/http-request.adoc[]
 include::java-snippets/game/delete/http-response.adoc[]
 Deletes the game.
+
+==== Complete A Game
+include::java-snippets/game/complete/http-request.adoc[]
+include::java-snippets/game/complete/http-response.adoc[]
+Scores the game so one team can win, adds points which count towards team and player stats.
+
+=== PlayerGame
+A playergame is what is created when a player is added to play in a game.
+
+==== Create 3 PlayerGames
+include::java-snippets/playergame/create/http-request.adoc[]
+include::java-snippets/playergame/create/http-response.adoc[]
+Creates 3 PlayerGames.
+
+==== Delete A PlayerGame
+include::java-snippets/playergame/delete/http-request.adoc[]
+include::java-snippets/playergame/delete/http-response.adoc[]
+Deletes one PlayerGame.
+
+=== Score API
+A Score is what contains a players scratch, handicap and points for each set in a game.
+
+==== Create A Score
+include::java-snippets/playergame/create/http-request.adoc[]
+include::java-snippets/playergame/create/http-response.adoc[]
+Creates a Score for a playerGame.
+
+==== Delete A Score
+include::java-snippets/playergame/delete/http-request.adoc[]
+include::java-snippets/playergame/delete/http-response.adoc[]
+Deletes the Score.

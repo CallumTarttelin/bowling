@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/api/playergame' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{"playerIds": [1, 2, 3], "teamId": "1", "gameId": "1"}'
+----

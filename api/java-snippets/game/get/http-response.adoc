@@ -2,7 +2,7 @@
 ----
 HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 162
+Content-Length: 177
 
-{"id":1,"time":"2018-02-18T12:22:54.174","teams":[{"id":1,"name":"Dave"},{"id":2,"name":"David"}],"venue":"Brian Bowling Centre","league":{"id":1,"name":"Brian"}}
+{"id":1,"time":"2018-04-14T19:51:13.2","teams":[{"id":1,"name":"Dave"},{"id":2,"name":"David"}],"venue":"Brian Bowling Centre","league":{"id":1,"name":"Brian"},"playerGames":[]}
 ----

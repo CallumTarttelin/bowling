@@ -11,10 +11,8 @@ Callum Tarttelin, 1164, 51617
 :toclevels: 3
 ifdef::backend-pdf[]
 :title-logo-image: image:other-pictures/bowling_ball.png[pdfwidth=4.25in,align=center]
-//:source-highlighter: rouge
-//:rouge-style: github
+
 :source-highlighter: pygments
-//:pygments-style: tango
 endif::[]
 // URIs:
 
@@ -49,7 +47,7 @@ The “blind” score is simply calculated by adding the bowler’s average to t
 Each week 3 bowlers per team take part and play 3 games each.  In reality, it is more complicated or flexible than this.  It could be that each game is played by a different bowler, in the event people get injured; so we need the flexibility for each game to be attributed to a different bowler with a different handicap.
 Example scoresheet (from the website)
 
-image::other-pictures/LeagueStandings.png[leagueTable,pdfwidth=100%]
+image::other-pictures/TeamVTeam.png[leagueTable,pdfwidth=100%]
 
 In the match above Lucy Scott is competing directly against David Henn (first bowler for each team).
 Their individual match is made up of 4 elements; game 1, game 2, game 3 and the series.  I currently record the scratch score (131 for Lucy and 108 for David), their handicap and the bowler name.  Once the handicap is added to the scratch score we get the handicapped score, this is what is compared to determine who won the points.  In this case Lucy’s handicapped score is 189 which beats David’s handicapped score of 163, so Lucy is awarded 2 points for game 1.  The points are awarded for games 2 and 3 and finally for the series totals.  In this instance because the scores are tied (534) they both are awarded 1 point.
@@ -60,7 +58,7 @@ The team total counts as another pseudo-bowler and is scored the same way – to
 The handicap score (meaning the bowlers actual or “scratch” score plus their handicap) is always used to work out who won/lost/tied.
 
 ==== League Standings
-image::other-pictures/TeamVTeam.png[leagueTable,pdfwidth=100%]
+image::other-pictures/LeagueStandings.png[leagueTable,pdfwidth=100%]
 
 The league table page shows
 
@@ -135,6 +133,20 @@ Game{
 }
 ----
 
+=== Database modelling
+.All objects
+[caption="Database modelling: "]
+image::other-pictures/database_planning.jpg[database,pdfwidth=100%]
+This was the initial modelling of the database. It shows the relationship between all the objects. User and Role are for
+security and will be added later than the others.
+
+=== Api planning
+An API should follow a pattern to be easy to predict where one can make or retrieve an object. I decided to have a base
+url for the back end of /api/ this allows me to change it and add it as new base url later and easily separate the front
+and back end usage of the application. Past this it makes sense that /{ObjectName}/{id} should be where one would get,
+delete or modify an object. Where many will need to be retrieved by a user, a /{ObjectName} should get all or all with
+certain criteria.
+
 === Technologies
 I will use springboot and java for the backend. I will use this as java runs well on many platforms. Springboot makes it easy for me to add things into the project.
 The front end will be written in React JS. I used this as it is very easy to find documentation and sources on how to write it. I will also use material design for styling.
@@ -153,24 +165,28 @@ To move players only a leagueAdmin can move them. +
 A shortcut should be made to use the API without a frontend to allow for scripts to do a task faster.
 
 === Research
-I did some research on web applications with data support. Spring boot with react seems to be a popular solution due to the support with both web controllers and also JPA support for sql databases. After modelling the database it appears that a relational database would be most fitting so I used a sql database in H2 as it is easy to setup in http://start.spring.io/ . I decided to use react despite facebook licensing due to it being a popular language with many examples online. React allows me to write JSX which is similar to HTML.
+I did some research on web applications with data support. Spring boot with react seems to be a popular solution due to
+the support with both web controllers and also JPA support for sql databases.
+After modelling the database it appears that a relational database would be most fitting so I used a sql database in H2
+as it is easy to setup in http://start.spring.io/. I decided to use react despite facebook licensing due to
+it being a popular language with many examples online. React allows me to write JSX which is similar to HTML.
 
 === Testing
-Testing will be automated by use of unit testing and nightwatch. +
-Nightwatch will be used in order to test the entire application by it's user interface and report on wheter or not it is working as intended. It will also take screenshots of the application to allow a developer to quickly look over these screenshots as opposed to having to navigate the website. This allows for quick testing of all versions without the necessity for user input. +
+Testing will largely be automated by use of unit testing and nightwatch. +
+Nightwatch will be used in order to test the entire application by it's user interface and report on whether or not it is working as intended. It will also take screenshots of the application to allow a developer to quickly look over these screenshots as opposed to having to navigate the website. This allows for quick testing of all versions without the necessity for user input. +
 Unit testing will be done to check the functionality of functions. If a function works correctly the test will pass and will then be reported as such. This allows for observation of individual functions to find where errors are occuring. +
 The data will then be written into the writeup by script in order to have a repeated structure of testing.
 
-=== Algorithms
-Adding a new season +
-Copy the old season as a league, change the start and end times, regenerate the rota, allow user to change the rest, Link to old season data.
+=== Ordering
+The project will start by laying out the backend for an object, like a league, and then there will be a front end
+implementation of the object. The ordering will be League, Team, Player, Match, Score then User and roles for security.
 
 == Development
 
 === Initial Setup
 Using IDEA and springboot I can generate a springboot project with certain libraries pre added.
 
-.New ProjectS
+.New Projects
 [caption="Step 1: "]
 image::dev-pictures/Setup1.png[leagueTable,pdfwidth=100%]
 
@@ -191,7 +207,7 @@ image::dev-pictures/Setup4.png[leagueTable,pdfwidth=100%]
 [caption="Step 5: "]
 image::dev-pictures/Setup5.png[leagueTable,pdfwidth=100%]
 
-This creates us a simple springboot project with a premade build.gradle and a BowlingApplication
+This creates us a simple springboot project with a pre-made build.gradle and a BowlingApplication
 and BowlingApplicationTests.
 
 Theses can be left alone for now
@@ -212,14 +228,10 @@ package com.saskcow.bowling.domain;
 
 import ...
 
-@Data
-// Creates a getter and setter for each property
-@Entity
-// JPA annotation, makes it good to store in a database
-@NoArgsConstructor
-// Creates a constructor with nothing
-@AllArgsConstructor
-// Creates a constructor with everything
+@Data // Creates a getter and setter for each property
+@Entity // JPA annotation, makes it good to store in a database
+@NoArgsConstructor // Creates a constructor with nothing
+@AllArgsConstructor // Creates a constructor with everything
 public class League {
     private @Id @GeneratedValue Long id;
     // Generate a long value to be used as ID, always unique
@@ -475,6 +487,8 @@ Create mappings for the creating, getting and removing leagues, these will be ca
 ==== LeagueControllerTest.java
 Inside the src/test/java I create a folder called controller, this is where I will put controller tests.
 It is important to test controllers as REST Apis should have consistent features.
+This helps decide what parts are important, here I identify that we need to be able to make, filter, retrieve and delete leagues
+as basic functionality.
 
 [source,java]
 ----
@@ -482,9 +496,7 @@ package com.saskcow.bowling.controller;
 
 import ...
 
-@RunWith(MockitoJUnitRunner.class)
-// This runs the tests with a testRunner, this allows assertions which would otherwise be not allowed
-// See Errors below for an example
+@RunWith(MockitoJUnitRunner.class) // This runs the tests with a testRunner, this allows assertions which would otherwise be not allowed
 public class LeagueControllerTest {
 
     @Mock
@@ -504,8 +516,11 @@ public class LeagueControllerTest {
     // Run this when running tests, ran by MockitoJUnitRunner
     public void addLeague_shouldSaveTheLeague() throws Exception {
         // Doesn't return anything, throws Exception if any part fails, calls test addLeague_shouldSaveTheLeague
-        League league = new League(1L, "Brian", null);
+        League league = new League(1L, "Brian", new LinkedList<>());
         // Create an instance of a League, the object from earlier
+        Team team = new Team("Team Brian", league);
+        league.addTeam(team);
+        // Give it a team, because leagues have those
         when(repo.save(isA(League.class))).thenReturn(league);
         // If someone saves a league, return a League, this is what the repo would do, but the League here is always the same
         when(repo.findOne(league.getId())).thenReturn(league);
@@ -582,7 +597,6 @@ public class LeagueControllerTest {
     public void deleteLeague_shouldDeleteLeague() throws Exception {
         doNothing().when(repo).delete(isA(Long.class));
         // When repo.delete is called with an ID, do nothing, nothing at all
-        // When this is missing NullPointerExceptions happen ******************************************
 
         mockMvc.perform(delete("/api/league/1"))
                 // Send a delete request
@@ -600,17 +614,2674 @@ this is fixed by creating the controller.
 .No Controller Exists
 image::error-pictures/no-controller.png[NoController,pdfwidth=100%]
 
-==== LeagueController
+==== LeagueController.java
+Next is to create the controller, this will route all requests concerning leagues. It will return ResponseEntity s
+this allows for HTTP codes such as 200 or 204 to be sent, as the tests expected
+
+[source,java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@Controller
+public class LeagueController {
+
+    private LeagueRepository repo;
+    // Has an instance of LeagueRepository
+
+    @Autowired
+    // Gets it from application context  and injects automatically
+    public LeagueController(LeagueRepository repo){
+        // Constructor sets repository from app context
+        this.repo = repo;
+    }
+
+    @RequestMapping(value = "/api/league", method = RequestMethod.GET)
+    // For most get requests at /api/league run this function
+    public ResponseEntity<List<LeagueViewSummary>> findLeagues() {
+        // Return a ResponseEntity containing an List of LeagueViewSummary objects
+        List<LeagueViewSummary> leagues = StreamSupport.stream(repo.findAll().spliterator(), false)
+                .map(LeagueViewSummary::new).collect(Collectors.toList());
+        // Get the leagues, and stream them after splitting the iterator up
+        // Map the stream so each value is replaced by the value of new LeagueViewSummary(value)
+        // Collect this into a list
+        // Have to use StreamSupport see error
+
+        /*
+        List<LeagueViewSummary> leagues = new ArrayList<>();
+        repo.findAll().
+                forEach(league -> leagues.add(new LeagueViewSummary(league))); */
+        // This was the original implementation but it was replaced with streams for cleaner code
+
+        return ResponseEntity.ok(leagues);
+        // return OK (200) with body of leagues, which has LeagueViewSummary which can be converted to JSON
+    }
+
+    @RequestMapping(value = "/api/league", method = RequestMethod.GET, params = "name")
+    // For all get requests at /api/league which have ?name={A name} at the end of the url
+    public ResponseEntity<List<LeagueViewSummary>> findLeaguesByName(@RequestParam("name") String name) {
+        List<LeagueViewSummary> leagues = repo.findByNameContaining(name).stream()
+                .map(LeagueViewSummary::new).collect(Collectors.toList());
+        // repo.findByNameContainint(League) already is a list so has a .stream already
+        return ResponseEntity.ok(leagues);
+    }
+
+    @RequestMapping(value = "/api/league/{id}", method = RequestMethod.GET)
+    // For all get requests with /id , id is variable
+    public ResponseEntity<LeagueView> findLeague(@PathVariable("id") Long id) {
+        // return a LeagueView in a ResponseEntity, take the path variable id as a variable
+        League league = repo.findOne(id);
+        // Get the league from the database
+        LeagueView leagueView = new LeagueView(league);
+        // Make it a LeagueView
+        return ResponseEntity.ok(leagueView);
+        // Send it off
+    }
+
+    @RequestMapping(value = "/api/league", method = RequestMethod.POST)
+    // For all post requests to /api/league
+    public ResponseEntity<?> saveLeague(@RequestBody League league) {
+        // take request body and convert the JSON into a League
+        // This will use the constructor with Name as the name in JSON and teams as null as teams cannot be shown in JSON
+        if(league.getTeams() == null){
+            // If by some miracle someone sends teams in JSON, let them
+            league.setTeams(new LinkedList<>());
+            // Otherwise use this empty list here and add them after
+        }
+        League savedLeague = repo.save(league);
+        // Save the league to the database
+        URI location = ServletUriComponentsBuilder
+                // Build a URI
+                .fromCurrentRequest().path("/{id}")
+                // Get the path to here (/api/league) and add /{id} to it
+                .buildAndExpand(savedLeague.getId()).toUri();
+                // Set the {id} to the id and make the URI
+        return ResponseEntity.created(location).build();
+        // Send back a created (201) and with a location of where they could find the item
+    }
+
+    @RequestMapping(value = "/api/league/{id}", method = RequestMethod.DELETE)
+    // All delete requests to /api/league/{id} go here
+    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+        // Get the ID from the request, and return a ResponseEntity with nothing in it (Void)
+        try {
+            repo.delete(id);
+            // Delete the league
+            return ResponseEntity.noContent().build();
+            // Return a no content (204) for successful deletion
+        } catch (EmptyResultDataAccessException e) {
+            // If the league was not found, do this instead
+            return ResponseEntity.notFound().build();
+            // Return a not found error
+            // Since it's 4XX it lets the user know it's there fault not mine
+        }
+    }
 
 
-==== LeagueRepository
-findByName => findByNameContaining
+}
 
-==== LeagueView
+----
+
+WARNING: Once again this is part of multiple files implementing the features so once again it won't run as
+TeamViewSummary and TeamView don't exist, also the repository doesn't have a findByNameContaining
+
+==== LeagueRepository.java
+So the easiest bit to fix is there is no findByNameContaining, this is necessary otherwise <<find-by-name-containing, wrong results>>
+This just involves adding
+[source,java]
+----
+List<League> findByNameContaining(String name);
+----
+to LeagueRepository.java, this adds the function findByNameContaining.
+Spring takes this and based off of the name of the method creates the JPQL query similar to
+[source,sql]
+----
+SELECT x FROM Leagues x WHERE x.name LIKE ?1
+----
+Due to the generation of the the table being done by spring, this may not be the exact JPQL, details can be found at
+https://docs.spring.io/spring-data/jpa/docs/1.5.1.RELEASE/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
+
+==== LeagueView.java
+This is an object returned by the controller containing what would be a reasonable amount of information about a League.
+This is necessary as one-one relationships cause problems with converting to JSON, this results in all Requests
+
+.League and Team Recursion
+image::error-pictures/league-not-view.png[StackOverflow,pdfwidth=100%]
+
+as found by the tests, to solve this we make view objects.
+
+[source,java]
+----
+package com.saskcow.bowling.view;
+
+import ...
+
+@Data
+// Getters and Setters and more all done
+@NoArgsConstructor
+//Can make one with nothing
+public class LeagueView {
+    private Long id;
+    private String name;
+    private List<TeamViewSummary> teams;
+    // Has a list of summary objects, currently these have nothing so no errors occur, but it makes things
+    private List<GameView> games;
+    // Has a list of GameView for the same reason
+
+
+    public LeagueView(League league) {
+        this.name = league.getName();
+        this.id = league.getId();
+
+        this.teams = league.getTeams() == null ? new LinkedList<>() : league.getTeams().stream().map(TeamViewSummary::new).collect(Collectors.toList());
+        this.games = league.getGames() == null ? new LinkedList<>() : league.getGames().stream().map(GameView::new).collect(Collectors.toList());
+        // A lot like the streams earlier, but with a ternary operator, so if teams is null, it's now an empty list
+        // Also the view objects are blank so nothing happens, but no error occurs
+    }
+}
+----
 
 ==== LeagueViewSummary
+Sometimes you only want a bit of information about a league, such as the name of it and the id so you can find out more.
+This can be easily sent with a ViewSummary, which is a very simple description of a League.
+
+[source,java]
+----
+package com.saskcow.bowling.view;
+
+import ...
+
+@Data
+@NoArgsConstructor
+public class LeagueViewSummary {
+    // A lot like league, only less, currently does the same as teams and games don't have view objects
+    private Long id;
+    private String name;
+
+
+    public LeagueViewSummary(League league) {
+        this.name = league.getName();
+        this.id = league.getId();
+    }
+}
+----
 
 ==== Errors at this stage
+
+[find-by-name-not-containing]
+===== findByName not containing
+originally I tried using findByName, which only matches full name, because of this when I was expecting there to be
+1 leagues returned, there were none as it was not an exact match. This is as bad as windows searching, can't have that.
+
+[red]#expected:<[1]> but was:<[0]># +
+Expected : [red]#1# +
+Actual   : [red]#0# +
+
+to fix this by adding Containing to the end of findByName it now checks it the string is in the name, this works far better.
+
+===== NullPointer the first
+Probably the first of many, this error occurred when I forgot to mock a function
+
+.Missed Mock of function
+image::error-pictures/null-pointer-no-mock.png[NoMock,pdfwidth=100%]
+
+This can be fixed in this instance by going to LeagueController.java:59 (further down stack) and finding that
+the savedLeague.getId() isn't working as there is no mock, savedLeague is null.
+
+This can be fixed with
+[source,java]
+----
+when(repo.save(isA(League.class))).thenReturn(league);
+----
+or a similar mock dependant on what's missing. This fixes the issue.
+
+===== StreamSupport necessary
+With the streams, lists have a .stream() method, iterators don't as it turns out.
+
+.No token stream()
+image::error-pictures/iterators-cannot-stream.png[NoStream,pdfwidth=100%]
+
+To fix this these must be converted into streams differently before .map() this can be done with
+StreamSupport, this allows for Spliterator to go to streams. By using
+[source,java]
+----
+StreamSupport.stream(repo.findAll().spliterator(), false)
+----
+it takes the iterator and makes it a spliterator before turning it into a stream, ready to .map like the other streams.
+
+=== Front End Setup
+For a front end it's fairly simple to add nicely, however there are important steps to do first.
+The main steps required now are:
+* Webpack
+* Babel, I'm not writing this in ES5
+* NPM setup
+
+==== Npm Setup
+Since the other 2 steps rely on node, I need to setup NPM first.
+NPM is a package manager which can be used for javascript modules, this makes it easy to manage dependencies and setup
+other things.
+By running `npm init` npm becomes easy to setup as it asks step by step for parts, for now it can mostly be left default.
+Dependencies must now be installed. By doing `npm install --save package-name` or `npm install --save-dev package-name`
+they get added to package.json, which should look something like this.
+[source,json]
+----
+{
+  "name": "Bowling",
+  "version": "1.0.0",
+  "description": "Bowling League Management",
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router-dom": "^4.2.2",
+    "webpack": "^1.12.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.24.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saskcow/bowling.git"
+  },
+  "author": "Callum Tarttelin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saskcow/bowling/issues"
+  },
+  "homepage": "https://github.com/saskcow/bowling#readme"
+}
+----
+This includes the dependencies I added after.
+
+==== webpack.config.js
+I created this top level file which details how webpack should "bundle" the files before use. Webpack should put all the
+js into one bundle.js file to be sourced from the template (index.ftl). By editing a basic one I found in docs I made
+[source,js]
+----
+const path = require('path');
+// import path
+
+module.exports = {
+    // Export this JSON
+    entry: './src/main/js/app.js',
+    // The main file
+    devtool: 'sourcemaps',
+    cache: true,
+    debug: true,
+    output: {
+        path: __dirname,
+        filename: './src/main/resources/static/built/bundle.js'
+        // Put the final file where it is expected
+    },
+    module: {
+        loaders: [
+            {
+                test: path.join(__dirname, '.'),
+                exclude: /(node_modules)/,
+                loader: 'babel',
+                query: {
+                    cacheDirectory: true,
+                    presets: ['env', 'react', 'stage-0']
+                    // presets say to run babel presets from the array
+                }
+            }
+        ]
+    }
+};
+----
+
+This babels and bundles it all into one file.
+
+==== Babel
+Babel is a transpiler, this takes my javascript I write, and turns it into javascript. The difference is I can write ES6,
+ES next decorators and react JSX, and it will make it into ES5. This is important as no browser fully supports all these
+features, so babel translates it so that the browser can use it, and I can write in easier to write languages.
+
+==== Errors At This Stage
+Since this is all follow steps and the webpack is following the structure expected, no errors occurred in this step.
+Which is of course, unheard of, and also rather convenient.
+
+=== Front End for leagues
+A bit of back end and preparation later and we are ready to create a front end, this will be rather ugly for now, but
+later some css can be thrown at it till it looks less bad, but css is not something I'm good at.
+
+==== Dependencies
+First I need to add some dependencies to my package.json the main ones are axios for REST requests, and material-ui and
+icons to make it look nicer as well as react-router-dom.
+[source,json]
+----
+"dependencies": {
+    "axios": "^0.17.1",
+    "material-ui": "^1.0.0-beta.31",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router-dom": "^4.2.2",
+    "rest": "^1.3.1",
+    "webpack": "^1.12.2"
+  }
+----
+
+==== app.js
+In src/main/js App.js is added. This is the main file which the front end is made off of. This will be used to route the
+front end paths.
+
+[source,js]
+----
+import ...
+
+class App extends React.Component {
+  // React.Component is extended giving this class state, props etc nicely
+  render() {
+    // Method called when it is rendered on a screen
+    return (
+      // JSX returned to make into HTML to display
+      <Router>
+        // React Router BrowserRouter which creates a router which can have routes here
+        <div className="App">
+          <Route exact path="/" component={LeagueList}/>
+          // If at path / show LeagueList component
+          <Route exact path="/league" component={LeagueList}/>
+          <Route exact path="/league/:id" component={League}/>
+          <Route path="/add/league" component={AddLeague}/>
+          // Could match multiple but not setup to, as I don't want it to
+        </div>
+      </Router>
+    )
+  }
+}
+
+ReactDOM.render(
+// When imported this runs and renders some JSX
+<App/>,
+// Render App from above
+  document.getElementById('react')
+  // Put it in the 'react' element in the template
+);
+
+----
+
+==== LeagueSummary.js
+We need a way to display the summary information, which is pretty much just a name and an ID. Using the id to link to
+more information we are able to just have a hyperlinked name and we can put many of these in a list
+
+[source,js]
+----
+import ...
+
+class LeagueSummary extends React.Component {
+  render() {
+    return (
+      <li className={this.props.children.replace(/\s+/g, '-').toLowerCase()}>
+        // Create a list element with name same as league, "-" instead of " "
+        <Link to={'/league/' + this.props.id.toString()}>
+          // Link it to "/league/:id" so that it can go to the more details page
+          {this.props.children} // Write the name of the league
+        </Link>
+        <Delete id={this.props.id} type={'league'} name={this.props.children}/>
+        // Create a delete for a league with this ID, onclick delete the league
+      </li>
+    )
+  }
+}
+
+export default LeagueSummary;
+----
+
+==== LeagueList.js
+Here is where the LeagueSummary will be used, this needs to get all the leagues from the java and display them all.
+
+[source,js]
+----
+import ...
+
+class LeagueList extends React.Component {
+  constructor() { // Run when component created
+    super(); // make usable
+    this.state = ({status: "Loading"}); // Set state to Loading
+    this.updateLeagues = this.updateLeagues.bind(this);
+    this.refresh = this.refresh.bind(this);
+    // Give functions this
+    this.updateLeagues() // Get the leagues
+  }
+
+  updateLeagues() {
+    axios.get('/api/league')
+      .then(response => { // When complete
+        this.setState({status: "OK", leagues: response.data})
+        // Set status and the leagues from the request
+      })
+      .catch(error => { // Run this if there is an error
+        if (error.response) {
+          this.setState({status: "error", err: error.response.data});
+        } else if (error.request) {
+          this.setState({status: "error", err: "No Response"});
+          console.log(error.request);
+        } else {
+          this.setState({status: "error", err: "Error with Request"});
+          console.log('Error', error.message);
+        }
+        // Display error to user, dependant on error
+      });
+  }
+
+  refresh() { // Get leagues again and set as loading
+    this.setState({status: "Loading"});
+    this.updateLeagues()
+  }
+
+  render() {
+    console.log(this.state.status);
+    if (this.state.status === "Loading") {
+      // If it is loading
+      return (
+        <div className={"Loading"}>
+          <CircularProgress color={"primary"} />
+          // Create a loading wheel with primary colour
+        </div>
+      )
+    } else if (this.state.status === "Error") {
+      // If there is an error, give a reset button and show that there is an error
+      return (
+        <div className={"Error"}>
+          <h2>Error</h2>
+          <Button variant={"raised"} color={'primary'} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
+        </div>
+      )
+    } else {
+      // If there is no problem
+      return (
+        <div className={"Leagues"}>
+          <ul>
+            // Create an unordered list
+            {this.state.leagues.map(league => (
+              // For league in this.state.leagues
+              <div key={league.id}> // When mapped it likes having a key, otherwise it gives a warning
+                <LeagueSummary id={league.id}>{league.name}</LeagueSummary>
+                // Create a LeagueSummary with name and id
+              </div>
+            ))}
+          </ul>
+          <Button variant={"raised"} color={"primary"} className={"RefreshButton"} onClick={this.refresh}>Refresh Leagues</Button>
+          // Create a refresh button, onClick call refresh function
+          <Link to={"/add/league"}><Button className={'add'} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+          // Create a hyperlink to /add/league with an add icon as a fab button
+        </div>
+      )
+    }
+  }
+}
+
+export default LeagueList; // Export LeagueList by default when LeagueList.js imported
+----
+
+==== League.js
+This is the page corresponding to /api/league/id, at /league/id there will be a front end representation of the data.
+This will be accessed from when a user clicks on a link to here.
+
+[source,js]
+----
+import ...
+
+class League extends React.Component {
+
+  constructor(props) { // give access to props in constructor
+    super();
+    this.state = {status: "Loading"};
+    this.getLeague = this.getLeague.bind(this);
+    this.getLeague(props.match.params.id); // Call with the id from /:id
+  }
+
+  getLeague(id) {
+    axios.get('/api/league/' + id)
+      // Get a LeagueView
+      .then(response => {
+        this.setState({
+          status: "OK",
+          id: id,
+          // Status is done, ID is set in case needed
+          name: response.data.name,
+          teams: response.data.teams,
+          games: response.data.games
+          // Set this.state.* to corresponding value from response
+        })
+      })
+      .catch(error => {
+        // Error catching
+        if (error.response) {
+          this.setState({status: "error", err: error.response.data});
+        } else if (error.request) {
+          this.setState({status: "error", err: "No Response"});
+          console.log(error.request);
+        } else {
+          this.setState({status: "error", err: "Error with Request"});
+          console.log('Error', error.message);
+        }
+      });
+  }
+
+  render() {
+    if(this.state.status === "OK") {
+      return (
+        <div className={'League'}>
+
+          <h2>{this.state.name}</h2>
+          <Link to={"/league"}>Back</Link>
+          // Title and link back to previous part
+
+        </div>
+      )
+    } else if (this.state.status === "error") {
+      // If there is an error, show the error
+      return (
+        <h2>{this.state.err}</h2>
+      )
+    } else {
+      // If loading, loading circle
+      return <CircularProgress color={"primary"} />
+    }
+  }
+}
+
+export default League;
+----
+
+==== AddLeague.js
+Page where one can add a league.
+
+[source,js]
+----
+import ...
+
+class AddLeague extends React.Component {
+  constructor() {
+    super();
+    this.state = ({name: "No Name"});
+    // Default name is No Name
+    this.submit = this.submit.bind(this);
+    this.updateName = this.updateName.bind(this);
+  }
+
+  submit(event) {
+    event.preventDefault();
+    axios.post("/api/league", {name: this.state.name})
+      // Post what the name of the new league is
+      .then(response => {
+        window.location.href = '/league';
+        // Redirect to '/league'
+        this.state.name = "";
+        console.log("created at " + response.headers.location);
+        // Reset and log things
+      })
+      .catch(function (error) {
+        console.log(error);
+        // Simple error catching
+      });
+  }
+
+  updateName(event) {
+    this.setState({name: event.target.value})
+    // change name in state to value of TextField
+  }
+
+  render() {
+    return (
+      <div className={"AddScreen"}>
+        <h1>Add a league!</h1>
+        <form className={"theLeagueForm"} onSubmit={this.submit}> // when submitted cakk submit
+          <TextField // Create a text entry
+            id="LeagueName"
+            label="League Name" // Create a nice floating label on edit
+            placeholder="League Name"
+            className={"LeagueNameInput"}
+            onChange={this.updateName} // Update name in state whenever this is changed
+          /> <br />
+          <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+          // Submit form
+        </form>
+      </div>
+    )
+  }
+}
+
+export default AddLeague;
+----
+
+==== Delete.js
+It is useful to be able to delete leagues. Sometimes too many are created, or some badly named, it's nice not to have to
+create " BowlingLeague'); DROP TABLE Leagues; -- ", which sadly doesn't even work
+
+.Protected against SQL Injection
+image::other-pictures/little-leaguey-tables.png[SqlInjection]
+
+So a deletion method is in order, so we need something to call the Delete from the backend.
+
+[source,js]
+----
+import ...
+
+class LeagueList extends React.Component {
+  constructor(props) { // Have props in constructor
+    super();
+    this.state = ({status: "Loading", id: props.id, type: props.type});
+    // Set type (currently league) and the id
+    this.deleteThing = this.deleteThing.bind(this);
+  }
+
+  deleteThing() {
+    axios.delete('/api/' + this.state.type + '/' + this.state.id)
+      // Call at the delete url for the id and type
+      .then(response => {
+        location.reload(); // Refresh page
+        console.log("deleted " + response.headers.location); // Log deletion
+      })
+      .catch(error => {
+        // error catching
+        if (error.response) {
+          this.setState({status: "error", err: error.response.data});
+        } else if (error.request) {
+          this.setState({status: "error", err: "No Response"});
+          console.log(error.request);
+        } else {
+          this.setState({status: "error", err: "Error with Request"});
+          console.log('Error', error.message);
+        }
+      });
+  }
+
+  render() {
+    if (this.state.status === "Error") {
+      return (
+        <h2>{this.state.err}</h2> // If error, show error
+      )
+    } else {
+      return (
+        // Create a button, which looks like a delete icon, which when clicked, sends the delete request
+        <IconButton onClick={this.deleteThing} id={"delete-" + this.props.id.toString()} name={"delete-"+this.props.name.replace(/\s+/g, '-').toLowerCase()}><DeleteIcon /></IconButton>
+      )
+    }
+  }
+}
+
+export default LeagueList;
+----
+
+==== Errors at this stage
+There were numerous errors at this stage, some harder to fix than others.
+
+===== Enter to submit
+When using the add league form, the form, could not be submitted by pressing enter.
+This can be fixed by instead of button.
+
+[source,js]
+----
++ <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+
++ <form className={"theLeagueForm"} onSubmit={this.submit}>
+
+- <form className={"theLeagueForm"}>
+
+- <Button onClick={this.submit} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+----
+
+This now means that the form is additionally submitted with enter.
+
+===== Second time lucky redirects
+There was a really peculiar error, causing this in the testing.
+
+2 tests, 1 failed, 1 errors,
+[cols="2,2,1,1",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestLeague |Test adding leagues |7.204 |3
+4+|Testing if element <.Leagues> contains text: "nightwatch". Element could not be located.
+|None |None |None |None
+|TestLeague |Test removing leagues |None |None
+|TestLeague | |7.204  |
+|======================================
+
+To fix this I tried to find an example from react docs and compare. I noticed that there was an
+`event.preventDefault()`, so this was added to the start of `submit` and it stopped happening.
+It appears that the default behaviour in some way blocked the first redirect.
+
+===== Button imports
+Inputs are condensed in the writeup, for the buttons I am using material-ui, because the buttons look nice, and I
+intend to eventually fit the rest of the page to material design. `import {Button, TextField} from 'material-ui';`
+is the import in the js. But before it was `import Button from 'material-ui';` this was importing the entirity of
+material-ui and calling it Button. This was not a valid component and caused
+
+----
+warning.js:33 Warning: React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component  from the file it's defined in. Check the render method of `AddLeague`. +
+    in AddLeague (created by Route) +
+    in Route (created by App) +
+    in div (created by App) +
+    in Router (created by BrowserRouter) +
+    in BrowserRouter (created by App) +
+    in App
+----
+
+===== Calling incorrect API path
+Sometimes typographical errors can be annoying, I had a request towards the wrong path, this caused permanent loading
+and also caused a 404 error on the get request, it also complained due to content being empty it cannot map undefined.
+
+This was easily fixed by changing `/api/legue/` to `/api/league`
+
+===== Material-ui changes
+When using early versions of libraries, the components are sometimes subject to change. On a new version of material-ui
+buttons changed, this cause buttons to look different and log an error saying +
+[red]#Warning: Unknown prop `raised` on <button> tag. Remove this#
+
+.Image of button
+image::error-pictures/wrong-button.png[]
+
+This was fixed by `<Button raised />` => `<Button variant="raised">`.
+
+===== 404 on paths
+Home controller didn't have all the routes, so when not linked through js, the backend would say it doesnt exist and show.
+
+.404 error
+image::error-pictures/404-page.png[]
+
+[source, java]
+----
+@RequestMapping(value = {"/league/*/add-team", "/league/*/add-game", "league/*", "/", "/add/league", "/league", "/player/*", "/team/*", "/team/*/add-player"})
+    public String index(){
+        return "index";
+    }
+----
+
+This added all current and soon to be added routes, so that this would no longer be a problem.
+
+=== Team Controller
+Adding teams was fairly similar to adding leagues.
+
+==== TeamControllerTest.java
+This is very similar to LeagueControllerTest as both do similar things.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@RunWith(MockitoJUnitRunner.class)
+// This runs the tests with a testRunner, this allows assertions which would otherwise be not allowed
+public class TeamControllerTest {
+
+    @Mock
+    private TeamRepository repo;
+    // Create a mocked TeamRepository, doesn't do anything which I don't tell it to do explicitly
+    @Mock
+    private LeagueRepository leagueRepository;
+    // Create a mocked leagueRepository
+    private MockMvc mockMvc;
+    // Needs a MockMvc to send requests to test the app
+
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(new TeamController(repo, leagueRepository)).build();
+        // Create the TeamController
+    }
+
+    @Test
+    public void addTeam_shouldSaveTheTeam() throws Exception {
+        League league = new League(1L, "Brian",  new LinkedList<>());
+        // Create a league
+        Team team = new Team(1L, "Brian", null, null, league);
+        // Add a team to the league
+        when(repo.save(isA(Team.class))).thenReturn(team);
+        when(repo.findOne(team.getId())).thenReturn(team);
+        // When I save, or try to find the team, return the team
+        when(repo.findAll()).thenReturn(Collections.singletonList(team));
+        // When I try to find all teams, return a list of teams
+        when(leagueRepository.findOne(league.getId())).thenReturn(league);
+        // When I try to find the league, return the league
+
+        String uri = mockMvc.perform(post("/api/team")
+                // Send a post request to /api/team
+                .content("{\"name\":\"Brian\", \"leagueId\": \"1\"}")
+                // Send this
+                .contentType("application/json"))
+                // With contentType: 'application/json' header
+                .andExpect(status().isCreated())
+                // Expect a 201
+                .andExpect(header().string("Location", "http://localhost:8080/api/team/" + team.getId()))
+                // Expect a header called location with the location of the team
+                .andReturn().getResponse().getHeader("Location");
+                // Return the location
+
+        mockMvc.perform(get(uri))
+                // Send a get request to location returned from post
+                .andExpect(status().isOk())
+                // Expect 200
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo("Brian")))
+                .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Brian")));
+                // Expect it has the name Brian, like the team
+    }
+
+    @Test
+    public void deleteTeam_shouldDeleteTeam() throws Exception {
+        League league = new League(1L, "Brian", new LinkedList<>());
+        Team team = new Team(1L, "Brian", null, null, league);
+        Team team2 = new Team(2L, "Dave", null, null, league);
+        league.addTeam(team);
+        league.addTeam(team2);
+
+        // Create the objects again
+
+        doNothing().when(repo).delete(isA(Long.class));
+        // When I delete something, do nothing
+        when(repo.findOne(team.getId())).thenReturn(team);
+        // When I try to find a team, return the team
+
+        mockMvc.perform(delete("/api/team/1"))
+                // Send a delete request to the team
+                .andExpect(status().isNoContent());
+                // Expect a 204 returned
+
+
+        verify(repo, times(1)).delete(1L);
+        // Check that delete attempted
+        assertThat(league.getTeams()).doesNotContain(team);
+        assertThat(league.getTeams()).contains(team2);
+        // Check it removed itself, but not the other team from league
+    }
+}
+----
+
+==== TeamRest.java
+We can't just send a full Team, sadly relational databases are complicated like that. So we use a simpler class we can
+use to construct a Team.
+
+[source, java]
+----
+package com.saskcow.bowling.rest;
+
+import ...
+
+@Data
+// Getters and Setters and more all done
+@NoArgsConstructor
+// Can make one with nothing
+@AllArgsConstructor
+// Can make one with everything
+public class TeamRest {
+    private String name;
+    private Long leagueId;
+}
+----
+
+This we can construct with the following JSON from the front end.
+
+[source, JSON]
+----
+{
+    name: "Team Name",
+    leagueId: 314
+}
+----
+
+This makes it easy to construct from the JSON if we say that what we are sent is this.
+
+==== TeamController.java
+The controller which maps /api/team requests as the tests expected.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+import java.net.URI;
+
+@Controller
+public class TeamController {
+
+    private TeamRepository repo;
+    private LeagueRepository leagueRepository;
+    // Needs a TeamRepository and a LeaguRepository
+
+    @Autowired
+    // Gets it from application context and injects automatically
+    public TeamController(TeamRepository repo, LeagueRepository leagueRepository){
+        this.repo = repo;
+        this.leagueRepository = leagueRepository;
+    }
+    // Create a TeamController with stuff from application context
+
+    @RequestMapping(value = "/api/team/{id}", method = RequestMethod.GET)
+    // Any get requests to /api/team/id calls this function
+    public ResponseEntity<TeamView> findLeague(@PathVariable("id") Long id) {
+        Team team = repo.findOne(id);
+        // Get the Team
+        TeamView teamView = new TeamView(team);
+        // Make it a TeamView
+        return ResponseEntity.ok(teamView);
+        // Send it back with a 200
+    }
+
+    @RequestMapping(value = "/api/team", method = RequestMethod.POST)
+    // Any post requests to /api/team call this function
+    public ResponseEntity<?> saveLeague(@RequestBody TeamRest team) {
+        // Take the JSON payload as a TeamRest called team
+        League league = leagueRepository.findOne(team.getLeagueId());
+        // Get the league
+        Team savedTeam = repo.save(new Team(team.getName(), league));
+        // Save a new Team with name of JSON and league of what we just got
+        league.addTeam(savedTeam);
+        // Add Team to the League
+        leagueRepository.save(league);
+        // Save League changes
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedTeam.getId()).toUri();
+        // Create a URI with the location
+        return ResponseEntity.created(location).build();
+        // Return location header with a 201
+    }
+
+    @RequestMapping(value = "/api/team/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+        try {
+            Team team = repo.findOne(id);
+            // Get the team
+            team.getLeague().deleteTeam(team);
+            // Remove team from league
+            repo.delete(id);
+            // Delete the team
+            return ResponseEntity.noContent().build();
+            // Return 204
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+            // If not found, send a 404
+        }
+    }
+}
+
+----
+
+==== TeamView.java
+In the same way it's hard to send relational objects as JSON due to infinite recursion, we need a simpler way of sending it.
+
+[source, java]
+----
+package com.saskcow.bowling.view;
+
+import ...
+
+@Data
+@NoArgsConstructor
+// We've seen these enough now
+public class TeamView {
+    private LeagueViewSummary league;
+    // Get a simplified league
+    private Long id;
+    private String name;
+    // Get the team id and name
+    private List<PlayerViewSummary> players;
+    private List<GameView> games;
+    // Get players and games as View objects
+
+
+    public TeamView(Team team) {
+        this.league = new LeagueViewSummary(team.getLeague());
+        this.name = team.getName();
+        this.id = team.getId();
+        this.players = team.getPlayers() == null ? null : team.getPlayers().stream().map(PlayerViewSummary::new).collect(Collectors.toList());
+        this.games = team.getGames()== null ? null : team.getGames().stream().map(GameView::new).collect(Collectors.toList());
+        // Make all games into GameView and all teams into TeamViewSummary
+    }
+    // Get all the values from a team it was created with
+}
+
+----
+
+Makes it into JSON like
+
+[source, JSON]
+----
+{
+    "league": {
+        "id": 1,
+        "name": "City Watch"
+    },
+    "id": 3,
+    "name": "The Night Watch",
+    "players": [
+        {
+            "id": 5,
+            "name": "Sam Vimes"
+        },
+        {
+            "id": 6,
+            "name": "Carrot Ironfoundersson"
+        },
+        {
+            "id": 7,
+            "name": "Nobby Nobbs"
+        },
+        {
+            "id": 8,
+            "name": "Fred Colon"
+        }
+    ],
+    "games": [
+        {
+            "id": 13,
+            "time": "2018-04-15T15:54:53",
+            "teams": [
+                {
+                    "id": 3,
+                    "name": "The Night Watch"
+                },
+                {
+                    "id": 4,
+                    "name": "Cable Street Particulars"
+                }
+            ],
+            "venue": "The Shades",
+            "league": {
+                "id": 1,
+                "name": "City Watch"
+            }
+        }
+    ]
+}
+----
+
+TIP: JSON from a later version with all the view objects
+
+==== TeamViewSummary.java
+A simplified teamView for when other objects don't care about the details
+
+[source, java]
+----
+@Data
+@NoArgsConstructor
+public class TeamViewSummary {
+    private Long id;
+    private String name;
+    // Only needs id and name
+
+    public TeamViewSummary(Team team) {
+        this.name = team.getName();
+        this.id = team.getId();
+    }
+    // Get values from the team
+}
+----
+
+Nice and simple, sends like
+
+[source, JSON]
+----
+{
+    "id": 3,
+    "name": "The Night Watch"
+}
+----
+
+==== Errors at this stage
+This was fairly similar to the previous league controller creation, so few errors occured.
+
+===== @RunWith importance
+Upon writing tests, I forgot to add the @RunWith annotation.
+This caused the following,
+
+.No @RunWith annotation
+image::error-pictures/no-runwith.png[noRunWith,pdfwidth=100%]
+
+This was easily rectified by adding the annotation
+
+===== Need View Objects
+Now that leagues have teams, and teams have leagues, sending back the league or team causes a stack overflow as both
+contain references to the other, therefore we require the view objects.
+
+=== Team front end
+Now the back end for teams is done, we need to give a league some teams, and be able to add and display more detail on these teams.
+
+==== League.js
+Leagues now have teams, let's show that.
+
+[source, js]
+----
+<h3>Teams</h3>
+<ul className={"Teams"}>
+  // Create a list of all the teams
+  {this.state.teams.map(team => (
+    <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary> // There are no teams, so this is just blank
+  ))}
+</ul>
+<Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
+// Link to the add a team to the league page
+----
+
+This allows the league to show a list of its teams.
+
+==== App.js
+We need routes to add and show teams.
+
+[source, js]
+----
+<Router>
+  // React Router BrowserRouter which creates a router which can have routes here
+  <div className="App">
+    // Following added
+    <Route exact path="/team/:id" component={Team}/>
+    // at /team/{id} show Team page
+    <Route path={"/league/:id/add-team"} component={AddTeam}/>
+    // at /league/{id}/add-team show the add team to league page
+  </div>
+</Router>
+----
+
+==== AddTeam.js
+Page to add teams to league id specified in URL
+
+[source, js]
+----
+import ...
+
+// Create component AddTeam
+class AddTeam extends React.Component {
+  constructor(props) {
+    super();
+    // calling super makes this work, as in the keyword this, like on the next line
+    this.state = ({name: "No Name", leagueId: props.match.params.id});
+    // Set default state
+    this.submit = this.submit.bind(this);
+    this.updateName = this.updateName.bind(this);
+    // Bind this to these functions, allows them to access this, again the keyword
+  }
+
+  submit(event) {
+    // Take an event, like an onClick or onChange on a Component
+    event.preventDefault();
+    // Stops normal way of doing it, so it can be overridden by doing this
+    axios.post("/api/team", {name: this.state.name, leagueId: this.state.leagueId})
+      // Send a post request with the JSON based off of state
+      .then(response => {
+        window.location.href = '/league/' + this.state.leagueId;
+        this.state.name = "";
+        console.log("created at " + response.headers.location);
+        // Redirect to /league/id and reset variables in case redirect has problems
+      })
+      .catch(function (error) {
+        console.log(error);
+        // If something goes wrong, log it in developer console (f12 on most browsers)
+      });
+  }
+
+  updateName(event) {
+    this.setState({name: event.target.value})
+    // Take an event and set name to the value of the Component which sent the event
+  }
+
+  render() {
+    // when shown on screen
+    return (
+      <div className={"AddScreen"}>
+        // Contain in a div, as it has to return one Component
+        <h1>Add a Team to the League!</h1>
+        <form className={"theTeamForm"} onSubmit={this.submit}>
+          // When form submitted call submit with event
+          <TextField
+            id="TeamName"
+            label="Team Name"
+            placeholder="Team Name"
+            className={"TeamNameInput"}
+            onChange={this.updateName}
+          /> <br />
+          // Create a text field with labels and when changed calls updateName
+          <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+          // Form submit button
+        </form>
+      </div>
+    )
+  }
+}
+
+export default AddTeam // Export AddTeam for easy imports;
+----
+
+==== TeamSummary.js
+Simple version to show in the lists of other objects like League.js
+
+[source, js]
+----
+import ...
+
+class TeamSummary extends React.Component {
+  render() {
+    // When displayed
+    return (
+      <li className={this.props.children.replace(/\s+/g, '-').toLowerCase()}>
+        // Create a list element with a class all lower cases with " " => "-"
+        <Link to={'/team/' + this.props.id.toString()}>
+          // Link to the team page
+          {this.props.children}
+          // Team name
+        </Link>
+        <Delete id={this.props.id} type={'team'} name={this.props.children}/>
+        // Use the delete object from earlier
+      </li>
+    )
+  }
+}
+
+export default TeamSummary // Export for easy imports;
+----
+
+==== Team.js
+A page to see details of the team, currently not much
+
+[source, js]
+----
+import ...
+
+class Team extends React.Component {
+
+  constructor(props) {
+    super();
+    this.state = {status: "Loading"};
+    this.getTeam = this.getLeague.bind(this);
+    this.getTeam(props.match.params.id);
+    // Start by getting team details
+  }
+
+  getTeam(id) {
+    axios.get('/api/team/' + id)
+    // Send a get request to /api/team/ + the id in the page url
+      .then(response => {
+        this.setState({
+          status: "OK",
+          id: id,
+          name: response.data.name,
+          league: response.data.league,
+          players: response.data.players
+        })
+        // Map response to state
+      })
+      .catch(error => {
+        this.setState({status: "error", err: "problem getting team"})
+        console.log(error)
+      });
+  }
+
+  render() {
+    if(this.state.status === "OK") {
+      return (
+        <div className={'Team'}>
+          // Contain in Team div
+          <h2>{this.state.name}</h2>
+          <Link to={"/league/" + this.state.league.id}>{this.state.league.name}</Link>
+          // Link back to league
+        </div>
+      )
+    } else if (this.state.status === "error") {
+      return (
+        <h2>{this.state.err}</h2>
+      )
+      // Display any error in request
+    } else {
+      return <CircularProgress color={"primary"} />
+    } // Loading icon
+  }
+}
+
+export default Team;
+----
+
+==== Errors at this stage
+
+===== Error logging
+Ironically the error on request logging originally tried reading error values such as `error.response.status`,
+however these were sometimes null. This caused null pointer exceptions when trying to handle errors.
+
+This was fixed by simply stating an error has occurred and doing `console.log(error)`.
+
+=== Nightwatch Testing
+Well, using a webpage takes time, time which I could be spending watching something else use my website,
+therefore to save me from the pain of actually doing work, I did this.
+
+==== nightwatch.json
+This is basically a configuration file for nightwatch, I got the default off of the internet and added what I needed.
+
+[source, json]
+----
+{
+  "src_folders" : ["src/test/js"],
+  "output_folder" : "reports/data",
+  "custom_commands_path" : "",
+  "custom_assertions_path" : "",
+  "page_objects_path" : "",
+  "globals_path" : "",
+
+  "selenium" : {
+    "start_process" : true,
+    "server_path" : "./node_modules/selenium-standalone/.selenium/selenium-server/3.9.1-server.jar",
+    "log_path" : "",
+    "port" : 4444,
+    "cli_args" : {
+      "webdriver.chrome.driver" : "./node_modules/selenium-standalone/.selenium/chromedriver/2.35-x64-chromedriver"
+    }
+  },
+
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://localhost",
+      "selenium_port"  : 4444,
+      "selenium_host"  : "localhost",
+      "silent": true,
+      "desiredCapabilities": {
+        "browserName": "chrome"
+      },
+      "screenshots" : {
+        "enabled" : true,
+        "path" : "./reports/screenshots/errors",
+        "on_failure": true
+      }
+    }
+  }
+}
+----
+src_folders is where the tests are, output is where the logs go. +
+test_settings mostly say take screenshots and use chrome.
+
+==== TestLeague.js
+Now we have the immense functionality of adding some leagues, and then give them some teams, we now need to test, just the league bit here.
+
+[source, js]
+----
+module.exports = {
+  // Export this
+  'Test adding leagues' : function (browser) {
+    // Create a test called Test adding leagues and it's a function which takes a browser
+    let directory = "./reports/screenshots/TestLeague/";
+    // Set image directory
+    browser
+      .url('http://user:saskcow@localhost:8080/league')
+      // Set url to /league on page, authenticate with basic auth if necessary
+      .pause(1000)
+      // Wait 1000ms for it to load
+      .waitForElementVisible('body', 1000)
+      // Check if <body> turns up in the next 1000 ms
+      .saveScreenshot(directory + "1-start.png")
+      // Save a screenshot of the page in the image directory
+      .click('button[class~=add]')
+      // Click the <button> which has class containing add
+      // This is a CSS selector and is what one would use in CSS to set styles for elements
+      .waitForElementVisible('input[id=LeagueName]', 1000)
+      // Wait 1000ms for an input for LeagueName to be visible
+      .setValue('input[id=LeagueName]', 'nightwatch')
+      // Write nightwatch in the input box
+      .saveScreenshot(directory + "2-adding a league.png")
+      // Save a screenshot
+      .click('button[class~=submitForm]')
+      // Click the submit button
+      .pause(1000)
+      // Wait for page to load
+      .assert.containsText('.Leagues', 'nightwatch')
+      // Make sure .Leagues (component with class Leagues) contains the text nightwatch
+      // This will confirm that the team is there
+      .saveScreenshot(directory + "3-Shows League.png")
+      // Save another screenshot
+      .click('button[class~=add]')
+      // Click add button again
+      .waitForElementVisible('input[id=LeagueName]', 1000)
+      .setValue('input[id=LeagueName]', 'daywatch')
+      .click('button[class~=submitForm]')
+      .pause(1000)
+      .assert.containsText('.Leagues', 'daywatch')
+      .saveScreenshot(directory + "4-Second League.png")
+      // Repeat the add and check processes
+
+  },
+
+  'Test removing leagues' : function (browser) {
+    // Create a new testCase which deletes leagues
+    let directory = "./reports/screenshots/TestLeague/";
+    browser
+      .click('button[name=delete-daywatch]')
+      .pause(1000);
+    // Click the delete daywatch button
+    browser.expect.element('.Leagues').text.to.not.contain('daywatch');
+    browser.expect.element('.Leagues').text.to.contain('nightwatch');
+    // Expect .Leagues to still have nightwatch, but not daywatch
+    browser
+      .saveScreenshot(directory + "5-Deleted daywatch.png")
+      .click('button[name=delete-nightwatch]')
+      .pause(1000);
+    // Delete nightwatch anyway, after of course another screenshot
+    browser.expect.element('.Leagues').text.to.not.contain('nightwatch');
+    // Check nightwatch isn't there
+    browser
+      .end();
+      // Close browser
+  }
+};
+----
+
+See, far easier than doing it manually 100 odd times, checks I haven't broken anything too bad
+
+==== TestTeams.js
+Well Teams exist, so those should be tested, so this is the test.
+
+[source, js]
+----
+module.exports = {
+  // Export this
+  'Setup' : function (browser) {
+  // Create testCase Setup
+    let directory = "./reports/screenshots/TestTeams/";
+    browser
+      .url('http://user:saskcow@localhost:8080/league')
+      .pause(1000)
+      .waitForElementVisible('body', 1000)
+      .click('button[class~=add]')
+      .waitForElementVisible('input[id=LeagueName]', 1000)
+      .setValue('input[id=LeagueName]', 'Nights Watch')
+      .click('button[class~=submitForm]')
+      .pause(1000)
+      .assert.containsText('.Leagues', 'Nights Watch')
+      .saveScreenshot(directory + "1-init league.png")
+      // Follow procedure to create a team from last time, just less screenshots this time
+  },
+
+  'Test Adding Teams' : function (browser) {
+    let directory = "./reports/screenshots/TestTeams/";
+    browser
+      .click('li[class=nights-watch]>a')
+      // Click on the <a> inside the <li> with Nights Watch
+      .pause(1000)
+      // Pause for effect, and load times
+      .assert.containsText('h2', 'Nights Watch')
+      // Check the header says Nights Watch
+      .saveScreenshot(directory + "2-League view.png")
+      // Everyone wants to see this empty team, so we screenshot it
+
+      .click('button[class~=addTeam]')
+      // Click add Team button
+      .waitForElementVisible('input[id=TeamName]', 1000)
+      // Wait till input visible
+      .setValue('input[id=TeamName]', 'Sam Vimes')
+      // Enter Name into box, ignore that Sam Vimes is usually a person, not a team
+      .saveScreenshot(directory + "3-Add Team screen.png")
+      .click('button[class~=submitForm]')
+      // Submit form
+      .pause(1000)
+      .assert.containsText('.Teams', 'Sam Vimes')
+      // Check Teams includes Sam Vimes
+      .saveScreenshot(directory + "4-Sam Vimes in the watch.png")
+
+      .click('button[class~=addTeam]')
+      .waitForElementVisible('input[id=TeamName]', 1000)
+      .setValue('input[id=TeamName]', 'Findthee Swing')
+      .click('button[class~=submitForm]')
+      .pause(1000)
+      // Make another team, also a person, who isn't in Night Watch, called Findthee Swing
+
+      .assert.containsText('.Teams', 'Sam Vimes')
+      .assert.containsText('.Teams', 'Findthee Swing')
+      .saveScreenshot(directory + "5-2 teams.png")
+      // Check Vimes is still there and that Swing is now
+  },
+
+  'Deleting' : function (browser) {
+    let directory = "./reports/screenshots/TestTeams/";
+    browser
+      .click('button[name=delete-findthee-swing]')
+      // Delete Swing
+      .pause(1000);
+    browser.expect.element('.Teams').text.to.not.contain('Findthee Swing');
+    browser.expect.element('.Teams').text.to.contain('Sam Vimes');
+    // Check Vimes is there, Swing isn't
+    browser
+      .saveScreenshot(directory + "6-Deleted swing.png")
+      .click('button[name=delete-sam-vimes]')
+      .pause(1000);
+    browser.expect.element('.Teams').text.to.not.contain('Sam Vimes');
+    // Delete Vimes nad check he isn't there
+    browser
+      .url('http://localhost:8080/league')
+      .click('button[name=delete-nights-watch]')
+      .pause(1000);
+    browser.expect.element('.Leagues').text.to.not.contain('Nights Watch');
+    // Delete League nad check it's really gone
+    browser.end(); // close browser
+  }
+};
+----
+
+==== Tests at this point
+
+include::test/1. Teams Work.adoc[]
+
+==== Errors at this stage
+CSS selectors are hard, so that took a while and sometimes patience is required to correctly assert.
+
+===== Not waiting long enough
+Sometimes the page hasn't loaded, so an element isn't seen, this can cause a click to fail, causing errors down the line
+as the test gets lost.
+
+To fix this many `.pause(1000)` were put in after any redirects to ensure it doesn't end up missing something.
+
+===== Incorrect CSS selector
+CSS Selectors can be easy to have the wrong elements checked resulting in errors such as this.
+
+.Expected visible, but not found
+image::error-pictures/expected-visible.png[noRunWith,pdfwidth=100%]
+
+One example was `li[class=name] => li[class~=name] as it had other classes too, so this was necessary
+
+Others include mistyping classes or ids in selectors.
+
+=== Player Controller
+Teams have players, as do games, so it seems a good place to go next. Again it'll start with tests then continue onwards.
+
+==== PlayerControllerTest.java
+ This will be very similar to Team Controller as it does similar things.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@RunWith(MockitoJUnitRunner.class)
+public class PlayerControllerTest {
+
+    @Mock
+    private PlayerRepository repo;
+    @Mock
+    private TeamRepository teamRepository;
+    private MockMvc mockMvc;
+
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(new PlayerController(repo, teamRepository))
+                .build();
+    }
+
+    @Test
+    public void addPlayer_shouldSaveThePlayer() throws Exception {
+        Team team = new Team(1L, "Brian's Bowlers!", new LinkedList<>(),null, null);
+        Player player = new Player(1L, "Brian", team);
+        // Create a team and a player, which isn't yet added to the team
+
+        when(repo.save(isA(Player.class))).thenReturn(player);
+        when(repo.findOne(player.getId())).thenReturn(player);
+        when(repo.findAll()).thenReturn(Collections.singletonList(player));
+        // Mock methods to return player when repo would return player
+
+        when(teamRepository.findOne(team.getId())).thenReturn(team);
+        // Mock to return team when team found in teamRepository
+
+        String uri = mockMvc.perform(post("/api/player")
+                // Send a post request to /api/player
+                .content("{\"name\":\"Brian\", \"teamId\": \"1\"}")
+                // with this data
+                .contentType("application/json"))
+                // and this content-type header
+                .andExpect(status().isCreated())
+                // Expect a 201
+                .andExpect(header().string("Location", "http://localhost:8080/api/player/" + player.getId()))
+                // Expect Location to have path to object
+                .andReturn().getResponse().getHeader("Location");
+                // Return object
+
+        mockMvc.perform(get(uri))
+                // Send a get request to the returned uri
+                .andExpect(status().isOk())
+                // Expect 200
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo("Brian")))
+                .andExpect(MockMvcResultMatchers.jsonPath("name", equalTo("Brian")));
+                // Expect Player Name is Brian
+    }
+
+    @Test
+    public void deletePlayer_shouldDeletePlayer() throws Exception {
+        Team team = new Team(1L, "Brian's Bowlers!", new LinkedList<>(),null, null);
+        Player brian = new Player(1L, "Brian", team);
+        Player dave = new Player(2L, "Dave", team);
+        team.addPlayer(brian);
+        team.addPlayer(dave);
+        // Create a team with 2 players
+
+        doNothing().when(repo).delete(isA(Long.class));
+        // when repo delete called, do nothing
+        when(repo.findOne(brian.getId())).thenReturn(brian);
+        // when Player brian found in repo, return him
+
+        mockMvc.perform(delete("/api/player/1"))
+                // Send the order to "delete" brian
+                .andExpect(status().isNoContent());
+                // Expect no content
+
+        verify(repo, times(1)).delete(1L);
+        // Check the act was done
+        assertThat(team.getPlayers()).doesNotContain(brian);
+        assertThat(team.getPlayers()).contains(dave);
+        // Check dave didn't swap with brian, and is still there
+    }
+}
+----
+
+==== PlayerController.java
+Also similar to TeamController, but this one routes Player requests not Team requests.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@Controller // It's a controller, send requests here
+public class PlayerController {
+
+    private PlayerRepository repo;
+    private TeamRepository teamRepository;
+    // Has a PlayerRepository and a TeamRepository
+
+    @Autowired
+    public PlayerController(PlayerRepository repo, TeamRepository teamRepository){
+        this.repo = repo;
+        this.teamRepository = teamRepository;
+    }
+    // Create one with a PlayerRepository and a TeamRepository from application context
+
+    @RequestMapping(value = "/api/player/{id}", method = RequestMethod.GET)
+    // Get requests to /api/player/{id} call this function
+    public ResponseEntity<PlayerView> findLeague(@PathVariable("id") Long id) {
+        Player player = repo.findOne(id);
+        PlayerView playerView = new PlayerView(player);
+        // Get a player, then make it a PlayerView
+        return ResponseEntity.ok(playerView);
+        // Return a 200 with the playerView
+    }
+
+    @RequestMapping(value = "/api/player", method = RequestMethod.POST)
+    // Post requests to /api/player/ call this function
+    public ResponseEntity<?> saveLeague(@RequestBody PlayerRest player) {
+        // Get PlayerRest from JSON sent
+        Team team = teamRepository.findOne(player.getTeamId());
+        // Get the team from the teamId in playerRest
+        Player savedPlayer = repo.save(new Player(player.getName(), team));
+        // Save new Player with name and team
+        team.addPlayer(savedPlayer);
+        // Add to the team
+        teamRepository.save(team);
+        // Save the team
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedPlayer.getId()).toUri();
+        // Get the URI where one could retrieve this object
+        return ResponseEntity.created(location).build();
+        // Send the location as a header with a 200
+    }
+
+    @RequestMapping(value = "/api/player/{id}", method = RequestMethod.DELETE)
+    // Delete requests to /api/player/{id} call this function
+    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+        // Take the id from uri
+        try {
+            Player player = repo.findOne(id);
+            player.getTeam().deletePlayer(player);
+            // Remove the specified player from the team
+            repo.delete(id);
+            // Delete the player
+            return ResponseEntity.noContent().build();
+            // Return 204
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+            // If you can't find the player, send a 400
+        }
+    }
+}
+
+----
+
+==== PlayerRest.java
+We need to make players now, and the conventional methods don't send well in JSON.
+So this'll have to do.
+
+[source, java]
+----
+package com.saskcow.bowling.rest;
+
+import ...
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PlayerRest {
+    private String name;
+    private Long teamId;
+}
+----
+
+So it takes JSON
+
+[source, JSON]
+----
+{
+  name: "Player Name",
+  teamId: 314
+}
+----
+
+==== PlayerView.java
+Now we need to view the player, as irritatingly enough sending back objects with these references still causes StackOverflow.
+
+[source, java]
+----
+package com.saskcow.bowling.view;
+
+import ...
+
+@Data
+@NoArgsConstructor
+public class PlayerView {
+    private Long id;
+    private TeamViewSummary team;
+    private String name;
+
+    public PlayerView(Player player){
+        this.id = player.getId();
+        this.name = player.getName();
+        this.team = new TeamViewSummary(player.getTeam());
+    } // Player name and id, but team is a TeamViewSummary now
+}
+
+----
+
+==== PlayerViewSummary.java
+Once again, a name and an id
+
+[source, java]
+----
+import ...
+
+@Data
+@NoArgsConstructor
+public class PlayerViewSummary {
+    private Long id;
+    private String name;
+
+    public PlayerViewSummary(Player player){
+        this.id = player.getId();
+        this.name = player.getName();
+    }
+}
+----
+
+==== Errors at this stage
+
+===== Invalid Type
+
+`Player player = new Team(...);` doesn't work as we cannot convert a Team to a Player.
+And it should be a Team anyway.
+
+.Incompatible Types
+image::error-pictures/incompatible-types.png[invalidType, pdfwidth=100%]
+
+include::test/2. Players back end only.adoc[]
+
+=== Player Front End
+
+==== App.js
+Added
+
+[source, javascript]
+----
+<Route exact path="/player/:id" component={Player}/>
+<Route path={"/team/:id/add-player"} component={AddPlayer}/>
+----
+
+To give routes for adding and showing Player.
+
+==== Team.js
+Included in .Team to display all the players in the team.
+
+[source, js]
+----
+<h3>Players</h3>
+// Title Players
+<ul className={"Players"}>
+  // Create an unordered list class Players
+  {this.state.players.map(player => (
+    // For every player in this.state.players, return this
+    <PlayerSummary key={player.id} id={player.id}>{player.name}</PlayerSummary>
+    // Make a PlayerSummary for every player in this.state.players
+  ))}
+</ul>
+<Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
+// Link to the soon to be added add team page.
+----
+
+==== AddPlayer.js
+We need to add players, so this will call the controller add player.
+
+[source, js]
+----
+import ...
+
+class AddPlayer extends React.Component {
+  constructor(props) {
+    super();
+    this.state = ({name: "No Name", teamId: props.match.params.id});
+    this.submit = this.submit.bind(this);
+    this.updateName = this.updateName.bind(this);
+    // Standard bind this to functions and set default state
+  }
+
+  submit(event) {
+    event.preventDefault();
+    // Prevent normal behaviour of a button
+    axios.post("/api/player", {name: this.state.name, teamId: this.state.teamId})
+    // Send a post request to /api/player with name and teamId, to match the PlayerRest object
+      .then(response => {
+        window.location.href = '/team/' + this.state.teamId;
+        // Redirect to the team the player was made in
+        this.state.name = "";
+        console.log("created at " + response.headers.location);
+      })
+      .catch(function (error) {
+        console.log(error);
+        // Log any errors
+      });
+  }
+
+  updateName(event) {
+    this.setState({name: event.target.value})
+    // On event set this.state.name to value of what sent the event
+  }
+
+  render() {
+    // When displayed in page
+    return (
+      <div className={"AddScreen"}>
+        // Wrap it in a div .AddScreen
+        <h1>Add a Team to the League!</h1>
+        <form className={"thePlayerForm"} onSubmit={this.submit}>
+          // Create a form which calls submit when submitted
+          <TextField
+            id="PlayerName"
+            label="Player Name"
+            placeholder="Player Name"
+            className={"PlayerNameInput"}
+            onChange={this.updateName}
+          /> <br />
+          // Text input which calls updateName when changed with label PlayerName
+          <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+          // Call submit
+        </form>
+      </div>
+    )
+  }
+}
+
+export default AddPlayer;
+----
+
+==== PlayerSummary.js
+Team needs to show players, with PlayerSummarys, so we implement them.
+
+[source, js]
+----
+import {Link} from "react-router-dom";
+
+class PlayerSummary extends React.Component {
+  render() {
+    return (
+      <li className={this.props.children.replace(/\s+/g, '-').toLowerCase()}>
+        // Return a list element with class of player name
+        <Link to={'/player/' + this.props.id.toString()}>
+          {this.props.children}
+        </Link>
+        // Link to player page
+        <Delete id={this.props.id} type={'player'} name={this.props.children}/>
+        // Delete Button
+      </li>
+    )
+  }
+}
+
+export default PlayerSummary;
+----
+
+==== Player.js
+Display more details of the player.
+
+[source, js]
+----
+import ...
+
+class Player extends React.Component {
+
+  constructor(props) {
+    super();
+    this.state = {status: "Loading"};
+    this.getLeague = this.getLeague.bind(this);
+    this.getLeague(props.match.params.id);
+    // Set default state, bind this to getLeague and getLeague
+  }
+
+  getLeague(id) {
+    axios.get('/api/player/' + id)
+      // Send a get request to playerController and get the player details
+      .then(response => {
+        this.setState({
+          status: "OK",
+          id: id,
+          name: response.data.name,
+          team: response.data.team
+          // Map response to state
+        })
+      })
+      .catch(error => {
+        console.log(error)
+        // Simple error logging
+      });
+  }
+
+  render() {
+    if(this.state.status === "OK") {
+      return (
+        <div className={'Player'}>
+          <h2>{this.state.name}</h2>
+          <Link to={"/team/" + this.state.team.id}>{this.state.team.name}</Link>
+        </div>
+        // Show a title, and a link back
+      )
+    } else {
+      return <CircularProgress color={"primary"} />
+      // If loading show a loading wheel
+    }
+  }
+}
+
+export default Player;
+----
+
+==== TestPlayers.js
+Now nightwatch is running, we need to add tests to test the new functionality.
+
+[source, js]
+----
+module.exports = {
+  / Export this
+
+  'Setup' : function (browser) {
+    // Create TestCase Setup
+    let directory = "./reports/screenshots/TestPlayers/";
+    browser
+      .url('http://user:saskcow@localhost:8080/league')
+      .pause(1000)
+      .waitForElementVisible('body', 1000)
+      .click('button[class~=add]')
+      .waitForElementVisible('input[id=LeagueName]', 1000)
+      .setValue('input[id=LeagueName]', 'Nights Watch')
+      .click('button[class~=submitForm]')
+      .pause(1000)
+      .assert.containsText('.Leagues', 'Nights Watch')
+
+      .click('li[class=nights-watch]>a')
+      .pause(1000)
+      .assert.containsText('h2', 'Nights Watch')
+
+      .click('button[class~=addTeam]')
+      .waitForElementVisible('input[id=TeamName]', 1000)
+      .setValue('input[id=TeamName]', 'Sam Vimes')
+      .click('button[class~=submitForm]')
+      .pause(1000)
+      .assert.containsText('.Teams', 'Sam Vimes')
+
+      .saveScreenshot(directory + "1-init team.png")
+
+      // Makes a League and Team like in the other examples
+  },
+
+  'Test Adding Players' : function (browser) {
+    let directory = "./reports/screenshots/TestPlayers/";
+    browser
+      .click('li[class=sam-vimes]>a')
+      .pause(1000)
+      .assert.containsText('h2', 'Sam Vimes')
+      .saveScreenshot(directory + "2-Team view.png")
+      // Click on a team, and check it's the right one
+
+      .click('button[class~=addPlayer]')
+      .waitForElementVisible('input[id=PlayerName]', 1000)
+      // Click add a player and wait for page to load
+      .setValue('input[id=PlayerName]', 'Sam Vimes')
+      // Set player Name
+      .saveScreenshot(directory + "3-Add Player screen.png")
+      .click('button[class~=submitForm]')
+      .pause(1000)
+      // Submit player and wait for page to load
+      .assert.containsText('.Players', 'Sam Vimes')
+      .saveScreenshot(directory + "4-Sam Vimes in the Vimes.png")
+      // Check player exists
+
+      .click('button[class~=addPlayer]')
+      .waitForElementVisible('input[id=PlayerName]', 1000)
+      .setValue('input[id=PlayerName]', 'Mas Mives')
+      .click('button[class~=submitForm]')
+      .pause(1000)
+      .assert.containsText('.Players', 'Mas Mives')
+      .saveScreenshot(directory + "5-2 players.png")
+      // Add another player
+  },
+
+  'Test Player' : function (browser) {
+    let directory = "./reports/screenshots/TestPlayers/";
+    browser
+      .click('li[class=mas-mives]>a')
+      .pause(1000)
+      .assert.containsText('h2', 'Mas Mives')
+      .assert.containsText('a', 'Sam Vimes')
+      .saveScreenshot(directory + "6-Mas Mives.png")
+      .click('a')
+      // Look at a player, check a name and a back button appears, and leave
+      // Players don't have much going for them
+  },
+
+  'Deleting' : function (browser) {
+    let directory = "./reports/screenshots/TestPlayers/";
+    browser
+      .click('button[name=delete-mas-mives]')
+      .pause(1000);
+    browser.expect.element('.Players').text.to.not.contain('Mas Mives');
+    browser.expect.element('.Players').text.to.contain('Sam Vimes');
+    // Delete Mas Mives and check he's gone
+    browser
+      .saveScreenshot(directory + "7-Deleted Mives.png")
+      .click('button[name=delete-sam-vimes]')
+      .pause(1000);
+    browser.expect.element('.Players').text.to.not.contain('Sam Vimes');
+    // Delete Sam Vimes and check he's gone
+    browser
+      .url('http://localhost:8080/league')
+      .click('button[name=delete-nights-watch]')
+      .pause(1000);
+    browser.expect.element('.Leagues').text.to.not.contain('Nights Watch');
+    // Delete the League
+    browser.end();
+    // Close the browser
+  }
+};
+----
+
+include::test/3.Players Front and Back.adoc[]
+
+=== Games in Back end
+Game is a bit different, teams are a oneToMany with League,
+players are a manyToMany with Team,
+games have oneToMany with Team and League. Despite this this is still fairly similar.
+
+==== GameControllerTest.java
+Got to test the controller to save time later on.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@RunWith(MockitoJUnitRunner.class)
+public class GameControllerTest {
+
+    @Mock
+    private GameRepository repo;
+    @Mock
+    private TeamRepository teamRepository;
+    // Create a mock GameRepository, TeamRepository
+    private MockMvc mockMvc;
+
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(new GameController(repo, teamRepository))
+                .build();
+    }
+    // Create a mockMvc Controller from a new GameController with the mock repos
+
+    @Test
+    // It's a test, run it with gradle test, and report on it
+    public void addGame_shouldSaveTheGame() throws Exception {
+        League league = new League(1L, "Brian", null, new LinkedList<>());
+        Team team1 = new Team(1L, "Dave", null, new LinkedList<>(), league);
+        Team team2 = new Team(2L, "David", null, new LinkedList<>(), league);
+        LocalDateTime dateTime = LocalDateTime.now(Clock.systemUTC());
+        // Create LocalDateTime from current time
+        Game game = new Game(1L, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)));
+
+        // Create a bunch of objects which would be there when saving a game
+
+        team1.addGame(game);
+        team2.addGame(game);
+        league.addTeam(team1);
+        league.addTeam(team2);
+
+        // Link some of these together
+
+        when(repo.save(isA(Game.class))).thenReturn(game);
+        when(repo.findOne(game.getId())).thenReturn(game);
+        when(repo.findAll()).thenReturn(Collections.singletonList(game));
+        when(teamRepository.findOne(team1.getId())).thenReturn(team1);
+        when(teamRepository.findOne(team2.getId())).thenReturn(team2);
+
+        // Mock what the repository would do, return objects when find attempted
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        // Make a formatter which takes a LocalDateTime and makes it an ISO local date time string
+        String content = String.format("{\"time\":\"%s\", \"venue\": \"Brian Bowling Centre\", \"teamId1\": \"1\", \"teamId2\": \"2\"}", dateTime.format(formatter));
+        // Create the content for the GameRest , time, venue, teamId1, teamId2
+        // String.format() swaps the %s for the formatted LocalDateTime String
+
+        String uri = mockMvc.perform(post("/api/game")
+                // Send a post request to /api/game
+                .content(content)
+                // Send the JSON String above
+                .contentType("application/json"))
+                // Include content-type header
+                .andExpect(status().isCreated())
+                // Expect 201 returned
+                .andExpect(header().string("Location", "http://localhost:8080/api/game/" + game.getId()))
+                // Expect header of Location of game
+                .andReturn().getResponse().getHeader("Location");
+                // Return Location
+
+        mockMvc.perform(get(uri))
+                .andExpect(status().isOk())
+                // Expect 200
+                .andExpect(MockMvcResultMatchers.jsonPath("$.venue", equalTo("Brian Bowling Centre")))
+                .andExpect(MockMvcResultMatchers.jsonPath("venue", equalTo("Brian Bowling Centre")))
+                // Expect Venue same as set in game, Brian Bowling Centre
+                .andExpect(MockMvcResultMatchers.jsonPath("$.league.name", equalTo("Brian")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.time", equalTo(dateTime.format(formatter))));
+                // Expect League Name and time to be as in game
+    }
+
+    @Test
+    public void deleteGame_shouldDeleteGame() throws Exception {
+        League league = new League(1L, "Brian", null, new LinkedList<>());
+        Team team1 = new Team(1L, "Brian", null, new LinkedList<>(), league);
+        Team team2 = new Team(2L, "Brian", null, new LinkedList<>(), league);
+        LocalDateTime dateTime = LocalDateTime.now(Clock.systemUTC());
+        // Create LocalDateTime from current time
+        Game game = new Game(1L, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)));
+        Game game2 = new Game(2L, dateTime, "Brian Bowling Centre", new LinkedList<>(Arrays.asList(team1, team2)));
+
+        // Create objects which would be in place
+
+        team1.addGame(game);
+        team2.addGame(game);
+        team1.addGame(game2);
+        team2.addGame(game2);
+        league.addTeam(team1);
+        league.addTeam(team2);
+
+        // Link all the objects
+
+        doNothing().when(repo).delete(isA(Long.class));
+        when(repo.findOne(game.getId())).thenReturn(game);
+
+        // When delete attempted do nothing, when findOne of gameId return game
+
+        mockMvc.perform(delete("/api/game/1"))
+                // Send Delete request to /api/game/1
+                .andExpect(status().isNoContent());
+                // Expect 204
+
+        verify(repo, times(1)).delete(1L);
+        // Check repo method called once
+        assertThat(team1.getGames()).doesNotContain(game);
+        assertThat(team1.getGames()).contains(game2);
+        // Check that there are no links to game, but still to game2
+    }
+
+}
+----
+
+==== GameController.java
+What requests to /api/game go through, makes, deletes and modifies objects in database.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@Controller
+public class GameController {
+    private GameRepository repo;
+    private TeamRepository teamRepository;
+
+    @Autowired
+    public GameController(GameRepository repo, TeamRepository teamRepository){
+        this.repo = repo;
+        this.teamRepository = teamRepository;
+    }
+
+    // The Usual has Repositories, and on start gets them from application context
+
+    @RequestMapping(value = "/api/game/{id}", method = RequestMethod.GET)
+    // All get requests to /api/game/{id} calls this function
+    public ResponseEntity<GameView> findLeague(@PathVariable("id") Long id) {
+        // Returns a ResponseEntity with a GameView, takes id from path
+        Game game = repo.findOne(id);
+        GameView gameView = new GameView(game);
+        // Get the game and
+        return ResponseEntity.ok(gameView);
+    }
+
+    @RequestMapping(value = "/api/game", method = RequestMethod.POST)
+    // All post requests to /api/game/ calls this function
+    public ResponseEntity<?> saveLeague(@RequestBody GameRest game) {
+        // Returns a ResponseEntity takes JSON as GameRest
+
+        Team team1 = teamRepository.findOne(game.getTeamId1());
+        Team team2 = teamRepository.findOne(game.getTeamId2());
+        List<Team> teams = new LinkedList<>(Arrays.asList(team1, team2));
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime dateTime = LocalDateTime.parse(game.getTime(), formatter);
+        // Find all the objects
+
+        Game savedGame = repo.save(new Game(dateTime, game.getVenue(), teams));
+        // Save the game
+        team1.addGame(savedGame);
+        team2.addGame(savedGame);
+        // Tell everything else the Game exists
+        teamRepository.save(team1);
+        teamRepository.save(team2);
+        // Save everything
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedGame.getId()).toUri();
+        // Put location in the URI
+        return ResponseEntity.created(location).build();
+        // Send a 201 with the location
+    }
+
+    @RequestMapping(value = "/api/game/{id}", method = RequestMethod.DELETE)
+    // All delete requests to /api/game/{id} calls this function
+    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+        // Return a Response, with nothing
+        try {
+            Game game = repo.findOne(id);
+            game.getTeams().forEach(team -> team.deleteGame(game));
+            // For each Team in the Game, remove the link
+            repo.delete(id);
+            // Delete the Game
+            return ResponseEntity.noContent().build();
+            // Send a 204
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+            // If you can't find the game, send back a 404
+        }
+    }
+}
+----
+
+==== GameRest.java
+Once again, no foreign keys etc from JSON so we compromise.
+
+[source, java]
+----
+package com.saskcow.bowling.rest;
+
+import ...
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GameRest {
+    private String time;
+    private String venue;
+    private Long rotaId;
+    private Long teamId1;
+    private Long teamId2;
+    // All we need to contruct a Game
+}
+----
+
+JSON Equivalent
+
+[source, JSON]
+----
+{
+  time: "2018-04-16T13:48:16",
+  venue: "The Shades",
+  rotaId: 3,
+  teamId1: 1,
+  teamId2: 4
+}
+----
+
+==== GameView.java
+This is the only view object for a game, as at this stage, there isn't much in a game you don't care about,
+which teams are playing, when and where are all fairly crucial. But we need at least one view object,
+so this is it!
+
+[source, java]
+----
+package com.saskcow.bowling.view;
+
+import ...
+
+@Data
+@NoArgsConstructor
+public class GameView {
+    private Long id;
+    private String time;
+    private List<TeamViewSummary> teams;
+    private String venue;
+    private LeagueViewSummary league;
+    // Has an id, a time, 2 teams, a venue, and details of the league
+
+    public GameView(Game game){
+        this.id = game.getId();
+        this.time = game.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        // Get time and format it to ISO local time string
+        this.teams = game.getTeams().stream().map(TeamViewSummary::new).collect(Collectors.toList());
+        // Make all the teams into TeamViewSummary and collect stream into a list
+        this.venue = game.getVenue();
+        this.league = new LeagueViewSummary(game.getTeams().get(0).getLeague());
+        // Get League from team 1s League
+        // Get the things from game
+    }
+}
+----
+
+==== Errors at this stage
+
+===== @NoArgsConstructor Required
+
+Originally the `@NoArgsConstructor` was not on GameRest. And that may sound fine, why would it be empty?
+Well as it turns out when converting the JSON, it needs an empty GameRest. That's easy enough to add.
+
+.No noArgsConstructor
+image::error-pictures/no-no-args.png[noNoArgs, pdfwidth=100%]
+
+Now with the `@NoArgsConstructor`, which creates an empty constructor, it works.
+
+include::test/4. Games in back end.adoc[]
+
+=== Games in the front end
+
+==== App.js
+Now we have the standard rewrite the router, we need to add the game and addGame pages.
+
+[source, js]
+----
+<Route exact path="/" component={LeagueList}/>
+<Route exact path="/league" component={LeagueList}/>
+<Route exact path="/league/:id" component={League}/>
+<Route exact path="/team/:id" component={Team}/>
+<Route exact path="/player/:id" component={Player}/>
+<Route path={"/league/:id/add-team"} component={AddTeam}/>
+<Route path={"/league/:id/add-game"} component={AddGame}/>
+<Route path={"/team/:id/add-player"} component={AddPlayer}/>
+<Route path="/add/league" component={AddLeague}/>
+----
+
+Routes are now this, this will be like this for a while.
+
+==== League.js
+Games need to show somewhere, so a League can show all the games.
+
+[source, js]
+----
+<h3>Games</h3>
+<ul className={"Games"}>
+  {this.state.games.map(game => (
+    <GameSummary key={game.id} id={game.id} time={game.time} teams={game.teams}>{game.venue}</GameSummary>
+  ))}
+</ul>
+<Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>
+----
+
+==== AddGame.js
+Now with more menus than ever (more than just a name) we have the next generation of add screen, AddGame.js!
+
+[source, js]
+----
+import ...
+
+class AddGame extends React.Component {
+  constructor(props) {
+    super();
+    this.state = ({status: "Loading", time: new Date().toISOString().slice(0, -5)});
+    // set default state, slice end of time string to remove the time zone part
+    this.submit = this.submit.bind(this);
+    this.updateVenue = this.updateVenue.bind(this);
+    this.updateTime = this.updateTime.bind(this);
+    this.updateTeam1 = this.updateTeam1.bind(this);
+    this.updateTeam2 = this.updateTeam2.bind(this);
+    this.getLeague = this.getLeague.bind(this);
+    this.getLeague(props.match.params.id);
+    // bind this to most things, and then getLeague
+  }
+
+  submit(event) {
+    event.preventDefault();
+    // Prevent standard event behaviour
+    axios.post("/api/game", {
+      venue: this.state.venue,
+      time: this.state.time,
+      teamId1: this.state.team1,
+      teamId2: this.state.team2,
+      rotaId: this.state.rota
+      // Send all this off as a GameRest style bit of JSON
+    })
+      .then(response => {
+        window.location.href = '/league/' + this.state.id;
+        this.state.name = "";
+        console.log("created at " + response.headers.location);
+        // Go to league page if done
+      })
+      .catch(function (error) {
+        console.log(error);
+        // log any errors into console
+      });
+  }
+
+  getLeague(id) {
+    axios.get('/api/league/' + id)
+    // Send get request to /api/league/{id} to get league data, says which teams there are etc.
+      .then(response => {
+        this.setState({
+          id: id,
+          status: "OK",
+          teams: response.data.teams,
+          leagueName: response.data.name,
+          team1: response.data.teams[0].id,
+          team2: response.data.teams[1].id,
+          rota: response.data.rotaId
+          // Map response to state
+        })
+      })
+      .catch(error => {
+        console.log(error)
+        // Log any errors in console
+      });
+  }
+
+  updateVenue(event) {
+    this.setState({venue: event.target.value});
+  }
+
+  updateTime(event) {
+    console.log(event.target.value);
+    this.setState({time: event.target.value});
+  }
+
+  updateTeam1(event) {
+    this.setState({team1: event.target.value});
+  };
+
+  updateTeam2(event) {
+    this.setState({team2: event.target.value});
+  };
+
+  // All these just update state as sent an event, like all the others, but there are 4 this time
+
+  render() {
+    if(this.state.status === "OK") {
+      // If loaded
+      return (
+        <div className={"AddScreen"}>
+          <h1>Add game {this.state.name} to {this.state.leagueName}!</h1>
+          <form className={"theGameForm"} onSubmit={this.submit} noValidate>
+            // Create a form which calls submit on finish, do not try to validate the dropdowns
+
+            <TextField
+              id="Venue"
+              label="Venue"
+              placeholder="Venue"
+              className={"VenueInput"}
+              onChange={this.updateVenue}
+            />
+            // Venue text entry
+
+            <br />
+            <br />
+            // Spacing, so it's not one wide webpage, but has a column
+
+            <TextField
+              id="datetime-local"
+              type="datetime-local"
+              className={"TimeInput"}
+              defaultValue={this.state.time}
+              onChange={this.updateTime}
+            />
+            // Time picker, which is technically a string, which is rather convenient
+
+            <br />
+            <br />
+
+            <InputLabel htmlFor="team-1">team1</InputLabel>
+            <Select
+              value={this.state.team1}
+              // Start value is this.state.team1
+              onChange={this.updateTeam1}
+              // When changed call updateTeam1 with event
+              id='team1'
+              className={'team1'}
+              inputProps={{
+                name: 'team1',
+                id: 'team1',
+              }}>
+              {this.state.teams.map(team => (
+                <MenuItem key={team.id} value={team.id} name={"team1-" + team.name.replace(/\s+/g, '-').toLowerCase()}>{team.name}</MenuItem>
+              ))}
+              // For each team, make a menu item with a unique value and a name
+            </Select>
+            // Select from dropdown of MenuItems onChange set team1 in state to the correct Team
+
+            <br />
+            <br />
+
+            <InputLabel htmlFor="team-2">team2</InputLabel>
+            <Select
+              value={this.state.team2}
+              // Start value is this.state.team2
+              onChange={this.updateTeam2}
+              // When changed call updateTeam2 with event
+              id='team2'
+              className={'team2'}
+              inputProps={{
+                name: 'team2',
+                id: 'team2',
+              }}
+            >
+              {this.state.teams.map(team => (
+                <MenuItem key={team.id} value={team.id} name={"team2-" + team.name.replace(/\s+/g, '-').toLowerCase()}>{team.name}</MenuItem>
+              ))}
+              // For each team, make a menu item with a unique value and a name
+            </Select>
+            // Select from dropdown of MenuItems onChange set team1 in state to the correct Team
+
+            <br />
+            <br />
+
+            <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+            // Submit form
+          </form>
+        </div>
+      )
+    } else {
+      // If not loaded, send progress wheel
+      return (
+        <CircularProgress />
+      )
+    }
+  }
+}
+
+export default AddGame;
+----
+
+Well that was certainly longer than the rest, the Rest objects were short.
+
+==== GameSummary.js
+If the League is going to display Games, we need the summary, as games don't have a name or something, we require a lot more detail.
+
+[source, js]
+----
+import ...
+
+class GameSummary extends React.Component {
+  render() {
+    return (
+      <li>
+        <Link to={'/team/' + this.props.teams[0].id}>{this.props.teams[0].name}</Link> vs
+        // Link to the first team in the game, with the team name
+        <Link to={'/team/' + this.props.teams[1].id}>{this.props.teams[1].name}</Link>
+        // Link to the second team in the game, also with name
+        <p>{this.props.children} - {this.props.time}</p>
+        // Linebreak, then the venue - time of the game
+      </li>
+    )
+  }
+}
+
+export default GameSummary; // Export this for easier imports
+----
+
+==== Errors at this stage
+
+===== Updating wrong value in state
+
+With addGame and it's 4 update state functions, there was a problem with the team updaters.
+
+[source, js]
+----
+updateTeam1(event) {
+    this.setState({team1: event.target.value});
+  };
+
+  updateTeam2(event) {
+    this.setState({team1: event.target.value});
+  };
+----
+
+Both were updating team 1, causing the lower dropdown to change the upper dropdown. This wasn't ideal.
+So when spotted it was simply updated to team 1 and team 2 respectively, to fix this problem.
+
+include::test/5. Games Front and Back.adoc
+
+== Stage 2
+
+=== Planning
 
 == Test Formatter
 I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
@@ -624,13 +3295,13 @@ doing all this manually now can I?
 
 === Testing
 
+path relative to file which imported it, not file which link originally in.
+
 == Testing
 
+It is important to do testing throughout the project, screenshots and logs start from an early stage in development,
+test data logs begin when basic functionality starts. Most of this is with the associated version.
 
-
-
-It is important to do testing throughout the project, screenshots and logs start from an early stage in development
-
-include::test/test.adoc[]
+//include::test/test.adoc[]
 
 include::api/index.adoc[]

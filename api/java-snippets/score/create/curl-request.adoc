@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/api/score' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{"playerGameId": "1", "scratch": "103", "handicap": "3"}'
+----

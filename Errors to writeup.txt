@@ -32,7 +32,7 @@ missing runwith not allowing object.class mocks
 
 nullpointer streaming null add ```null ? new LinkedList<>()```
 
-premature assertions cause dissapointing nightwatch tests, add pauses
+premature assertions cause dissapointing nightwatch tests
 
 different date formats YYYY-MM-DDTHH:mm:ss
 
@@ -40,12 +40,6 @@ this.state.time =/= this.state.time(), causing state to not have funtion time
 
 Planning and Research *
 
-Changing a constructor
+Can't have div inside a table, so <React.Fragment>
 
-cascade type causing org.h2.jdbc.JdbcSQLException: Referential integrity constraint violation: "FK6QUHQDCPQO5X8PQLJKYELMMH7: PUBLIC.ROTA FOREIGN KEY(LEAGUE_ID) REFERENCES PUBLIC.LEAGUE(ID) (1)"; SQL statement:
-
-id=id=The value
-
-wrong css selectors
-
-updateTeam2 setting team1, updateTeam1 setting team1
+Keys for iterable stuff
