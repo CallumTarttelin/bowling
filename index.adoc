@@ -153,6 +153,7 @@ The front end will be written in React JS. I used this as it is very easy to fin
 The database structure will probably be best in a relational database so a springboot SQL database will be used such as H2 and JPA to communicate nicely.
 I will use nightwatch for integration testing. This will allow me to automatically use the website, expect behaviour, and take screenshots during. I will use a python script to put all the testing data into the writeup automatically.
 To allow easy script modification of the writeup it will be written in asciidoc and made into a pdf with asciidoctor-pdf, the source is plain text and can be easily modified. It supports code highlighting etc as well.
+It should use OAuth to authenticate so users don't require another password.
 
 === Design
 Upon talking to the client it was established that all original features of the site were important. +
@@ -983,14 +984,14 @@ class App extends React.Component {
     return (
       // JSX returned to make into HTML to display
       <Router>
-        // React Router BrowserRouter which creates a router which can have routes here
+        {/*React Router BrowserRouter which creates a router which can have routes here*/}
         <div className="App">
           <Route exact path="/" component={LeagueList}/>
-          // If at path / show LeagueList component
+          {/*If at path / show LeagueList component*/}
           <Route exact path="/league" component={LeagueList}/>
           <Route exact path="/league/:id" component={League}/>
           <Route path="/add/league" component={AddLeague}/>
-          // Could match multiple but not setup to, as I don't want it to
+          {/*Could match multiple but not setup to, as I don't want it to*/}
         </div>
       </Router>
     )
@@ -1019,13 +1020,13 @@ class LeagueSummary extends React.Component {
   render() {
     return (
       <li className={this.props.children.replace(/\s+/g, '-').toLowerCase()}>
-        // Create a list element with name same as league, "-" instead of " "
+        {/*Create a list element with name same as league, "-" instead of " "*/}
         <Link to={'/league/' + this.props.id.toString()}>
-          // Link it to "/league/:id" so that it can go to the more details page
-          {this.props.children} // Write the name of the league
+          {/*Link it to "/league/:id" so that it can go to the more details page*/}
+          {this.props.children} {/*Write the name of the league*/}
         </Link>
         <Delete id={this.props.id} type={'league'} name={this.props.children}/>
-        // Create a delete for a league with this ID, onclick delete the league
+        {/*Create a delete for a league with this ID, onclick delete the league*/}
       </li>
     )
   }
@@ -1083,7 +1084,7 @@ class LeagueList extends React.Component {
       return (
         <div className={"Loading"}>
           <CircularProgress color={"primary"} />
-          // Create a loading wheel with primary colour
+          {/*Create a loading wheel with primary colour*/}
         </div>
       )
     } else if (this.state.status === "Error") {
@@ -1102,9 +1103,9 @@ class LeagueList extends React.Component {
             // Create an unordered list
             {this.state.leagues.map(league => (
               // For league in this.state.leagues
-              <div key={league.id}> // When mapped it likes having a key, otherwise it gives a warning
+              <div key={league.id}> {/*When mapped it likes having a key, otherwise it gives a warning*/}
                 <LeagueSummary id={league.id}>{league.name}</LeagueSummary>
-                // Create a LeagueSummary with name and id
+                {/*Create a LeagueSummary with name and id*/}
               </div>
             ))}
           </ul>
@@ -1173,7 +1174,7 @@ class League extends React.Component {
 
           <h2>{this.state.name}</h2>
           <Link to={"/league"}>Back</Link>
-          // Title and link back to previous part
+          {/*Title and link back to previous part*/}
 
         </div>
       )
@@ -1234,16 +1235,16 @@ class AddLeague extends React.Component {
     return (
       <div className={"AddScreen"}>
         <h1>Add a league!</h1>
-        <form className={"theLeagueForm"} onSubmit={this.submit}> // when submitted cakk submit
-          <TextField // Create a text entry
+        <form className={"theLeagueForm"} onSubmit={this.submit}> {/*when submitted cakk submit*/}
+          <TextField {/*Create a text entry*/}
             id="LeagueName"
-            label="League Name" // Create a nice floating label on edit
+            label="League Name" {/*Create a nice floating label on edit*/}
             placeholder="League Name"
             className={"LeagueNameInput"}
-            onChange={this.updateName} // Update name in state whenever this is changed
+            onChange={this.updateName} {/*Update name in state whenever this is changed*/}
           /> <br />
           <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
-          // Submit form
+          {/*Submit form*/}
         </form>
       </div>
     )
@@ -1298,11 +1299,11 @@ class LeagueList extends React.Component {
   render() {
     if (this.state.status === "Error") {
       return (
-        <h2>{this.state.err}</h2> // If error, show error
-      )
+        <h2>{this.state.err}</h2> 
+      ) // If error, show error
     } else {
+      // Create a button, which looks like a delete icon, which when clicked, sends the delete request
       return (
-        // Create a button, which looks like a delete icon, which when clicked, sends the delete request
         <IconButton onClick={this.deleteThing} id={"delete-" + this.props.id.toString()} name={"delete-"+this.props.name.replace(/\s+/g, '-').toLowerCase()}><DeleteIcon /></IconButton>
       )
     }
@@ -1753,13 +1754,13 @@ Leagues now have teams, let's show that.
 ----
 <h3>Teams</h3>
 <ul className={"Teams"}>
-  // Create a list of all the teams
+  {/*Create a list of all the teams*/}
   {this.state.teams.map(team => (
-    <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary> // There are no teams, so this is just blank
+    <TeamSummary key={team.id} id={team.id}>{team.name}</TeamSummary> {/*There are no teams, so this is just blank*/}
   ))}
 </ul>
 <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
-// Link to the add a team to the league page
+{/*Link to the add a team to the league page*/}
 ----
 
 This allows the league to show a list of its teams.
@@ -1770,13 +1771,13 @@ We need routes to add and show teams.
 [source, js]
 ----
 <Router>
-  // React Router BrowserRouter which creates a router which can have routes here
+  {/*React Router BrowserRouter which creates a router which can have routes here*/}
   <div className="App">
-    // Following added
+    {/*Following added*/}
     <Route exact path="/team/:id" component={Team}/>
-    // at /team/{id} show Team page
+    {/*at /team/{id} show Team page*/}
     <Route path={"/league/:id/add-team"} component={AddTeam}/>
-    // at /league/{id}/add-team show the add team to league page
+    {/*at /league/{id}/add-team show the add team to league page*/}
   </div>
 </Router>
 ----
@@ -1827,10 +1828,10 @@ class AddTeam extends React.Component {
     // when shown on screen
     return (
       <div className={"AddScreen"}>
-        // Contain in a div, as it has to return one Component
+        {/*Contain in a div, as it has to return one Component*/}
         <h1>Add a Team to the League!</h1>
         <form className={"theTeamForm"} onSubmit={this.submit}>
-          // When form submitted call submit with event
+          {/*When form submitted call submit with event*/}
           <TextField
             id="TeamName"
             label="Team Name"
@@ -1838,9 +1839,9 @@ class AddTeam extends React.Component {
             className={"TeamNameInput"}
             onChange={this.updateName}
           /> <br />
-          // Create a text field with labels and when changed calls updateName
+          {/*Create a text field with labels and when changed calls updateName*/}
           <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
-          // Form submit button
+          {/*Form submit button*/}
         </form>
       </div>
     )
@@ -1862,14 +1863,14 @@ class TeamSummary extends React.Component {
     // When displayed
     return (
       <li className={this.props.children.replace(/\s+/g, '-').toLowerCase()}>
-        // Create a list element with a class all lower cases with " " => "-"
+        {/*Create a list element with a class all lower cases with " " => "-"*/}
         <Link to={'/team/' + this.props.id.toString()}>
-          // Link to the team page
+          {/*Link to the team page*/}
           {this.props.children}
-          // Team name
+          {/*Team name*/}
         </Link>
         <Delete id={this.props.id} type={'team'} name={this.props.children}/>
-        // Use the delete object from earlier
+        {/*Use the delete object from earlier*/}
       </li>
     )
   }
@@ -1918,10 +1919,10 @@ class Team extends React.Component {
     if(this.state.status === "OK") {
       return (
         <div className={'Team'}>
-          // Contain in Team div
+          {/*Contain in Team div*/}
           <h2>{this.state.name}</h2>
           <Link to={"/league/" + this.state.league.id}>{this.state.league.name}</Link>
-          // Link back to league
+          {/*Link back to league*/}
         </div>
       )
     } else if (this.state.status === "error") {
@@ -2452,17 +2453,17 @@ Included in .Team to display all the players in the team.
 [source, js]
 ----
 <h3>Players</h3>
-// Title Players
+{/*Title Players*/}
 <ul className={"Players"}>
-  // Create an unordered list class Players
+  {/*Create an unordered list class Players*/}
   {this.state.players.map(player => (
-    // For every player in this.state.players, return this
+    {/*For every player in this.state.players, return this*/}
     <PlayerSummary key={player.id} id={player.id}>{player.name}</PlayerSummary>
-    // Make a PlayerSummary for every player in this.state.players
+    {/*Make a PlayerSummary for every player in this.state.players*/}
   ))}
 </ul>
 <Link to={"/team/" + this.state.id + '/add-player'}><Button className={"addPlayer"} variant={"fab"} color={"primary"}><AddIcon /></Button></Link>
-// Link to the soon to be added add team page.
+{/*Link to the soon to be added add team page.*/}
 ----
 
 ==== AddPlayer.js
@@ -2507,10 +2508,10 @@ class AddPlayer extends React.Component {
     // When displayed in page
     return (
       <div className={"AddScreen"}>
-        // Wrap it in a div .AddScreen
+        {/*Wrap it in a div .AddScreen*/}
         <h1>Add a Team to the League!</h1>
         <form className={"thePlayerForm"} onSubmit={this.submit}>
-          // Create a form which calls submit when submitted
+          {/*Create a form which calls submit when submitted*/}
           <TextField
             id="PlayerName"
             label="Player Name"
@@ -2518,9 +2519,9 @@ class AddPlayer extends React.Component {
             className={"PlayerNameInput"}
             onChange={this.updateName}
           /> <br />
-          // Text input which calls updateName when changed with label PlayerName
+          {/*Text input which calls updateName when changed with label PlayerName*/}
           <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
-          // Call submit
+          {/*Call submit*/}
         </form>
       </div>
     )
@@ -2541,13 +2542,13 @@ class PlayerSummary extends React.Component {
   render() {
     return (
       <li className={this.props.children.replace(/\s+/g, '-').toLowerCase()}>
-        // Return a list element with class of player name
+        {/*Return a list element with class of player name*/}
         <Link to={'/player/' + this.props.id.toString()}>
           {this.props.children}
         </Link>
-        // Link to player page
+        {/*Link to player page*/}
         <Delete id={this.props.id} type={'player'} name={this.props.children}/>
-        // Delete Button
+        {/*Delete Button*/}
       </li>
     )
   }
@@ -2598,7 +2599,7 @@ class Player extends React.Component {
           <h2>{this.state.name}</h2>
           <Link to={"/team/" + this.state.team.id}>{this.state.team.name}</Link>
         </div>
-        // Show a title, and a link back
+        {/*Show a title, and a link back*/}
       )
     } else {
       return <CircularProgress color={"primary"} />
@@ -3141,7 +3142,7 @@ class AddGame extends React.Component {
         <div className={"AddScreen"}>
           <h1>Add game {this.state.name} to {this.state.leagueName}!</h1>
           <form className={"theGameForm"} onSubmit={this.submit} noValidate>
-            // Create a form which calls submit on finish, do not try to validate the dropdowns
+            {/*Create a form which calls submit on finish, do not try to validate the dropdowns*/}
 
             <TextField
               id="Venue"
@@ -3150,11 +3151,11 @@ class AddGame extends React.Component {
               className={"VenueInput"}
               onChange={this.updateVenue}
             />
-            // Venue text entry
+            {/*Venue text entry*/}
 
             <br />
             <br />
-            // Spacing, so it's not one wide webpage, but has a column
+            {/*Spacing, so it's not one wide webpage, but has a column*/}
 
             <TextField
               id="datetime-local"
@@ -3163,7 +3164,7 @@ class AddGame extends React.Component {
               defaultValue={this.state.time}
               onChange={this.updateTime}
             />
-            // Time picker, which is technically a string, which is rather convenient
+            {/*Time picker, which is technically a string, which is rather convenient*/}
 
             <br />
             <br />
@@ -3171,9 +3172,7 @@ class AddGame extends React.Component {
             <InputLabel htmlFor="team-1">team1</InputLabel>
             <Select
               value={this.state.team1}
-              // Start value is this.state.team1
               onChange={this.updateTeam1}
-              // When changed call updateTeam1 with event
               id='team1'
               className={'team1'}
               inputProps={{
@@ -3183,9 +3182,11 @@ class AddGame extends React.Component {
               {this.state.teams.map(team => (
                 <MenuItem key={team.id} value={team.id} name={"team1-" + team.name.replace(/\s+/g, '-').toLowerCase()}>{team.name}</MenuItem>
               ))}
-              // For each team, make a menu item with a unique value and a name
+              {/*Start value is this.state.team1*/}
+              {/*When changed call updateTeam1 with event*/}
+              {/*For each team, make a menu item with a unique value and a name*/}
             </Select>
-            // Select from dropdown of MenuItems onChange set team1 in state to the correct Team
+            {/*Select from dropdown of MenuItems onChange set team1 in state to the correct Team*/}
 
             <br />
             <br />
@@ -3193,9 +3194,7 @@ class AddGame extends React.Component {
             <InputLabel htmlFor="team-2">team2</InputLabel>
             <Select
               value={this.state.team2}
-              // Start value is this.state.team2
               onChange={this.updateTeam2}
-              // When changed call updateTeam2 with event
               id='team2'
               className={'team2'}
               inputProps={{
@@ -3206,15 +3205,15 @@ class AddGame extends React.Component {
               {this.state.teams.map(team => (
                 <MenuItem key={team.id} value={team.id} name={"team2-" + team.name.replace(/\s+/g, '-').toLowerCase()}>{team.name}</MenuItem>
               ))}
-              // For each team, make a menu item with a unique value and a name
+              {/*For each team, make a menu item with a unique value and a name*/}
             </Select>
-            // Select from dropdown of MenuItems onChange set team1 in state to the correct Team
+            {/*Select from dropdown of MenuItems onChange set team1 in state to the correct Team*/}
 
             <br />
             <br />
 
             <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
-            // Submit form
+            {/*Submit form*/}
           </form>
         </div>
       )
@@ -3244,17 +3243,71 @@ class GameSummary extends React.Component {
     return (
       <li>
         <Link to={'/team/' + this.props.teams[0].id}>{this.props.teams[0].name}</Link> vs
-        // Link to the first team in the game, with the team name
+        {/*Link to the first team in the game, with the team name*/}
         <Link to={'/team/' + this.props.teams[1].id}>{this.props.teams[1].name}</Link>
-        // Link to the second team in the game, also with name
+        {/*Link to the second team in the game, also with name*/}
         <p>{this.props.children} - {this.props.time}</p>
-        // Linebreak, then the venue - time of the game
+        {/*Linebreak, then the venue - time of the game*/}
       </li>
     )
   }
 }
 
 export default GameSummary; // Export this for easier imports
+----
+
+==== TestGames.js
+
+Just adds games, as they don't do anything else, cut out the repeated setup and teardown from other tests
+
+[source, js]
+----
+
+  'Test Adding Games' : function (browser) {
+    let directory = "./reports/screenshots/TestGames/";
+    browser
+      .click('button[class~=addGame]')
+      .pause(1000)
+      // Click add a Game and wait for page to load
+      .assert.containsText('h1', 'Nights Watch')
+      // Check for title is correct
+      .saveScreenshot(directory + "2-Add Game Screen.png")
+      // Save a screenshot
+
+      .setValue('input[id=Venue]', 'Sam Vimes Bowling Arena')
+      .setValue('input[id=datetime-local]', "14-03-2020")
+      // Set venue and datetime
+
+      .click("div[class~=team1] div[role=button]")
+      // Click the dropdown
+      .waitForElementVisible('div[id=menu-team1] > div > ul > li[name=team1-team-1]', 1000)
+      // Wait for dropdown to have dropped down
+      .click("div[id=menu-team1] > div > ul > li[name=team1-team-1]")
+      // Click team-1
+
+      .pause(1000)
+      // Wait for dropdown to close
+
+      .click("div[class~=team2] div[role=button]")
+      .waitForElementVisible('div[id=menu-team2] > div > ul > li[name=team2-team-3]', 1000)
+      .click("li[name=team2-team-3]")
+      // Make second team 3
+
+      .saveScreenshot(directory + "filled in.png")
+      // Save a screenshot
+
+      .click(".theGameForm button[type=submit]")
+      // Submit form
+
+      .pause(1000)
+      // Wait for page load
+
+      .assert.containsText('.Games', "Sam Vimes Bowling Arena")
+      .saveScreenshot(directory + "3-Added a game.png")
+      // Check game added and displayed, as well as saving a screenshot
+
+  }
+};
 ----
 
 ==== Errors at this stage
@@ -3277,11 +3330,1709 @@ updateTeam1(event) {
 Both were updating team 1, causing the lower dropdown to change the upper dropdown. This wasn't ideal.
 So when spotted it was simply updated to team 1 and team 2 respectively, to fix this problem.
 
-include::test/5. Games Front and Back.adoc
+include::test/5. Games Front and Back.adoc[]
 
 == Stage 2
 
 === Planning
+Now that the main objects are all in with a simple front end implementation and backend controllers, that's the start done.
+
+Next is features which are less reliant on everything being done so it will shift to a collection of user stories
+
+==== Discussion with client
+As fantastic as I thought it was being able to enter some data, and it remembered it.
+The client seemed to think it may require some more of the features highlighted in the brief before it could be considered
+usable for the task.
+
+Together we discussed and created a list of user stories to implement next, in particular concerning scoring games,
+a crucial part of the application.
+
+The List was as Follows:
+
+* Can add 3 players to play for team 1 in a game
+* Can display these players to team 2
+* Team 2, having seen Team 1's selection, can add 3 players
+* Scores can be added and displayed for each of 3 sets of games for all players
+* A player can add their handicap to a game
+* Added score is adjusted for the handicap
+* Points are awarded for a complete game
+* Winning team displayed
+* Highest Score possible 300
+* Calculate player Handicaps
+* Generate and display Player stats
+* Generate and display Team stats
+* League shows a table of all the teams stats
+
+I also needed to rewrite the nightwatch testing to work with this and be less repetitive.
+And after the page would need a good bit of polish to be usable.
+
+==== How were Games going to be modelled?
+Well to start with leagues should get games nicer, so a rota will be added between the objects for easier access.
+Games also require players in the game, so a PlayerGame object can be used with scores to make this, methods will be added
+to generate statistics like high handicap game and such.
+
+.How games fit in
+image::dev-pictures/match-objects.jpg[matchObjects, pdfwidth=100%]
+
+Ignore how it's called matches, I nearly changed games to matches so one set could be a game, but it didn't contribute
+to the functionality, so game stayed.
+
+==  Back to Development
+During this time springboot was updated from 1.5.9 to 2.0.0, so first everything had to be fixed
+
+=== Making SpringBoot 2.0 work
+Springboot 2.0 changed some of the repository commands. Which was confusing but easily fixed.
+
+wherever there was a `findOne(id)`, there is now a
+
+[source, java]
+----
+Optional<Object> optionalObject = repo.findById(id);
+if(! optionalObject.isPresent()){
+    return ResponseEntity.notFound().build();
+}
+Object object = optionalObject.get();
+----
+
+where Object is a Team or League or any other object.
+
+This means that it now sends a `404` not a `500` if you try to find a non existent entity on get requests.
+It also means that if a post request has invalid ids of other objects it returns a `400`.
+
+
+=== Adding the Rota to make life easier
+Just adds a link between League and Games, also if autogenerated game rota in future, makes it easier.
+
+
+
+==== Rota.java
+
+[source, java]
+----
+package com.saskcow.bowling.domain;
+
+import ...
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity // Database storable
+public class Rota {
+    private @Id @GeneratedValue Long id;
+    @OneToOne
+    private League league; // One league, one rota
+    @OneToMany(mappedBy = "rota", cascade = CascadeType.ALL)
+    private List<Game> games; // One rota, many games
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private Integer weeklyGames;
+
+    public Rota (League league) {
+        this.league = league;
+        this.games = new LinkedList<>();
+    }
+
+    // Makes one from the league
+
+    public void addGame(Game game) {
+        this.games.add(game);
+    }
+
+    public void deleteGame(Game game) {
+        this.games.remove(game);
+    }
+}
+
+----
+
+Now it just needs the repository as well as links in league and game. And changing all the constructors. This process has been omitted as it's
+been shown before.
+
+=== Security
+Also in springboot 2.0.0 security changed. This made it possible to include the OAuth planned in the original spec.
+
+image::dev-pictures/security-flowchart.png[security]
+
+The security should follow this for every incoming request. The login page will have a link to google to authenticate,
+when authenticated, the user is able to use the site as desired.
+
+This is achieved with up to date security
+
+[source, groovy]
+----
+compile('org.springframework.security:spring-security-oauth2-client:5.0.3.RELEASE')
+compile('org.springframework.security:spring-security-oauth2-jose:5.0.3.RELEASE')
+compile('org.springframework.boot:spring-boot-starter-security')
+testCompile('org.springframework.security:spring-security-test')
+----
+Added to dependencies in build.gradle, and a SecurityConfig.java
+
+==== SecurityConfig.java
+
+[source, java]
+----
+package com.saskcow.bowling.config;
+
+import ...
+
+@EnableWebSecurity
+// Enable security in the application
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    // Extend the default WebSecurityConfigurerAdapter, so only what needs to be changed is changed
+    // And the rest doesn't need to be written
+
+    @Override // Replave WebSecurityConfigurerAdapter configure with this
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            // Disable CSRF, see errors for more details
+            .exceptionHandling().authenticationEntryPoint(
+                ((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please Login!")))
+            // If there is an authentication problem, throw a 401, unauthorized
+                .and()
+            .authorizeRequests()
+                // Authorize requests which match
+                .antMatchers("/login").permitAll()
+                .antMatchers("/style").permitAll()
+                .antMatchers("/built").permitAll()
+                .antMatchers(HttpMethod.GET).permitAll()
+                // Authorize all get requests, and all requests any method to /login or /style or /built
+                .antMatchers(HttpMethod.POST).authenticated()
+                .antMatchers(HttpMethod.DELETE).authenticated()
+                // Require user to be authenticated to POST or DELETE
+                .and()
+            .oauth2Login();
+            // Use an OAuth 2 login page
+    }
+}
+----
+Fairly simple, follows a pattern.
+
+==== Login.ftl
+
+[source, html]
+----
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Bowling Login</title>
+    <link rel="stylesheet" href="/style/style.css"/>
+    <link rel="stylesheet" href="/style/material.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<h1>Login to Bowling!</h1>
+
+<a href="/oauth2/authorization/google">Login with google!</a>
+// Link to the made oauth google endpoint on click
+
+</body>
+</html>
+----
+Just a login page which links to
+
+==== Getting OAuth Credentials
+
+.Enter the oauth endpoint at get credentials
+image::dev-pictures/google-credentials.png[googleCredentials]
+
+Once completing this on google API console you get credentials, these should look these in application.properties.
+
+image::dev-pictures/getting-credentials.png[gettingCredentials]
+
+Save the redirect URL and it should all work
+
+----
+spring.security.oauth2.client.registration.google.client-id=548839700664-0shrfrqi5l617aqviipr482uhuvilmm5.apps.googleusercontent.com
+
+spring.security.oauth2.client.registration.google.client-secret=iWUn6dklkA4ek9tHAE3zlfaw
+----
+
+These are not valid credentials, don't try it.
+
+==== What it's like
+
+When I try to make a post request it redirects me to `/login`
+
+.Login to Bowling
+image::dev-pictures/login-to-bowling.png[loginToBowling]
+
+I click the URL and redirect to the google OAuth page
+
+.Accounts Hidden
+image::dev-pictures/login-with-google.png[loginWithGoogle]
+
+Then any time I send a post request, like add a team, it lets me.
+
+==== Errors with this
+There were many, annoying, hard to fix errors which prevented correct authentication flow.
+
+===== CSRF
+Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application
+in which they're currently authenticated.
+CSRF attacks specifically target state-changing requests,
+not theft of data, since the attacker has no way to see the response to the forged request.
+
+According to the https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)[Owasp] page.
+https://www.owasp.org/index.php/Top_10-2017_Top_10[Owasp also no longer includes it in the top 10 risks].
+
+Therefore for a small bowling app, I disabled it with `.csrf().disable()` as it is very difficult to get it to operate with JSON payloads like it currently is.
+Before disabling it would send a 403 on every post request, as none of them had the _csrf token.
+
+*Please do not attempt csrf attacks now, thanks.*
+
+===== Login Blocked
+/login needs to be allowed for the user to access, otherwise the user cannot authenticate, and therefore cannot do anything.
+This is a problem so `.antMatchers("/login").permitAll()` added to permit it.
+
+===== No OAuth2
+Originally when attempting OAuth I missed
+[source, groovy]
+----
+compile('org.springframework.security:spring-security-oauth2-client:5.0.3.RELEASE')
+compile('org.springframework.security:spring-security-oauth2-jose:5.0.3.RELEASE')
+----
+Which meant it had a username password login, not an OAuth login. This took me longer to realise than I'd like to admit.
+
+=== Can add 3 players to play for team 1 in a game
+First User story. This is a fairly core feature and many things rely on it so it's top of the list.
+This means we'll need the PlayerGame and its associated controllers and repositories and a ui to add them into a game.
+
+==== PlayerGame.java
+This will be the object responsible for being a players appearance in a game
+
+[source, java]
+----
+package com.saskcow.bowling.domain;
+
+import ...
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+// All the usual constructors and getters and setters
+public class PlayerGame {
+    private @GeneratedValue @Id Long id;
+    //  id as primary key
+    @ManyToOne
+    private Player player;
+    // Player has many playerGames, playerGame has one player
+    @ManyToOne
+    private Team team;
+    // Similar situation with teams as players
+    @ManyToOne
+    private Game game;
+    // Also similar to players
+    private Integer handicap;
+    // Can overwrite player handicap
+
+    public PlayerGame(Player player, Team team, Game game) {
+        this.player = player;
+        this.team = team;
+        this.game = game;
+    }
+}
+
+----
+
+With parts in place for when scores added
+
+==== Team.java, Player.java and Game.java
+All need to be able to do calculations based on playerGames eventually, so will all need a link.
+Thus all 3 got the following added.
+
+[source, java]
+----
+private List<PlayerGame> playerGames;
+// Added to all 3 classes
+
+this.playerGames = new LinkedList<>();
+// Added to the constructors
+
+public void addPlayerGame(PlayerGame playerGame) {
+    this.playerGames.add(playerGame);
+}
+
+public void deletePlayerGame(PlayerGame playerGame) {
+    this.playerGames.remove(playerGame);
+}
+
+// Both functions added to make it easy to manipulate the playerGame list.
+
+public void addAllPlayerGame(List<PlayerGame> playerGames) {
+    this.playerGames.addAll(playerGames);
+}
+
+// Only teams and games got this to make it easier in the controller
+----
+
+==== PlayerGameControllerTest.java
+Individually, there should be no reason to see one playerGame, so no get request should be required. However they do have
+to be added and removed.
+Also since 3 on a team, in an order, it makes sense to add 3 in one request.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@RunWith(MockitoJUnitRunner.class)
+public class PlayerGameControllerTest {
+
+    @Mock
+    private PlayerGameRepository repo;
+    @Mock
+    private PlayerRepository playerRepository;
+    @Mock
+    private TeamRepository teamRepository;
+    @Mock
+    private GameRepository gameRepository;
+    // Mock required repositories
+    private MockMvc mockMvc;
+    // Has MockMvc for requests
+
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(new PlayerGameController(repo, playerRepository, teamRepository, gameRepository))
+                .build();
+    } // Create a PlayerGameController as a mockMvc
+
+    @Test
+    public void addPlayerGame_shouldSavePlayerGame() throws Exception {
+        League cityWatch = new League(1L, "City Watch", null, new LinkedList<>());
+        cityWatch.setRota(new Rota(cityWatch));
+        // Create league and rota
+
+        Team cableStreet = new Team(1L, "Cable Street Particulars", null, new LinkedList<>(), cityWatch, new LinkedList<>());
+        Team nightWatch = new Team(2L, "The Night Watch", null, new LinkedList<>(), cityWatch, new LinkedList<>());
+
+        cableStreet.setPlayers(new LinkedList<>(Arrays.asList(
+                new Player(1L, "Findthee Swing", cableStreet, new LinkedList<>()),
+                new Player(2L, "Carcer", cableStreet, new LinkedList<>()),
+                new Player(3L, "Gerald Leastways, a.k.a. Ferret", cableStreet, new LinkedList<>()),
+                new Player(4L, "Henry 'The Hamster' Higgins", cableStreet, new LinkedList<>())
+        )));
+        nightWatch.setPlayers(new LinkedList<>(Arrays.asList(
+                new Player(5L, "Sam Vimes", nightWatch, new LinkedList<>()),
+                new Player(6L, "Carrot Ironfoundersson", nightWatch, new LinkedList<>()),
+                new Player(7L, "Nobby Nobbs", nightWatch, new LinkedList<>()),
+                new Player(8L, "Fred Colon", nightWatch, new LinkedList<>())
+        )));
+
+        // Create teams and add players
+
+        Game game = new Game(
+            1L,
+            cityWatch.getRota(),
+            LocalDateTime.now(Clock.systemUTC()),
+            "The Shades", Arrays.asList(cableStreet,
+            nightWatch),
+            new LinkedList<>()
+        );
+        cableStreet.addGame(game); nightWatch.addGame(game);
+
+        // Create a game and add teams to it
+
+        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>(), null);
+
+        /// Create 3 playergames
+
+        when(repo.save(new PlayerGame(cableStreet.getPlayers().get(0), cableStreet, game))).thenReturn(swingGame);
+        when(repo.save(new PlayerGame(cableStreet.getPlayers().get(1), cableStreet, game))).thenReturn(carcerGame);
+        when(repo.save(new PlayerGame(cableStreet.getPlayers().get(2), cableStreet, game))).thenReturn(geraldGame);
+        // When saving playerGame, return the playerGame
+
+        when(gameRepository.findById(game.getId())).thenReturn(Optional.of(game));
+
+        when(playerRepository.findById(1L)).thenReturn(Optional.of(swingGame.getPlayer()));
+        when(playerRepository.findById(2L)).thenReturn(Optional.of(carcerGame.getPlayer()));
+        when(playerRepository.findById(3L)).thenReturn(Optional.of(geraldGame.getPlayer()));
+
+        when(teamRepository.findById(cableStreet.getId())).thenReturn(Optional.of(cableStreet));
+        // When finding a game, player or team, return an Optional<T> containing it
+
+        mockMvc.perform(post("/api/playergame")
+                // Send a post to /api/playergame
+                .content("{\"playerIds\": [1, 2, 3], \"teamId\": \"1\", \"gameId\": \"1\"}")
+                // Include these 3 playerIds, the teamId, and the gameId
+                .contentType("application/json"))
+                .andExpect(status().isCreated())
+                // Expect 201
+                .andExpect(header().string("Location", "http://localhost:8080/api/playergame/" + swingGame.getId()));
+                // Expect location exists
+
+        assertThat(game.getPlayerGames().get(0)).isEqualTo(swingGame);
+        assertThat(game.getPlayerGames().get(1)).isEqualTo(carcerGame);
+        assertThat(game.getPlayerGames().get(2)).isEqualTo(geraldGame);
+        assertThat(game.getPlayerGames().size()).isEqualTo(3);
+        // Assert that the game has all 3 playerGames and no others
+        verify(repo, times(1)).save(new PlayerGame(cableStreet.getPlayers().get(0), cableStreet, game));
+        verify(repo, times(1)).save(new PlayerGame(cableStreet.getPlayers().get(1), cableStreet, game));
+        verify(repo, times(1)).save(new PlayerGame(cableStreet.getPlayers().get(2), cableStreet, game));
+        // Check each playerGame was saved once
+        verify(playerRepository, times(3)).save(isA(Player.class));
+        // Check all 3 players saved
+        verify(gameRepository, times(1)).save(isA(Game.class));
+        // Check Game saved
+        verify(teamRepository, times(1)).save(isA(Team.class));
+        // Check Team saved
+    }
+
+    @Test
+    public void deletePlayerGame_shouldDeletePlayerGame() throws Exception {
+        Team cableStreet = new Team(1L, "Cable Street Particulars", null, new LinkedList<>(), null, new LinkedList<>());
+        Team nightWatch = new Team(2L, "The Night Watch", null, new LinkedList<>(), null, new LinkedList<>());
+
+        cableStreet.setPlayers(new LinkedList<>(Arrays.asList(
+                new Player(1L, "Findthee Swing", cableStreet, new LinkedList<>()),
+                new Player(2L, "Carcer", cableStreet, new LinkedList<>()),
+                new Player(3L, "Gerald Leastways, a.k.a. Ferret", cableStreet, new LinkedList<>()),
+                new Player(4L, "Henry 'The Hamster' Higgins", cableStreet, new LinkedList<>())
+        )));
+
+        Game game = new Game(1L, null, LocalDateTime.now(Clock.systemUTC()), "The Shades", Arrays.asList(cableStreet, nightWatch), new LinkedList<>());
+        cableStreet.addGame(game); nightWatch.addGame(game);
+
+        PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>(), null);
+        PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>(), null);
+
+        // Same objects created as in post test
+
+        cableStreet.getPlayers().get(0).addPlayerGame(swingGame);
+        cableStreet.getPlayers().get(1).addPlayerGame(carcerGame);
+        cableStreet.getPlayers().get(2).addPlayerGame(geraldGame);
+        cableStreet.addPlayerGame(swingGame);
+        cableStreet.addPlayerGame(carcerGame);
+        cableStreet.addPlayerGame(geraldGame);
+        game.addPlayerGame(swingGame);
+        game.addPlayerGame(carcerGame);
+        game.addPlayerGame(geraldGame);
+
+        // Add the PlayerGames to everything
+
+        doNothing().when(repo).deleteById(isA(Long.class));
+        // When delete attempted, do nothing
+
+        when(repo.findById(swingGame.getId())).thenReturn(Optional.of(swingGame));
+        // Return Optional<Game> swingGame when find attempted
+
+        mockMvc.perform(delete("/api/playergame/1"))
+                // Send delete to /api/playergame/1
+                .andExpect(status().isNoContent());
+                // Expect 204
+
+        verify(repo, times(1)).deleteById(1L);
+        // Check it was deleted
+        assertThat(cableStreet.getPlayerGames()).doesNotContain(swingGame);
+        assertThat(cableStreet.getPlayerGames()).contains(carcerGame);
+        assertThat(cableStreet.getPlayerGames()).contains(geraldGame);
+        // Check only swingGame deleted
+    }
+
+}
+----
+
+==== PlayerGameController.java
+Tests have to pass pass.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@Controller
+public class PlayerGameController {
+
+    private PlayerGameRepository repo;
+    private PlayerRepository playerRepository;
+    private TeamRepository teamRepository;
+    private GameRepository gameRepository;
+    // Get all the necessary repositories
+
+    @Autowired
+    public PlayerGameController(PlayerGameRepository repo, PlayerRepository playerRepository, TeamRepository teamRepository, GameRepository gameRepository){
+        this.repo = repo;
+        this.playerRepository = playerRepository;
+        this.teamRepository = teamRepository;
+        this.gameRepository = gameRepository;
+    }
+    // When loading application load repos from application context
+
+    @PostMapping("/api/playergame")
+    // On post requests to /api/playergame, slightly different to usual since the rewrite, this looks cleaner
+    public ResponseEntity<?> savePlayerGame(@RequestBody PlayerGameRest playerGameRest) {
+        // Return a ResponseEntity and take request JSON as a PlayerGameRest
+        Optional<Player> optionalPlayer0 = playerRepository.findById(playerGameRest.getPlayerIds().get(0));
+        Optional<Player> optionalPlayer1 = playerRepository.findById(playerGameRest.getPlayerIds().get(1));
+        Optional<Player> optionalPlayer2 = playerRepository.findById(playerGameRest.getPlayerIds().get(2));
+        Optional<Team> optionalTeam = teamRepository.findById(playerGameRest.getTeamId());
+        Optional<Game> optionalGame = gameRepository.findById(playerGameRest.getGameId());
+        // Get the 3 players, the team the players are on, and the game they are playing in.
+
+        if (! optionalGame.isPresent() || ! optionalPlayer0.isPresent() || ! optionalPlayer1.isPresent() || ! optionalPlayer2.isPresent() || ! optionalTeam.isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+        // Check all objects are not null, if they are, that's a 400 sent straight back
+
+        Player player0 = optionalPlayer0.get();
+        Player player1 = optionalPlayer1.get();
+        Player player2 = optionalPlayer2.get();
+        Team team = optionalTeam.get();
+        Game game = optionalGame.get();
+        // Get objects from the optionals
+
+        if(game.getPlayerGames().size() > 3) {
+            return ResponseEntity.badRequest().build();
+        }
+        // If the game already has enough players, they can't add more, so send back a 400
+
+        PlayerGame playerGame0 = repo.save(new PlayerGame(player0, team, game));
+        PlayerGame playerGame1 = repo.save(new PlayerGame(player1, team, game));
+        PlayerGame playerGame2 = repo.save(new PlayerGame(player2, team, game));
+        // Create the 3 playergames and save them
+
+        player0.addPlayerGame(playerGame0);
+        player1.addPlayerGame(playerGame1);
+        player2.addPlayerGame(playerGame2);
+        team.addAllPlayerGame(Arrays.asList(playerGame0, playerGame1, playerGame2));
+        game.addAllPlayerGame(Arrays.asList(playerGame0, playerGame1, playerGame2));
+        // Add playerGames to the players, teams and games
+
+        playerRepository.save(player0);
+        playerRepository.save(player1);
+        playerRepository.save(player2);
+        teamRepository.save(team);
+        gameRepository.save(game);
+        // Save changes to other objects
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(game.getId()).toUri();
+        // Get URI for deleting only
+
+        return ResponseEntity.created(location).build();
+        // Return a 201 with the location
+    }
+
+    @DeleteMapping("/api/playergame/{id}")
+    // All delete requests to api/playergame/{id}
+    public ResponseEntity<Void> deletePlayerGame(@PathVariable Long id) {
+        // Take id from path
+        Optional<PlayerGame> optionalPlayerGame = repo.findById(id);
+        if (! optionalPlayerGame.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        PlayerGame playerGame = optionalPlayerGame.get();
+        // Get player Game returning 404 if null
+
+        playerGame.getPlayer().deletePlayerGame(playerGame);
+        playerGame.getTeam().deletePlayerGame(playerGame);
+        playerGame.getGame().deletePlayerGame(playerGame);
+        // Remove playerGame from team, game and player
+
+        playerRepository.save(playerGame.getPlayer());
+        teamRepository.save(playerGame.getTeam());
+        gameRepository.save(playerGame.getGame());
+        // Save changes to player, team and game
+
+        repo.deleteById(id);
+        // Delete playerGame
+        return ResponseEntity.noContent().build();
+        // Return 204
+    }
+}
+
+----
+
+==== Errors at This stage
+For once, nothing which hadn't been seen before.
+
+=== Front End for Team 1 PlayerGames
+
+==== App.js
+We always start here for front ends, and now is no different, I need a route for adding these PlayerGames.
+Just add this.
+`<Route path="/game/:id/add-players" component={AddPlayers}/>`
+And that's the necessary changes.
+
+==== AddPlayers.js
+Rather crucially in adding playerGames, we require playerGames to have an add ui, since it adds players plural,
+it is called AddPlayers.js.
+
+[source, js]
+----
+import ...
+
+class AddPlayers extends React.Component{
+  constructor(props) {
+    super();
+    this.state = ({id: props.id, status: 0, teams: [], player1: 0, player2: 0, player3: 0});
+    // Set default state, status 0 as 0 teams back
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.isValid = this.isValid.bind(this);
+    this.getData = this.getData.bind(this);
+    this.submit = this.submit.bind(this);
+    // Everything gets to use this, so we bind this to everything
+    this.getData(props.match.params.id);
+  }
+
+  handleUserInput (e) {
+    this.setState({[e.target.name]: e.target.value});
+    // On User input, set {name: value} in state, useful so there isn't 50 (3) input handlers
+  }
+
+  isValid() {
+    return (![this.state.player1, this.state.player2, this.state.player3].includes(0) &&
+      [this.state.player1, this.state.player2, this.state.player3].length === new Set([this.state.player1, this.state.player2, this.state.player3]).size);
+    // Check that all of them are not 0, which is the value of No Player
+    // Check that there are no duplicates, a Set has same length as a list as a Set removes duplicates
+  }
+
+  submit(event) {
+    event.preventDefault();
+    // Prevent the default submit behaviour
+    if(this.isValid()){
+      // If no unset or duplicates
+      axios.post("/api/playergame", {
+        teamId: this.state.teams[0].id,
+        // Send id of team 1
+        gameId: this.state.id,
+        // Send the Game id
+        playerIds: [this.state.player1, this.state.player2, this.state.player3]
+        // Send id in order of the 3 players
+      })
+        .then(response => {
+          window.location.href = '/game/' + this.state.id;
+          console.log("created at " + response.headers.location);
+          // Redirect to game
+        })
+        .catch(function (error) {
+          if(error.response.status === 401){
+            window.location.href = '/login';
+          } else {
+            console.log(error);
+          }
+          // If not authenticated go to login, otherwise log error
+        });
+    } else {
+      console.log("Invalid input.");
+      this.setState({err: "Invalid input, check for unset or duplicates."})
+      // Set error if not valid
+    }
+  }
+
+  getData(id) {
+    axios.get('/api/game/' + id)
+      // Send get request to /api/game/{id}
+      .then(response => {
+        let teamsPlus = response.data.teams.map(team => team.id);
+        // get teams from game and create a list with the team ids in order
+        response.data.teams.forEach(team => {
+          // For each team in the game
+          axios.get('/api/team/' + team.id)
+            // Send a get request for the team
+            .then( tResponse => {
+              teamsPlus[teamsPlus.indexOf(team.id)] = tResponse.data;
+              this.setState({teams: teamsPlus, status: this.state.status + 1})
+              // Replace teams id in list with the team data
+              // Increment status so when 2 it has loaded
+            })
+            .catch(error => {
+              console.log(error)
+              // Log errors
+            })
+        });
+      })
+      .catch(error => {
+        console.log(eror)
+        // Log errors
+      })
+  }
+
+  render() {
+    if(this.state.status === 2){
+      // When fully loaded
+      return (
+        <div className={"AddScreen"}>
+          {/*Contain in div with class AddScreen*/}
+          <form className={"thePlayersForm"} onSubmit={this.submit} noValidate>
+            {/*Create a form which calls submit when submited*/}
+
+            <InputLabel htmlFor="player-1">player1</InputLabel>
+            <Select
+              value={this.state.player1}
+              onChange={this.handleUserInput}
+              id='player1'
+              className={'player1'}
+              inputProps={{
+                name: 'player1',
+                id: 'player1',
+              }}>
+              <MenuItem value={0}><em>None</em></MenuItem>
+              {this.state.teams[0].players.map(player => (
+                <MenuItem key={player.id} value={player.id} name={"player1-" + player.name.replace(/\s+/g, '-').toLowerCase()}>{player.name}</MenuItem>
+              ))}
+            </Select>
+            {/*Create a dropdown select, with team 1s players available as dropdowns*/}
+            {/*onChange call handleUserInput, has name of player1, so this.state.player1 set to player id*/}
+
+            <br />
+            <br />
+
+            <InputLabel htmlFor="player-2">player2</InputLabel>
+            <Select
+              value={this.state.player2}
+              onChange={this.handleUserInput}
+              id='player2'
+              className={'player2'}
+              inputProps={{
+                name: 'player2',
+                id: 'player2',
+              }}>
+              <MenuItem value={0}><em>None</em></MenuItem>
+              {this.state.teams[0].players.map(player => (
+                <MenuItem key={player.id} value={player.id} name={"player2-" + player.name.replace(/\s+/g, '-').toLowerCase()}>{player.name}</MenuItem>
+              ))}
+            </Select>
+            {/*Another select but for player2*/}
+
+            <br />
+            <br />
+
+            <InputLabel htmlFor="player-3">player3</InputLabel>
+            <Select
+              value={this.state.player3}
+              onChange={this.handleUserInput}
+              id='player3'
+              className={'player3'}
+              inputProps={{
+                name: 'player3',
+                id: 'player3',
+              }}>
+              <MenuItem value={0}><em>None</em></MenuItem>
+              {this.state.teams[0].players.map(player => (
+                <MenuItem key={player.id} value={player.id} name={"player3-" + player.name.replace(/\s+/g, '-').toLowerCase()}>{player.name}</MenuItem>
+              ))}
+            </Select>
+            {/*Another select but for player3*/}
+
+            <br/>
+            <br/>
+
+            <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+            {/*Submit form*/}
+
+          </form>
+          <p className={"errorMessage"}>{this.state.err}</p>
+          {/*If there is an error, show it*/}
+        </div>
+      )
+    } else{return <CircularProgress />}
+      // If loading, show loading wheel
+  }
+}
+
+export default AddPlayers; // Export for easier imports
+----
+
+==== Errors at this stage
+
+===== Wrong order back
+When the requests are sent, they don't wait before sending another, they act asynchronously.
+This means that both requests are sent, and then it goes off to do other things before the response comes back.
+This would mean that sometimes the second request comes back in the wrong order. This causes the player dropdowns, to contain
+players of the other team. This would cause issues as it happened sometimes, so took a lot of reloading data to debug.
+
+Eventually
+
+[source, js]
+----
+let teamsPlus = this.state.teams.slice();
+teamsPlus.push(tResponse.data);
+this.setState({teams: teamsPlus, status: this.state.status + 1})
+
+//replaced by
+
+teamsPlus[teamsPlus.indexOf(team.id)] = tResponse.data;
+this.setState({teams: teamsPlus, status: this.state.status + 1})
+// With the following out of the recursion
+let teamsPlus = response.data.teams.map(team => team.id);
+----
+
+This preserved the order the game set so teams were displayed correctly.
+
+==== isNotValid
+I got all confused and put an `!` in front of the isValid logic. This caused the opposite of what I wanted to happen.
+Since the function has worked wonderfully since the removal of this.
+
+=== Can display these players to team 2
+Fairly crucial part of this, is showing what the selection was.
+I tried to replicate
+image::other-pictures/TeamVTeam.png
+so I have a placeholder for all the data to be added later.
+
+==== GameView.java
+Currently nothing sends PlayerGames from the back end, this is important.
+
+[source, java]
+----
+private List<PlayerGameView> playerGames;
+// GameViews have these now
+
+this.playerGames = game.getPlayerGames().stream().map(PlayerGameView::new).collect(Collectors.toList());
+// Get all the playerGames and make them playerGameViews instead
+----
+
+==== PlayerGameView.java
+Necessary detail for a playerGame
+
+[source, java]
+----
+package com.saskcow.bowling.view;
+
+import ...
+
+@Data
+@NoArgsConstructor
+public class PlayerGameView {
+    private Long id;
+    private PlayerViewSummary player;
+    private TeamViewSummary team;
+    // private List<ScoreViewSummary> scores;
+    private Integer handicap;
+    // id, player team and handicap are all important for a playerGame
+
+    public PlayerGameView (PlayerGame playerGame) {
+        this.id = playerGame.getId();
+        this.player = playerGame.getPlayer() != null ? new PlayerViewSummary(playerGame.getPlayer()) : null;
+        this.team = new TeamViewSummary(playerGame.getTeam());
+        // set values from playerGame making view objects where necessary
+        // this.scores = playerGame.getScores().stream().map(ScoreViewSummary::new).collect(Collectors.toList());
+
+        if (playerGame.getPlayer() != null){
+            this.handicap = playerGame.getHandicap() == null ? playerGame.getPlayer().getHandicap() : playerGame.getHandicap();
+        } // Get the handicap from the player if the playerGame doesn't have one
+    }
+}
+----
+
+==== App.js
+Once again, we need a route `<Route exact path="/game/:id/" component={Game}/>` will do it.
+
+==== Game.js
+Now we need to write `Game.js` to show on the path. By making tables, lots of table generating.
+
+[source, js]
+----
+import ...
+
+class Game extends React.Component {
+
+  constructor(props) {
+    super();
+    // Make this usable
+    this.state = {status: "Loading"};
+    // Set default state as Loading
+    this.getGame = this.getGame.bind(this);
+    this.getGame(props.match.params.id);
+    // Allow getGame to setState and call it with the id
+  }
+
+  getGame(id) {
+    axios.get('/api/game/' + id)
+    // Get the game
+      .then(response => {
+        this.setState({
+          status: "OK",
+          id: id,
+          game: response.data
+          // Map response to state
+        })
+      })
+      .catch(error => {
+        console.log(error);
+        // Simple error logging
+      });
+  }
+
+  table() {
+    let tables = [];
+    // Start with empty
+    if (this.state.game.playerGames.length) {
+      // If it isn't completely empty
+      for(let i = 0; i< Math.floor(this.state.game.playerGames.length / 3); i++){
+        // for i in range playerGames/3
+        // Once if one team added, twice if both added
+        tables.push(
+          // Add this table to the list
+          <table key={i}>
+            {/*Set key of table for iteration*/}
+            <thead>
+            <tr>
+              <th colSpan={10}>{this.state.game.teams[i].name}</th>
+              <th>Score</th>
+              {/*Team name and Score at top*/}
+            </tr>
+            <tr>
+              <th width="10%">HCP</th>
+              <th width="40%">Bowler</th>
+              <th width="10%" colSpan={2}>Game 1</th>
+              <th width="10%" colSpan={2}>Game 2</th>
+              <th width="10%" colSpan={2}>Game 3</th>
+              <th width="10%" colSpan={2}>Total</th>
+              <th width="10%">Pts</th>
+              {/*Second set of headings with set width, games 2 wide for scratch and hanicap*/}
+            </tr>
+            </thead>
+            {this.state.game.playerGames.slice(3 * i, 3 * i + 3).map(playerGame => (
+              <tbody key={playerGame.id}>
+              <tr>
+                <td rowSpan={2}>Handicap</td>
+                <td rowSpan={2}>{playerGame.player.name}</td>
+                <td>{playerGame.scores[0] ? playerGame.scores[0].scratch : ""}</td>
+                <td>{playerGame.scores[0] ? playerGame.scores[0].handicapped : ""}</td>
+                <td>{playerGame.scores[1] ? playerGame.scores[1].scratch : ""}</td>
+                <td>{playerGame.scores[1] ? playerGame.scores[1].handicapped : ""}</td>
+                <td>{playerGame.scores[2] ? playerGame.scores[2].scratch : ""}</td>
+                <td>{playerGame.scores[2] ? playerGame.scores[2].handicapped : ""}</td>
+                <td>total scratch</td>
+                <td>total handicapped</td>
+                <td rowSpan={2}>Points</td>
+                {/*Put in all scratch and handicaps, if null, make it blank*/}
+              </tr>
+              <tr>
+                <td colSpan={2}>{playerGame.scores[0] ? playerGame.scores[0].score : ""}</td>
+                <td colSpan={2}>{playerGame.scores[1] ? playerGame.scores[1].score : ""}</td>
+                <td colSpan={2}>{playerGame.scores[2] ? playerGame.scores[2].score : ""}</td>
+                <td colSpan={2}>total points</td>
+                {/*Put in all scores, if null, make it blank*/}
+              </tr>
+              </tbody>
+            ))}
+          </table>)}
+    }
+    return tables
+  //  return the list of tables
+  }
+
+  render() {
+    if(this.state.status === "OK") {
+      return (
+        <div className="App">
+          <header className="App-header">
+            <h1 className="App-title"> <Link to={"/team/" + this.state.game.teams[0].id}>{this.state.game.teams[0].name}</Link> vs <Link to={"/team/" + this.state.game.teams[1].id}>{this.state.game.teams[1].name}</Link></h1>
+            <h3>{new Date(Date.parse(this.state.game.time)).toLocaleString('en-GB', { timeZone: 'UTC' })} at {this.state.game.venue}</h3>
+            {/*Header of file, states team vs team, location and time*/}
+          </header>
+          {this.table()}
+          {/*Add the table*/}
+        </div>
+      )
+    } else {
+      return <CircularProgress color={"primary"} />
+    //  If not loaded give a loading wheel
+    }
+  }
+}
+
+export default Game;
+----
+
+Looks good with the players added!
+
+image::dev-pictures/game-page-1.png[gamePage, pdfwidth=100%]
+
+==== Errors at this stage
+
+===== Undefined
+`Uncaught TypeError: Cannot read property 'whatever the property was' of undefined`
+
+Since players don't have scores, they cannot read the scratch score of one. Which is a bit of an oversight.
+To protect against this `playerGame.scores[2] ? playerGame.scores[2].handicapped : ""` is used. This contains a ternary
+operator which effectively sends the value if it isn't undefined, if it is, send blank.
+
+===== Requires key
+`Each child in an array should have a unique "key" prop.
+Check the render method of Component.`
+
+Each component in an array should have a key. React can then display everything in this array. This includes the maps.
+Therefore everywhere it is done `key={uniqueKey}` should be added.
+
+=== Team 2 Can add Players Too
+With the url parameters, it is hard to addPlayers and say which team without asking the user.
+Therefore AddPlayers will be in a dropdown on the Game page so it can take props directly!
+
+==== App.js
+For once something is getting removed from App.js. This is a first, add-game will no longer be required.
+`<Route path="/game/:id/add-players" component={AddPlayers}/>` Removed!
+
+==== AddPlayers.js
+This will now need to work off of props and 2 teams, it shouldn't be too drastic a change.
+
+[source, js]
+----
+this.getData(props.game.teams);
+// Game passes in Game, so just take team data, as that's all it needs right now.
+
+getData(teams) {
+    let teamsPlus = teams.map(team => team.id);
+    teams.forEach(team => {
+      axios.get('/api/team/' + team.id)
+        .then( tResponse => {
+          teamsPlus[teamsPlus.indexOf(team.id)] = tResponse.data;
+          this.setState({teams: teamsPlus, status: this.state.status + 1})
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    });
+  }
+// getData replaced with this, instead of getting teams first, it takes it from game directly.
+
+// Well now it works from props, that was easy, now for 2 teams
+
+// Taking the prop team, which is 0 or 1 based on team index
+- [0]
++ [this.props.team]
+// This means it gets the right team, and it all works for whatever team is given
+----
+
+==== Game.js
+This will have to contain addPlayers, a dropdown should be nice.
+
+[source, js]
+----
+addPlayers(team) {
+  return (
+    <ExpansionPanel key={team} className={'add-to-' + this.state.game.teams[team].name.replace(/\s+/g, '-').toLowerCase()}>
+      {/*Create an expansion panel which drops down to show content*/}
+      <ExpansionPanelSummary expandIcon={<KeyboardArrowDown />}>
+        {/*Summary has an arrowDown icon*/}
+        <Typography className={"add_players"}>Add players to {this.state.game.teams[team].name}</Typography>
+        {/*Has Add players to {TeamName} as a title*/}
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <AddPlayers id={this.state.game.id} team={team} game={this.state.game} />
+        {/*Drops down to show AddPlayers with the props specified earlier*/}
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
+  )
+}
+
+// and to tables()
+
+if (! this.state.game.playerGames.length) {
+  tables.push(this.addPlayers(0))
+  // If no players, add players to team 1
+} else if (this.state.game.playerGames.length < 6){
+  tables.push(this.addPlayers(1))
+  // If not full, but not empty, put players in team 2
+}
+
+// added at end of function
+----
+
+Now there are nice dropdowns to add players, and it'll work for both teams.
+
+.Add players in dropdown
+image::dev-pictures/game-collapsed.png[gameCollapsed, pdfwidth=100%]
+image::dev-pictures/game-dropdowns.png[gameExtended, pdfwidth=100%]
+
+And it already displays it for both, how convenient.
+
+=== Scores Can be Added and Displayed
+This is another big part, lots of back and front end work again
+
+==== Score.java
+Something to hold scratch handicap and score for one part of a game.
+
+[source, java]
+----
+package com.saskcow.bowling.domain;
+
+import ...
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "playerGame")
+public class Score {
+    private @GeneratedValue @Id Long id;
+    @ManyToOne
+    private PlayerGame playerGame;
+    // PlayerGame has many, only link, nice and easy
+    private Integer scratch;
+    private Integer handicapped;
+    private Integer score;
+    private boolean total;
+    // Has scratch, handicap, score and total, which isn't used just yet
+
+    public Score(PlayerGame playerGame, Integer scratch){
+        this.playerGame = playerGame;
+        this.scratch = scratch;
+        this.handicapped = scratch;
+    }
+
+    public Score(PlayerGame playerGame, Integer scratch, Integer handicap){
+        this.playerGame = playerGame;
+        this.scratch = scratch;
+        this.handicapped = scratch + handicap;
+    }
+
+    public Score(PlayerGame playerGame, Integer scratch, Integer handicap, boolean total){
+        this.playerGame = playerGame;
+        this.scratch = scratch;
+        this.total = total;
+        this.handicapped = scratch + handicap;
+    }
+
+    public Score(Long id, PlayerGame playerGame, Integer scratch, Integer handicapped, Integer score){
+        this.id = id;
+        this.playerGame = playerGame;
+        this.scratch = scratch;
+        this.handicapped = handicapped;
+        this.score = score;
+    }
+
+    // Many constructors depending on scenario, total only set if true, else it's false as it's a primitive
+    // constructors just map args other than handicapped often made with handicap
+
+}
+----
+
+==== PlayerGame.java
+Requires some updates, now scores exist, playergames need scores
+[source, java]
+----
+@OneToMany(mappedBy = "playerGame", cascade = CascadeType.ALL)
+private List<Score> scores;
+// 3 rounds in a game, so many scores needed
+
+
+public PlayerGame(Player player, Team team, Game game) {
+    this.player = player;
+    this.team = team;
+    this.game = game;
+    this.scores = new LinkedList<>();
+    // Now creates an empty list of scores
+}
+
+
+// Added for manipulating scores
+
+public void addScore(Score score) {
+    this.scores.add(score);
+} // Append scores list with a score
+
+public void deleteScore(Score score) {
+    this.scores.remove(score);
+} // Remove given object from score list
+
+public Integer getPoints() {
+    return this.scores.stream().reduce(0, (a, b) -> a + b.getScore(), (a, b) -> a + b);
+} // For each score, get the points and add all the points into an Integer
+----
+
+==== PlayerGameView.java
+Also now should show the scores
+
+[source, java]
+----
+private List<ScoreViewSummary> scores;
+
+this.scores = playerGame.getScores().stream().map(ScoreViewSummary::new).collect(Collectors.toList());
+----
+
+Simple, just add scores as summarys.
+
+==== ScoreViewSummary.java
+Get id, scratch, handicapped ,and score, all that it needs.
+
+[source, java]
+----
+@Data
+@NoArgsConstructor
+public class ScoreViewSummary {
+    private Long id;
+    private Integer scratch;
+    private Integer handicapped;
+    private Integer score;
+
+    public ScoreViewSummary(Score score) {
+        this.id = score.getId();
+        this.scratch = score.getScratch();
+        this.handicapped = score.getHandicapped();
+        this.score = score.getScore();
+    }
+}
+----
+
+==== ScoreControllerTest.java
+Last one in the project now. It's also short.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@RunWith(MockitoJUnitRunner.class)
+// Allow
+public class ScoreControllerTest {
+
+    @Mock
+    private ScoreRepository repo;
+    @Mock
+    private PlayerGameRepository playerGameRepository;
+    private MockMvc mockMvc;
+
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(new ScoreController(repo, playerGameRepository))
+                .build();
+    }
+    // Setup mockMvc with mocked repositories
+
+    @Test // Run with the rest of the tests
+    public void addScore_shouldSaveTheScore() throws Exception {
+        PlayerGame playerGame = new PlayerGame(1L, null, null, null, new LinkedList<>(), 10);
+        Score score1 = new Score(1L, playerGame, 101, 104, null);
+        Score score2 = new Score(2L, playerGame, 102, 105, null);
+        Score score3 = new Score(3L, playerGame, 103, 106, null);
+        playerGame.addScore(score1);
+        playerGame.addScore(score2);
+        // Create objects, just a playerGame and 3 scores, add 2 of the scores to the player
+
+        when(repo.save(isA(Score.class))).thenReturn(score3);
+        // When saving a Score, return score3
+        when(playerGameRepository.save(isA(PlayerGame.class))).thenReturn(playerGame);
+        // When saving a PlayerGame, return playerGame
+        when(playerGameRepository.findById(1L)).thenReturn(Optional.of(playerGame));
+        // When finding playerGame, return Optional<PlayerGame> playerGame
+
+        mockMvc.perform(post("/api/score")
+                // Send the post request to /api/score
+                .content("{\"playerGameId\": \"1\", \"scratch\": \"103\", \"handicap\": \"3\"}")
+                // Send this content
+                .contentType("application/json"))
+                .andExpect(status().isCreated())
+                // Expect 201
+                .andExpect(header().string("Location", "http://localhost:8080/api/score/" + score3.getId()));
+                // Get delete location
+
+        assertThat(playerGame.getScores()).contains(score3);
+        verify(repo, times(1)).save(isA(Score.class));
+        // Check score saved and in playerGame
+    }
+
+    @Test
+    public void deleteScore_shouldDeleteScore() throws Exception {
+        PlayerGame playerGame = new PlayerGame(1L, null, null, null, new LinkedList<>(), 10);
+        Score score1 = new Score(1L, playerGame, 101, 104, null);
+        Score score2 = new Score(2L, playerGame, 102, 105, null);
+        Score score3 = new Score(3L, playerGame, 103, 106, null);
+        playerGame.addScore(score1);
+        playerGame.addScore(score2);
+        playerGame.addScore(score3);
+        // Create a PlayerGame with 3 Scores
+
+        doNothing().when(repo).deleteById(isA(Long.class));
+        // When deleting a score, do nothing
+        when(repo.findById(score3.getId())).thenReturn(Optional.of(score3));
+        // When finding score3, return Optional score3
+
+        mockMvc.perform(delete("/api/score/3"))
+                // Send delete to /api/score/{score3 id}
+                .andExpect(status().isNoContent());
+                // Expect 204
+
+        verify(repo, times(1)).deleteById(3L);
+        // Expect score3 deleted
+        assertThat(playerGame.getScores()).doesNotContain(score3);
+        assertThat(playerGame.getScores()).contains(score1);
+        // Check score3 not in playerGame scores, but other is
+    }
+}
+----
+
+==== ScoreController.java
+Makes tests pass, routes the requests.
+
+[source, java]
+----
+package com.saskcow.bowling.controller;
+
+import ...
+
+@Controller
+public class ScoreController {
+
+    private ScoreRepository repo;
+    private PlayerGameRepository playerGameRepository;
+
+    @Autowired
+    public ScoreController(ScoreRepository repo, PlayerGameRepository playerGameRepository) {
+        this.repo = repo;
+        this.playerGameRepository = playerGameRepository;
+    }
+    // On application start, send Repositories here from application context and make a ScoreController
+
+    @RequestMapping(value = "/api/score", method = RequestMethod.POST)
+    // Send post requests to /api/score here
+    public ResponseEntity<?> saveScore(@RequestBody ScoreRest score) {
+        // Returns a ResponseEntity and takes JSON made into a ScoreRest
+
+        Optional<PlayerGame> optionalPlayerGame = playerGameRepository.findById(score.getPlayerGameId());
+        if (! optionalPlayerGame.isPresent() || 0 > score.getScratch() || score.getScratch() > 300){
+            return ResponseEntity.badRequest().build();
+        }
+        PlayerGame playerGame = optionalPlayerGame.get();
+        // Get the PlayerGame and check it isn't null
+
+        if(playerGame.getHandicap() == null) playerGame.setHandicap(playerGame.getPlayer().getHandicap());
+        // Lock in playerGame handicap if not set as current player handicap
+
+        Score savedScore = repo.save(new Score(playerGame, score.getScratch(), score.getHandicap() != null ? score.getHandicap() : playerGame.getHandicap()));
+        // Save score with the playerGame, the scratch, and get the handicap from scoreRest if it has it
+        // Otherwise take it from playerGame
+
+        playerGame.addScore(savedScore);
+        playerGameRepository.save(playerGame);
+        // Add score to playerGame and save it
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedScore.getId()).toUri();
+        return ResponseEntity.created(location).build();
+        // Construct and return delete URI
+    }
+
+    @RequestMapping(value = "/api/score/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteScore(@PathVariable Long id) {
+        Optional<Score> optionalScore = repo.findById(id);
+        if (! optionalScore.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        Score score = optionalScore.get();
+        // Get score and check it isn't null
+
+        score.getPlayerGame().deleteScore(score);
+        playerGameRepository.save(score.getPlayerGame());
+        // Remove score from playerGame and save the change
+
+        repo.deleteById(id);
+        return ResponseEntity.noContent().build();
+        // Delete and return a 204
+    }
+}
+
+----
+
+==== ScoreRest.java
+We need to get the data still, so another Rest object will help.
+
+[source, java]
+----
+package com.saskcow.bowling.rest;
+
+import ...
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ScoreRest {
+    private Long playerGameId;
+    private Integer scratch;
+    private Integer handicap;
+    // Only needs the playerGameId, scratch, and handicap as scores added later
+
+    public ScoreRest(Long playerGameId, Integer scratch){
+        this.playerGameId = playerGameId;
+        this.scratch = scratch;
+    }
+    // Can be constructed with no handicap if none specified
+}
+----
+
+==== AddScore.js
+Need to add scores, this will be contained in a cell in the table.
+
+[source, js]
+----
+import ...
+
+class AddScore extends React.Component{
+  constructor(props) {
+    super();
+    this.state = ({id: props.id, scratch: "", handicap: "", checkHandicap: false});
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.submit = this.submit.bind(this);
+    // Set default state and bind this to functions
+  }
+
+  handleUserInput (event) {
+    this.setState({[event.target.name]: event.target.value});
+  }
+  // handle any inputs by setting targetName: targetValue
+
+  submit(event) {
+    event.preventDefault();
+    // Prevent default form submitting behaviour
+    axios.post("/api/score", {
+      playerGameId: this.state.id,
+      scratch: this.state.scratch,
+      handicap: this.state.checkHandicap ? this.state.handicap : null
+    })
+    // Send a post request with the necessary components, don't send handicap unless box checked
+      .then(response => {
+        location.reload();
+        // Reload page if successful
+        console.log("created at " + response.headers.location);
+      })
+      .catch(error => {
+        if(error.response && error.response.status === 401){
+          window.location.href = '/login';
+        } else if(error.response && error.response.status === 400){
+          this.setState({err: "Invalid Data"});
+          // If 400, suggests user has invalid data, like out of range numbers
+        } else {
+          console.log(error)
+        } // Login redirecting and simple ish error handling
+      });
+  }
+
+  render() {
+    return (
+      <div className={this.props.name + "-AddScreen"}>
+        <form className={this.props.name + "-theScoreForm"} onSubmit={this.submit} noValidate>
+          {/*Create a form which when submitted calls submit*/}
+
+          <TextField
+            id={this.props.name + "-scratch"}
+            name="scratch"
+            label="Scratch"
+            fullWidth={true}
+            value={this.state.scratch}
+            onChange={this.handleUserInput}
+            type="number"
+            className={"scratch"}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            margin="normal"
+          />
+          {/*Create a text input which updates scratch and is a number input, restricts letter entering*/}
+
+          <TextField
+            id={this.props.name + "-handicap"}
+            name="handicap"
+            label="Override handicap"
+            fullWidth={true}
+            value={this.state.handicap}
+            onChange={this.handleUserInput}
+            type="number"
+            className={"handicap"}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Checkbox
+                    checked={this.state.checkHandicap}
+                    onChange={this.handleUserInput}
+                    name="checkHandicap"
+                    id={this.props.name + "-checkHandicap"}
+                    value="val"
+                    color="primary"
+                  />
+                </InputAdornment>
+              ),
+            }}
+            margin="normal"
+          />
+          {/*Another input this time for handicap overrides*/}
+          {/*Has an InputAdornment, which is at the right, and is a checkbox, when checked, handicap overridden*/}
+
+          <br/>
+
+          <Button id={this.props.name + '-submit'} type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
+          {/*Submit button*/}
+
+        </form>
+        <p className={"errorMessage"}>{this.state.err}</p>
+        {/*Show errors*/}
+      </div>
+    )
+  }
+}
+
+export default AddScore; // Easier imports elsewhere
+----
+
+==== Game.js
+Where else would we add scores, more adding to Game.js time!
+
+[source, js]
+----
+tables.push(
+<React.Fragment key={i + "-empty"}>
+  {(this.state.game.playerGames.length === 6 && i !== 0) && <br/>}
+  <table key={i} id={this.state.game.teams[i].name.replace(/\s+/g, '-').toLowerCase()}>
+    <thead>
+    <tr>
+      <th colSpan={10}>{this.state.game.teams[i].name}</th>
+      <th>score</th>
+    </tr>
+    <tr>
+      <th width="10%">HCP</th>
+      <th width="40%">Bowler</th>
+      <th width="10%" colSpan={2}>Game 1</th>
+      <th width="10%" colSpan={2}>Game 2</th>
+      <th width="10%" colSpan={2}>Game 3</th>
+      <th width="10%" colSpan={2}>Total</th>
+      <th width="10%">Pts</th>
+    </tr>
+    </thead>
+    {this.state.game.playerGames.slice(3 * i, 3 * i + 3).map(playerGame => (
+      this.genScores(playerGame)
+    ))}
+    {/*Make 3 genScores, use index 0->3 or 3->6 dependent on first or second team*/}
+  </table>
+</React.Fragment>
+)
+
+// table() in main tables.push, now sources data from genScores which makes the rows of data
+
+genScores(playerGame) {
+  if(playerGame.scores.length < 3) {
+    // If it's not full
+    let i = 0;
+    const data = [[
+      <React.Fragment key={playerGame.id + "-player"}>
+        <td rowSpan={2}>{playerGame.handicap}</td>
+        <td rowSpan={2}>{playerGame.player.name}</td>
+      </React.Fragment>]];
+    // Create data, an array of arrays, data[x][0] is for row 1 of table, data[x][1] is for row 2
+    // Fill data with the player details as 2 tall
+    playerGame.scores.forEach(score => {
+      i++; // Increment i
+      data.push([
+        <React.Fragment key={score.id}>
+          <td key={score.id + "-scratch"}>{Number.isInteger(score.scratch) ? score.scratch : ""}</td>
+          <td key={score.id + "-handicapped"}>{Number.isInteger(score.handicapped) ? score.handicapped : ""}</td>
+        </React.Fragment>, // Add cell with the scratch and handicap for each score
+        <td colSpan={2} key={score.id + "-score"}>{score.score ? score.score : ""}</td>
+        // Also add the points awarded below
+      ])
+    });
+    if (this.state.game.playerGames.length === 6){
+      // If the game has all the playerGames
+      data.push([
+        <td colSpan={2} rowSpan={2} key={playerGame.id + "-addScore"}>
+          <AddScore id={playerGame.id} name={playerGame.player.name.replace(/\s+/g, '-').toLowerCase()}/>
+        </td>]);// Add an AddScore, so a user can input a score
+    } else {
+      data.push([
+        <React.Fragment key={playerGame.id + "-" + "would-be-j"}>
+          <td key={"would-be-j" + "-0"}/>
+          <td key={"would-be-j" + "-1"}/>
+        </React.Fragment>,
+        <td key={"would-be-j" + "-2"} colSpan={2} />
+      ]);// Otherwise add empty space, scores shouldn't be added before both teams are in the game
+    }
+    for (let j = i; j<2; j++) {
+      data.push([
+        <React.Fragment key={playerGame.id + "-" + j}>
+          <td key={j + "-0"}/>
+          <td key={j + "-1"}/>
+        </React.Fragment>,
+        <td key={j + "-2"} colSpan={2} />
+      ]);
+    }
+    // Fill with empty till row full of empty scores
+    data.push([
+      <React.Fragment key={playerGame.id + "-totals"}>
+        <td>totals</td>
+        <td>totals</td>
+        <td rowSpan={2}>Points</td>
+      </React.Fragment>,
+      <td key={playerGame.id + "-scoreTotals"} colSpan={2}>totals</td>]);
+    // Add totals, like blank but with word totals in, so we know where the totals will be when calculated
+    return (
+      <tbody key={playerGame.id + "-table"}>
+      <tr>
+        {data.map(thing => thing[0])}
+      </tr>
+      <tr>
+        {data.map(thing => thing[1])}
+      </tr>
+      </tbody>
+      // Return the 2 rows wrapped in a tbody
+    )
+  } else {
+    return (
+      // If it's full of scores, just send this, nice and easy
+      <tbody id={playerGame.player.name.replace(/\s+/g, '-').toLowerCase() + "-full"} key={playerGame.id + "-full"}>
+      <tr>
+        <td rowSpan={2}>{playerGame.handicap}</td>
+        <td rowSpan={2}>{playerGame.player.name}</td>
+        <td>{playerGame.scores[0] !== null ? playerGame.scores[0].scratch : ""}</td>
+        <td>{playerGame.scores[0] !== null ? playerGame.scores[0].handicapped : ""}</td>
+        <td>{playerGame.scores[1] !== null ? playerGame.scores[1].scratch : ""}</td>
+        <td>{playerGame.scores[1] !== null ? playerGame.scores[1].handicapped : ""}</td>
+        <td>{playerGame.scores[2] !== null ? playerGame.scores[2].scratch : ""}</td>
+        <td>{playerGame.scores[2] !== null ? playerGame.scores[2].handicapped : ""}</td>
+        <td>totals</td>
+        <td>totals</td>
+        <td rowSpan={2}>Points</td>
+      </tr>
+      <tr>
+        <td colSpan={2}>{playerGame.scores[0] !== null ? playerGame.scores[0].score : ""}</td>
+        <td colSpan={2}>{playerGame.scores[1] !== null ? playerGame.scores[1].score : ""}</td>
+        <td colSpan={2}>{playerGame.scores[2] !== null ? playerGame.scores[2].score : ""}</td>
+        <td colSpan={2}>totals</td>
+      </tr>
+      </tbody>
+    )
+  }
+}
+// That's all the changes for now
+----
+
+==== Errors at this stage
+Errors occured, but all had been seen before, so we have aesthetic errors now.
+
+===== Table Cells
+I don't like how stretched the cells look with the score form in, however I am yet to find a better way to do it.
+So it looks like this.
+.Takes up a lot of space on the page.
+image::dev-pictures/add-scores.png[addScores, pdfwidth=100%]
+
+=== A player can add their handicap to a game
+Completed alongside AddScores, as it was the best time to do it
+
+=== Added Score is adjusted for handicap
+Wrote it in the backend when adding score, so it's done.
+
+=== Points are awarded for a complete Game
+This one, not done yet. So what needs to be done to complete a game, usually it is preferred if I add flowcharts.
+
+.Scoring Flowchart
+image::dev-pictures/scoring-flowchart.png[scoringFlowchart, pdfwidth=100%]
+
+It won't be exactly like this as adding scores is not as easy as immediately obvious as object + object =
+operator + cannot be applied to score. So some lambda functions will reduce down the lists and objects into one Integer.
+
+...
 
 == Test Formatter
 I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
@@ -3294,6 +5045,11 @@ doing all this manually now can I?
 === Development
 
 === Testing
+
+==== Writeup errors
+All the JSX commenting was JS style
+find (.*\{\/\**.*) replace with $1*/}
+to add end to all the // replaced with {/*
 
 path relative to file which imported it, not file which link originally in.
 

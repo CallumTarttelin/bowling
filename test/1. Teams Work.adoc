@@ -4,7 +4,7 @@
 ==== JUnit Tests
 ==== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.GameRepositoryTest |thingsSaved_canBeRetrieved |0.067
@@ -16,7 +16,7 @@
 
 ==== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.LeagueRepositoryTest |thingsSaved_canBeRetrieved |0.011
@@ -30,7 +30,7 @@
 
 ==== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.BowlingApplicationTests |contextLoads |0.046
@@ -42,7 +42,7 @@
 
 ==== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.TeamControllerTest |deleteLeague_shouldDeleteLeague |0.036
@@ -55,7 +55,7 @@
 
 ==== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.LeagueControllerTest |deleteLeague_shouldDeleteLeague |0.22
@@ -92,18 +92,6 @@ Screenshots
 '''
 
 
-.5-2 teams
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestTeams/5-2 teams.png[5-2 teams,pdfwidth=100%]
-
-.6-Deleted swing
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
-
-.3-Add Team screen
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestTeams/3-Add Team screen.png[3-Add Team screen,pdfwidth=100%]
-
 .1-init league
 [caption="Testing set 1. Teams Work: "]
 image:test/1. Teams Work/TestTeams/1-init league.png[1-init league,pdfwidth=100%]
@@ -112,9 +100,21 @@ image:test/1. Teams Work/TestTeams/1-init league.png[1-init league,pdfwidth=100%
 [caption="Testing set 1. Teams Work: "]
 image:test/1. Teams Work/TestTeams/2-League view.png[2-League view,pdfwidth=100%]
 
+.3-Add Team screen
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/3-Add Team screen.png[3-Add Team screen,pdfwidth=100%]
+
 .4-Sam Vimes in the watch
 [caption="Testing set 1. Teams Work: "]
 image:test/1. Teams Work/TestTeams/4-Sam Vimes in the watch.png[4-Sam Vimes in the watch,pdfwidth=100%]
+
+.5-2 teams
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/5-2 teams.png[5-2 teams,pdfwidth=100%]
+
+.6-Deleted swing
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
 
 
 
@@ -141,25 +141,25 @@ Screenshots
 '''
 
 
-.5-Deleted daywatch
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
-
-.4-Second League
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
-
 .1-start
 [caption="Testing set 1. Teams Work: "]
 image:test/1. Teams Work/TestLeague/1-start.png[1-start,pdfwidth=100%]
+
+.2-adding a league
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
 
 .3-Shows League
 [caption="Testing set 1. Teams Work: "]
 image:test/1. Teams Work/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
 
-.2-adding a league
+.4-Second League
 [caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
+image:test/1. Teams Work/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
+
+.5-Deleted daywatch
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 

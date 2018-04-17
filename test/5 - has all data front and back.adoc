@@ -4,7 +4,7 @@
 ==== JUnit Tests
 ==== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.GameRepositoryTest |thingsSaved_canBeRetrieved |0.036
@@ -16,7 +16,7 @@
 
 ==== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.LeagueRepositoryTest |thingsSaved_canBeRetrieved |0.016
@@ -30,7 +30,7 @@
 
 ==== com.saskcow.bowling.repository.TeamRepositoryTest
 6 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.TeamRepositoryTest |teamPoints |0.291
@@ -47,7 +47,7 @@
 
 ==== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.BowlingApplicationTests |contextLoads |0.002
@@ -59,7 +59,7 @@
 
 ==== com.saskcow.bowling.controller.PlayerGameControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.PlayerGameControllerTest |deletePlayerGame_shouldDeletePlayerGame |0.18
@@ -72,7 +72,7 @@
 
 ==== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.TeamControllerTest |addTeam_shouldSaveTheTeam |0.216
@@ -85,7 +85,7 @@
 
 ==== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.LeagueControllerTest |addLeague_shouldSaveTheLeague |1.484
@@ -99,7 +99,7 @@
 
 ==== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.PlayerControllerTest |deletePlayer_shouldDeletePlayer |0.083
@@ -112,7 +112,7 @@
 
 ==== com.saskcow.bowling.controller.ScoreControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.ScoreControllerTest |addScore_shouldSaveTheScore |0.05
@@ -125,7 +125,7 @@
 
 ==== com.saskcow.bowling.controller.GameControllerTest
 3 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.GameControllerTest |completeGame_shouldCompleteGame |0.096
@@ -139,7 +139,7 @@
 
 ==== com.saskcow.bowling.repository.PlayerRepositoryTest
 4 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.PlayerRepositoryTest |highGame |0.029
@@ -177,57 +177,57 @@ Screenshots
 '''
 
 
-.Added the Game
+.01 - The League page, with all the teams
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Added the Game.png[Added the Game,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/01 - The League page, with all the teams.png[01 - The League page, with all the teams,pdfwidth=100%]
 
-.The League page, with all the teams
+.02 - Click add a Game, to go to the add game form
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/The League page, with all the teams.png[The League page, with all the teams,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/02 - Click add a Game, to go to the add game form.png[02 - Click add a Game, to go to the add game form,pdfwidth=100%]
 
-.Fill in the Teams with the dropdown
+.03 - Fill in the Teams with the dropdown
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Fill in the Teams with the dropdown.png[Fill in the Teams with the dropdown,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/03 - Fill in the Teams with the dropdown.png[03 - Fill in the Teams with the dropdown,pdfwidth=100%]
 
-.Add a second Game
+.04 - Finish completing form
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Add a second Game.png[Add a second Game,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/04 - Finish completing form.png[04 - Finish completing form,pdfwidth=100%]
 
-.Fill in form for Pseudopolis Yard
+.05 - Added the Game
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Fill in form for Pseudopolis Yard.png[Fill in form for Pseudopolis Yard,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/05 - Added the Game.png[05 - Added the Game,pdfwidth=100%]
 
-.Game with no players
+.06 - Add a second Game
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Game with no players.png[Game with no players,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/06 - Add a second Game.png[06 - Add a second Game,pdfwidth=100%]
 
-.Fill in form without empty or duplicates values
+.07 - Game with no players
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Fill in form without empty or duplicates values.png[Fill in form without empty or duplicates values,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/07 - Game with no players.png[07 - Game with no players,pdfwidth=100%]
 
-.Fill in the Players with the dropdown
+.08 - Fill in the Players with the dropdown
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Fill in the Players with the dropdown.png[Fill in the Players with the dropdown,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/08 - Fill in the Players with the dropdown.png[08 - Fill in the Players with the dropdown,pdfwidth=100%]
 
-.Finish completing form
+.09 - Rejects duplicates or empty
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Finish completing form.png[Finish completing form,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/09 - Rejects duplicates or empty.png[09 - Rejects duplicates or empty,pdfwidth=100%]
 
-.Click add a Game, to go to the add game form
+.10 - Fill in form without empty or duplicates values
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Click add a Game, to go to the add game form.png[Click add a Game, to go to the add game form,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/10 - Fill in form without empty or duplicates values.png[10 - Fill in form without empty or duplicates values,pdfwidth=100%]
 
-.Rejects duplicates or empty
+.11 - Submit form to generate Game table
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Rejects duplicates or empty.png[Rejects duplicates or empty,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/11 - Submit form to generate Game table.png[11 - Submit form to generate Game table,pdfwidth=100%]
 
-.Game with all players, ready to play
+.12 - Fill in form for Pseudopolis Yard
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Game with all players, ready to play.png[Game with all players, ready to play,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/12 - Fill in form for Pseudopolis Yard.png[12 - Fill in form for Pseudopolis Yard,pdfwidth=100%]
 
-.Submit form to generate Game table
+.13 - Game with all players, ready to play
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/Submit form to generate Game table.png[Submit form to generate Game table,pdfwidth=100%]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/13 - Game with all players, ready to play.png[13 - Game with all players, ready to play,pdfwidth=100%]
 
 
 
@@ -269,21 +269,21 @@ Screenshots
 '''
 
 
-.The Day Watch no longer want to participate
+.01 - The Day Watch no longer want to participate
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/The Day Watch no longer want to participate.png[The Day Watch no longer want to participate,pdfwidth=100%]
+image:test/5 - has all data front and back/4. Cleaning Up/01 - The Day Watch no longer want to participate.png[01 - The Day Watch no longer want to participate,pdfwidth=100%]
 
-.Leagues deleted
+.02 - Team Deleted
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/Leagues deleted.png[Leagues deleted,pdfwidth=100%]
+image:test/5 - has all data front and back/4. Cleaning Up/02 - Team Deleted.png[02 - Team Deleted,pdfwidth=100%]
 
-.Team Deleted
+.03 - Leagues both over
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/Team Deleted.png[Team Deleted,pdfwidth=100%]
+image:test/5 - has all data front and back/4. Cleaning Up/03 - Leagues both over.png[03 - Leagues both over,pdfwidth=100%]
 
-.Leagues both over
+.04 - Leagues deleted
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/Leagues both over.png[Leagues both over,pdfwidth=100%]
+image:test/5 - has all data front and back/4. Cleaning Up/04 - Leagues deleted.png[04 - Leagues deleted,pdfwidth=100%]
 
 
 
@@ -312,81 +312,81 @@ Screenshots
 '''
 
 
-.Added the rest of the Players to the_day_watch
+.01 - Before any data entry
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Added the rest of the Players to the_day_watch.png[Added the rest of the Players to the_day_watch,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/01 - Before any data entry.png[01 - Before any data entry,pdfwidth=100%]
 
-.Click on the add a Team button, to add a Team
+.02 - Click add a League button
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Click on the add a Team button, to add a Team.png[Click on the add a Team button, to add a Team,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/02 - Click add a League button.png[02 - Click add a League button,pdfwidth=100%]
 
-.Added the rest of the Players to cable_street_particulars
+.03 - Add the name of the League
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Added the rest of the Players to cable_street_particulars.png[Added the rest of the Players to cable_street_particulars,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/03 - Add the name of the League.png[03 - Add the name of the League,pdfwidth=100%]
 
-.Add the name of the League
+.04 - Submit the form to add the league
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Add the name of the League.png[Add the name of the League,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/04 - Submit the form to add the league.png[04 - Submit the form to add the league,pdfwidth=100%]
 
-.One Team added to the League
+.05 - Add another League
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/One Team added to the League.png[One Team added to the League,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/05 - Add another League.png[05 - Add another League,pdfwidth=100%]
 
-.Insert desired Player name into the input
+.06 - Click on the League to view the League page
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Insert desired Player name into the input.png[Insert desired Player name into the input,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/06 - Click on the League to view the League page.png[06 - Click on the League to view the League page,pdfwidth=100%]
 
-.Before any data entry
+.07 - Click on the add a Team button, to add a Team
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Before any data entry.png[Before any data entry,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/07 - Click on the add a Team button, to add a Team.png[07 - Click on the add a Team button, to add a Team,pdfwidth=100%]
 
-.Submit the form to add the league
+.08 - Enter the Team name
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Submit the form to add the league.png[Submit the form to add the league,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/08 - Enter the Team name.png[08 - Enter the Team name,pdfwidth=100%]
 
-.Submit the form to finish adding player
+.09 - One Team added to the League
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Submit the form to finish adding player.png[Submit the form to finish adding player,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/09 - One Team added to the League.png[09 - One Team added to the League,pdfwidth=100%]
 
-.Enter the Team name
+.10 - Added all the Teams now, can't play with one team
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Enter the Team name.png[Enter the Team name,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/10 - Added all the Teams now, can\'t play with one team.png[10 - Added all the Teams now, can't play with one team,pdfwidth=100%]
 
-.Add another League
+.11 - Click a team to go to the team page
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Add another League.png[Add another League,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/11 - Click a team to go to the team page.png[11 - Click a team to go to the team page,pdfwidth=100%]
 
-.Click add a Player to go to the add a player page
+.12 - Click add a Player to go to the add a player page
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Click add a Player to go to the add a player page.png[Click add a Player to go to the add a player page,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/12 - Click add a Player to go to the add a player page.png[12 - Click add a Player to go to the add a player page,pdfwidth=100%]
 
-.Click a team to go to the team page
+.13 - Insert desired Player name into the input
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Click a team to go to the team page.png[Click a team to go to the team page,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/13 - Insert desired Player name into the input.png[13 - Insert desired Player name into the input,pdfwidth=100%]
 
-.Click add a League button
+.14 - Submit the form to finish adding player
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Click add a League button.png[Click add a League button,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/14 - Submit the form to finish adding player.png[14 - Submit the form to finish adding player,pdfwidth=100%]
 
-.Sam vimes Profile
+.15 - Added the rest of the Players to cable_street_particulars
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Sam vimes Profile.png[Sam vimes Profile,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/15 - Added the rest of the Players to cable_street_particulars.png[15 - Added the rest of the Players to cable_street_particulars,pdfwidth=100%]
 
-.Added the rest of the Players to the_night_watch
+.15 - Added the rest of the Players to pseudopolis_yard
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Added the rest of the Players to the_night_watch.png[Added the rest of the Players to the_night_watch,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/15 - Added the rest of the Players to pseudopolis_yard.png[15 - Added the rest of the Players to pseudopolis_yard,pdfwidth=100%]
 
-.Added all the Teams now, can't play with one team
+.15 - Added the rest of the Players to the_day_watch
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Added all the Teams now, can\'t play with one team.png[Added all the Teams now, can't play with one team,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/15 - Added the rest of the Players to the_day_watch.png[15 - Added the rest of the Players to the_day_watch,pdfwidth=100%]
 
-.Click on the League to view the League page
+.15 - Added the rest of the Players to the_night_watch
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Click on the League to view the League page.png[Click on the League to view the League page,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/15 - Added the rest of the Players to the_night_watch.png[15 - Added the rest of the Players to the_night_watch,pdfwidth=100%]
 
-.Added the rest of the Players to pseudopolis_yard
+.16 - Sam vimes Profile
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/1. Creating Teams and Players/Added the rest of the Players to pseudopolis_yard.png[Added the rest of the Players to pseudopolis_yard,pdfwidth=100%]
+image:test/5 - has all data front and back/1. Creating Teams and Players/16 - Sam vimes Profile.png[16 - Sam vimes Profile,pdfwidth=100%]
 
 
 
@@ -414,37 +414,37 @@ Screenshots
 '''
 
 
-.A complete row of Scores
+.01 - The game
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/A complete row of Scores.png[A complete row of Scores,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/01 - The game.png[01 - The game,pdfwidth=100%]
 
-.Game sorted to bottom and game winner shown
+.02 - Just enter a scratch score and the handicap will be added from the backend
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/Game sorted to bottom and game winner shown.png[Game sorted to bottom and game winner shown,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/02 - Just enter a scratch score and the handicap will be added from the backend.png[02 - Just enter a scratch score and the handicap will be added from the backend,pdfwidth=100%]
 
-.Just enter a scratch score and the handicap will be added from the backend
+.03 - Can also enter a value into handicap and check box to overrule the existing value
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/Just enter a scratch score and the handicap will be added from the backend.png[Just enter a scratch score and the handicap will be added from the backend,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/03 - Can also enter a value into handicap and check box to overrule the existing value.png[03 - Can also enter a value into handicap and check box to overrule the existing value,pdfwidth=100%]
 
-.The game
+.04 - Rejects impossible scores
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/The game.png[The game,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/04 - Rejects impossible scores.png[04 - Rejects impossible scores,pdfwidth=100%]
 
-.Rejects impossible scores
+.05 - A complete row of Scores
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/Rejects impossible scores.png[Rejects impossible scores,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/05 - A complete row of Scores.png[05 - A complete row of Scores,pdfwidth=100%]
 
-.All scores calculated, winner and loser selected
+.06 - All scores added
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/All scores calculated, winner and loser selected.png[All scores calculated, winner and loser selected,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/06 - All scores added.png[06 - All scores added,pdfwidth=100%]
 
-.Can also enter a value into handicap and check box to overrule the existing value
+.07 - All scores calculated, winner and loser selected
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/Can also enter a value into handicap and check box to overrule the existing value.png[Can also enter a value into handicap and check box to overrule the existing value,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/07 - All scores calculated, winner and loser selected.png[07 - All scores calculated, winner and loser selected,pdfwidth=100%]
 
-.All scores added
+.08 - Game sorted to bottom and game winner shown
 [caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/All scores added.png[All scores added,pdfwidth=100%]
+image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game/08 - Game sorted to bottom and game winner shown.png[08 - Game sorted to bottom and game winner shown,pdfwidth=100%]
 
 
 

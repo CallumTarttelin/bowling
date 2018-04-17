@@ -4,7 +4,7 @@
 ==== JUnit Tests
 ==== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.GameRepositoryTest |thingsSaved_canBeRetrieved |0.087
@@ -16,7 +16,7 @@
 
 ==== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.repository.LeagueRepositoryTest |thingsSaved_canBeRetrieved |0.013
@@ -30,7 +30,7 @@
 
 ==== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.BowlingApplicationTests |contextLoads |0.049
@@ -42,7 +42,7 @@
 
 ==== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.TeamControllerTest |addTeam_shouldSaveTheTeam |0.05
@@ -55,7 +55,7 @@
 
 ==== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.LeagueControllerTest |addLeague_shouldSaveTheLeague |0.097
@@ -69,7 +69,7 @@
 
 ==== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.PlayerControllerTest |deletePlayer_shouldDeletePlayer |0.031
@@ -82,7 +82,7 @@
 
 ==== com.saskcow.bowling.controller.GameControllerTest
 2 tests, 0 failed, 0 errors,
-[cols="2,2,1",options="header",]
+[cols="3,3,1",options="header",]
 |======================================
 |Classname |Name |Time 
 |com.saskcow.bowling.controller.GameControllerTest |addGame_shouldSaveTheGame |0.322
