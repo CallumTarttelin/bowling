@@ -182,6 +182,11 @@ The data will then be written into the writeup by script in order to have a repe
 The project will start by laying out the backend for an object, like a league, and then there will be a front end
 implementation of the object. The ordering will be League, Team, Player, Match, Score then User and roles for security.
 
+=== Iterative Development
+Every time a feature is implemented, changes will be pushed to a github repository. Any in progress changes will be pushed to a
+separate "dev" branch and merged into master when feature is complete and tested. This allows users and stakeholders to always have
+an up to date version of the code to continuously provide feedback on future versions.
+
 == Development
 
 === Initial Setup
@@ -2617,7 +2622,7 @@ Now nightwatch is running, we need to add tests to test the new functionality.
 [source, js]
 ----
 module.exports = {
-  / Export this
+  // Export this
 
   'Setup' : function (browser) {
     // Create TestCase Setup
@@ -4691,7 +4696,7 @@ public class ScoreController {
         // Returns a ResponseEntity and takes JSON made into a ScoreRest
 
         Optional<PlayerGame> optionalPlayerGame = playerGameRepository.findById(score.getPlayerGameId());
-        if (! optionalPlayerGame.isPresent() || 0 > score.getScratch() || score.getScratch() > 300){
+        if (! optionalPlayerGame.isPresent()){
             return ResponseEntity.badRequest().build();
         }
         PlayerGame playerGame = optionalPlayerGame.get();
@@ -5009,7 +5014,7 @@ genScores(playerGame) {
 ----
 
 ==== Errors at this stage
-Errors occured, but all had been seen before, so we have aesthetic errors now.
+Errors occurred, but all had been seen before, so we have aesthetic errors now.
 
 ===== Table Cells
 I don't like how stretched the cells look with the score form in, however I am yet to find a better way to do it.
@@ -5032,7 +5037,619 @@ image::dev-pictures/scoring-flowchart.png[scoringFlowchart, pdfwidth=100%]
 It won't be exactly like this as adding scores is not as easy as immediately obvious as object + object =
 operator + cannot be applied to score. So some lambda functions will reduce down the lists and objects into one Integer.
 
-...
+A game will need to be completed at a point. This should be decided by the user and thus should have it's REST end point.
+It is not obvious which method should be used as it isn't submitting much data for a `post` request, but doesn't fit `put`, (Upload a representation of the object)
+either. Since it modifies state it shouldn't be a `get` request either. Therefore a `post` request is used.
+
+==== GameControllerTest.java
+More controllers, this test is really large as it needs to make all the objects which would be in place for a complete game.
+It then also needs to make sure they are correctly linked.
+
+[source, java]
+----
+@Test
+public void completeGame_shouldCompleteGame() throws Exception {
+    League cityWatch = new League(1L, "City Watch", null, new LinkedList<>());
+    cityWatch.setRota(new Rota(cityWatch));
+    // Create a league and rota
+
+    Team cableStreet = new Team(1L, "Cable Street Particulars", null, new LinkedList<>(), cityWatch, new LinkedList<>());
+    Team nightWatch = new Team(2L, "The Night Watch", null, new LinkedList<>(), cityWatch, new LinkedList<>());
+    // Add teams to leagues
+
+    cableStreet.setPlayers(new LinkedList<>(Arrays.asList(
+            new Player(1L, "Findthee Swing", cableStreet, new LinkedList<>()),
+            new Player(2L, "Carcer", cableStreet, new LinkedList<>()),
+            new Player(3L, "Gerald Leastways, a.k.a. Ferret", cableStreet, new LinkedList<>()),
+            new Player(4L, "Henry 'The Hamster' Higgins", cableStreet, new LinkedList<>())
+    )));
+    nightWatch.setPlayers(new LinkedList<>(Arrays.asList(
+            new Player(5L, "Sam Vimes", nightWatch, new LinkedList<>()),
+            new Player(6L, "Carrot Ironfoundersson", nightWatch, new LinkedList<>()),
+            new Player(7L, "Nobby Nobbs", nightWatch, new LinkedList<>()),
+            new Player(8L, "Fred Colon", nightWatch, new LinkedList<>())
+    )));
+
+    // Add 4 players to each game
+
+    Game game = new Game(1L, cityWatch.getRota(), LocalDateTime.now(Clock.systemUTC()), "The Shades", Arrays.asList(cableStreet, nightWatch), new LinkedList<>());
+    cableStreet.addGame(game);
+    nightWatch.addGame(game);
+    // Create a game, add it to both teams
+
+    PlayerGame swingGame = new PlayerGame(1L, cableStreet.getPlayers().get(0), cableStreet, game, new LinkedList<>(), null);
+    PlayerGame carcerGame = new PlayerGame(2L, cableStreet.getPlayers().get(1), cableStreet, game, new LinkedList<>(), null);
+    PlayerGame geraldGame = new PlayerGame(3L, cableStreet.getPlayers().get(2), cableStreet, game, new LinkedList<>(), null);
+    // Create a PlayerGame for the 3 participating in the game
+
+    cableStreet.addAllPlayerGame(Arrays.asList(swingGame, carcerGame, geraldGame));
+    game.addAllPlayerGame(Arrays.asList(swingGame, carcerGame, geraldGame));
+    cableStreet.getPlayers().get(0).addPlayerGame(swingGame);
+    cableStreet.getPlayers().get(1).addPlayerGame(carcerGame);
+    cableStreet.getPlayers().get(2).addPlayerGame(geraldGame);
+    // Add playerGames to the appropriate games, teams or players
+
+    PlayerGame samGame = new PlayerGame(4L, nightWatch.getPlayers().get(0), nightWatch, game, new LinkedList<>(), null);
+    PlayerGame carrotGame = new PlayerGame(5L, nightWatch.getPlayers().get(1), nightWatch, game, new LinkedList<>(), null);
+    PlayerGame nobbyGame = new PlayerGame(6L, nightWatch.getPlayers().get(2), nightWatch, game, new LinkedList<>(), null);
+    // Create a PlayerGame for the 3 participating in the game
+
+    nightWatch.addAllPlayerGame(Arrays.asList(samGame, carrotGame, nobbyGame));
+    game.addAllPlayerGame(Arrays.asList(samGame, carrotGame, nobbyGame));
+    nightWatch.getPlayers().get(0).addPlayerGame(samGame);
+    nightWatch.getPlayers().get(1).addPlayerGame(carrotGame);
+    nightWatch.getPlayers().get(2).addPlayerGame(nobbyGame);
+    // Add playerGames to the appropriate games, teams or players
+
+    when(repo.findById(game.getId())).thenReturn(Optional.of(game));
+    // When trying to find the game, return the game as an Optional
+
+    mockMvc.perform(post("/api/game/1"))
+            .andExpect(status().isBadRequest());
+    // Check a game with no scores gets a 404 send back
+
+    IntStream.range(0, 3).forEach(i -> swingGame.addScore(new Score((long) i, swingGame, 100 + 10*i, 100 + 10*i + 15, null)));
+    IntStream.range(0, 3).forEach(i -> carcerGame.addScore(new Score((long) i + 3, carcerGame, 100 - 10*i, 100 - 10*i + 25, null)));
+    IntStream.range(0, 3).forEach(i -> geraldGame.addScore(new Score((long) i + 6, geraldGame, 100 + 5*i, 100 + 5*i + 20, null)));
+    IntStream.range(0, 3).forEach(i -> samGame.addScore(new Score((long) i + 9, samGame, 100 + (4*i*i), 100 + (4*i*i) + 15, null)));
+    IntStream.range(0, 3).forEach(i -> carrotGame.addScore(new Score((long) i + 12, carrotGame, 100, 100 + 25, null)));
+    IntStream.range(0, 3).forEach(i -> nobbyGame.addScore(new Score((long) i + 15, nobbyGame, (int) (100 + pow(-5*i, i)), (int) (100 + pow(-5*i, i)) + 20, null)));
+    // Add the scores, with some variation of scores for each so some are equal, some higher, some lower
+
+    mockMvc.perform(post("/api/game/1"))
+            .andExpect(status().isNoContent());
+    // Check a no content is returned when game complete sent
+
+    assertThat(game.getPlayerGames().stream().allMatch(playerGame -> playerGame.getScores().stream().allMatch(score -> score.getScore() != null))).isTrue();
+    // Check that for every player in the game, every score they have, the points awarded is not null anymore
+    assertThat(game.getPlayerGames().stream().allMatch(playerGame -> playerGame.getScores().size() == 4)).isTrue();
+    // Check that every player in the game has 4 scores
+    assertThat(game.getPlayerGames().size()).isEqualTo(8);
+    // Check that there are 8 players, 6 people, 2 totals
+    assertThat(nightWatch.getPlayerGames().size()).isEqualTo(4);
+    // Check nightwatch has all 4 playerGames
+    assertThat(cableStreet.getPlayerGames().size()).isEqualTo(4);
+    // Check cablestreet has all 4 playerGames
+
+}
+----
+
+==== GameController.java
+This was added
+
+[source, java]
+----
+@RequestMapping(value = "/api/game/{id}", method = RequestMethod.POST)
+// All post requests to a specific game
+public ResponseEntity<?> endGame(@PathVariable Long id) {
+    // Take id from path
+    Optional<Game> optionalGame = repo.findById(id);
+    if (! optionalGame.isPresent()){
+        return ResponseEntity.notFound().build();
+    }
+    Game game = optionalGame.get();
+    // Get the game, and check it really exists, otherwise send back a 404
+    if (game.getPlayerGames().size() != 6 || ! game.getPlayerGames().stream().allMatch(playerGame -> playerGame.getScores().size() == 3)){
+        return ResponseEntity.badRequest().build();
+    }
+    // If there are not 6 players in the game, or any of the playerGames do not have 3 scores, send back a 400
+    game.completeGame();
+    // Call game complete function
+    repo.save(game);
+    // Save changes, many cascades set so it saves all transients too
+    return ResponseEntity.noContent().build();
+    // Return 204
+}
+----
+
+Sadly all the logic is in
+
+==== Game.java
+Here! The following 4 functions were added.
+
+[source, java]
+----
+public void completeGame() {
+    this.playerGames.add(3, new PlayerGame(null, this.teams.get(0), this));
+    this.playerGames.add(new PlayerGame(null, this.teams.get(1), this));
+    // Add the playerGames for total players, do not have a player, just a team as it is sum of all on a team.
+    this.addTotalPlayer();
+    // Call addTotalPlayer to fill in scores for these new total players
+    this.getScores();
+    // Get the totals for each player in game
+    this.addPoints();
+    // Assign points
+}
+
+
+private void addTotalPlayer() {
+    List<PlayerGame> list1 = this.playerGames.subList(0, 3);
+    // Team 1's playerGames (not total)
+    List<PlayerGame> list2 = this.playerGames.subList(4, 7);
+    // Team 2's playerGames (not total)
+    this.playerGames.get(3).setScores(new LinkedList<>(
+            // Set scores to a list with the following
+            IntStream.range(0, 3).mapToObj(i -> {
+                    // For i in range(3) create an object
+                    Integer scratchSum = list1.stream().reduce(0,
+                            (a, b) -> a + b.getScores().get(i).getScratch(),
+                            (a, b) -> a + b);
+                    // Get sum of scratch scores, default 0 if empty
+                    // Accumulate by adding accumulator Integer to the score of the i th game of each player
+                    return (new Score(playerGames.get(3),
+                            scratchSum, // Create a new score for the totalPlayer with this scratch score (the total)
+                            list1.stream().reduce(0,
+                                    (a, b) -> a + b.getScores().get(i).getHandicapped(),
+                                    (a, b) -> a + b) - scratchSum)
+                            // Get the handicapped and subtract the scratchSum to calculate the effective handicap for the set
+                    );
+            }).collect(Collectors.toList())
+            // Collect the scores into a list
+    ));
+
+    this.playerGames.get(7).setScores(new LinkedList<>(
+            IntStream.range(0, 3)
+                    .mapToObj(i -> {
+                        Integer x = list2.stream().reduce(0,
+                                (a, b) -> a + b.getScores().get(i).getScratch(),
+                                (a, b) -> a + b);
+                        return (new Score(playerGames.get(7),
+                                x,
+                                list2.stream().reduce(0,
+                                        (a, b) -> a + b.getScores().get(i).getHandicapped(),
+                                        (a, b) -> a + b) - x)
+                        );
+                    }).collect(Collectors.toList())
+    ));
+    // Do the same for the second totalPlayerGame
+
+    this.teams.get(0).addPlayerGame(this.playerGames.get(3));
+    this.teams.get(1).addPlayerGame(this.playerGames.get(7));
+    // Add them to their respective teams
+}
+
+
+private void getScores() {
+    // Add total Scores
+    this.playerGames.forEach(playerGame -> playerGame.addScore(new Score(
+            // For every playerGame, add a score
+            playerGame,
+            // For that playerGame
+            playerGame.getScores().stream().reduce(0, (a, b) -> a + b.getScratch(), (a, b) -> a + b),
+            // With the total of all their scratch scores
+            // Add all score.getScratch() for each score
+            playerGame.getScores().stream()
+                    .reduce(0,
+                            (a, b) -> a + b.getHandicapped(), (a, b) -> a + b) -
+                    playerGame.getScores().stream()
+                            .reduce(0, (a, b) -> a + b.getScratch(), (a, b) -> a + b)
+            // Do the same handicapped - scratch to get a total handicap for the game, done this way in case custom handicap used for a set
+            , true // Set totalScore to true
+    )));
+    // Fairly short and simple, just adding another score with the total scratch and handicapped for each player in game
+}
+
+
+private void addPoints() {
+    // Zip List
+    List<List<PlayerGame>> zipped = IntStream.range(0, 4)
+            .mapToObj(i -> Arrays.asList(this.playerGames.get(i), this.playerGames.get(i + 4)))
+            .collect(Collectors.toList());
+    // Since there are 8 games, match them all up to the opposite teams equivalent
+    // Usually I would use zip(first half, second half) but Java 8 has no built in zip function
+    // So for x in range(4) create a list with the x and x + 4 players
+
+    zipped.forEach(thing -> {
+        // Zip Scores
+        // For each list of 2 playerGames
+        List<Score> scores0 = thing.get(0).getScores();
+        List<Score> scores1 = thing.get(1).getScores();
+        // Assign the scores to variables
+        List<List<Score>> zippedScores = IntStream.range(0, 4)
+                .mapToObj(i -> Arrays.asList(scores0.get(i), scores1.get(i)))
+                .collect(Collectors.toList());
+        // Zip team 1's player's scores against team 2's player's scores
+        // For each player 1 score, create a list with the corresponding player 2 score
+
+        // Compare each score against the other
+        zippedScores.forEach(scores -> {
+            if (scores.get(0).getHandicapped().equals(scores.get(1).getHandicapped())) {
+                scores.get(0).setScore(1);
+                scores.get(1).setScore(1);
+                // If both scores are the same, both get one point
+            } else if (scores.get(0).getHandicapped() > scores.get(1).getHandicapped()){
+                scores.get(0).setScore(2);
+                scores.get(1).setScore(0);
+                // If team 1's player has higher score, give the score 2 points, give the other 0
+            } else {
+                scores.get(0).setScore(0);
+                scores.get(1).setScore(2);
+                // If team 2's player has higher score, give the score 2 points, give the other 0
+            }
+        });
+    });
+}
+----
+
+That's the 3 steps implemented!
+
+=== Winning Team Displayed
+The client gave feedback that it's great that the points are added. But he also wanted them displayed for some reason.
+So here they are getting displayed as part of showing the winner.
+
+==== Game.js
+[source, js]
+----
+table() {
+  if(this.state.game.playerGames.length !== 8){
+    ...
+  } else {
+    let tables = [];
+    const teamTotals = [this.state.game.playerGames.slice(0, 4).reduce((a, b) => a + b.scores.reduce((a, b) => a + b.score, 0), 0),
+      this.state.game.playerGames.slice(4, 8).reduce((a, b) => a + b.scores.reduce((a, b) => a + b.score, 0), 0)];
+    // Total score for each team added to teamTotals, calculated by adding all up the sum of playerGames scores for a team
+    for(let i = 0; i<2; i++) {
+      // Do this twice
+      tables.push(
+        <React.Fragment key={i + "-fragment"}>
+          {i !== 0 && <br/>}
+          <table key={i} id={this.state.game.teams[i].name.replace(/\s+/g, '-').toLowerCase()} className={teamTotals[i] > teamTotals[(i + 1) % 2] ? "winner" : "loser"}>
+            {/*Create a table, if the teams score is higher than the opposition, they get the winner class, otherwise they are losers*/}
+            <thead>
+            <tr>
+              <th colSpan={10}>{this.state.game.teams[i].name}</th>
+              <th>{teamTotals[i]}</th>
+            </tr>
+            {/*Add Team Header*/}
+            <tr>
+              <th width="10%">HCP</th>
+              <th width="40%">Bowler</th>
+              <th width="10%" colSpan={2}>Game 1</th>
+              <th width="10%" colSpan={2}>Game 2</th>
+              <th width="10%" colSpan={2}>Game 3</th>
+              <th width="10%" colSpan={2}>Total</th>
+              <th width="10%">Pts</th>
+            </tr>
+            {/*Titles*/}
+            </thead>
+            {this.state.game.playerGames.slice(4 * i, 4 * i + 4).map(playerGame => {
+              return Game.genFullScores(playerGame);
+            })}
+            {/*Add the result of genFullScores for each playerGame of the team*/}
+          </table>
+        </React.Fragment>);
+    //  Add this to tables
+    }
+    return tables;
+  }
+}
+
+
+static genFullScores(playerGame) {
+  // Generate scores for a complete game static as doesn't reference this
+  return (<tbody key={playerGame.id + "-full"}>
+  <tr>
+    <td rowSpan={2}>{Number.isInteger(playerGame.handicap) ? playerGame.handicap: ""}</td>
+    <td rowSpan={2}>{playerGame.player ? playerGame.player.name: ""}</td>
+    <td>{playerGame.scores[0].scratch}</td>
+    <td>{playerGame.scores[0].handicapped}</td>
+    <td>{playerGame.scores[1].scratch}</td>
+    <td>{playerGame.scores[1].handicapped}</td>
+    <td>{playerGame.scores[2].scratch}</td>
+    <td>{playerGame.scores[2].handicapped}</td>
+    <td>{playerGame.scores[3].scratch}</td>
+    <td>{playerGame.scores[3].handicapped}</td>
+    <td rowSpan={2}>{playerGame.scores.reduce((a, b) => a + b.score, 0)}</td>
+    {/*Create a row with 4 player Scores and the total points*/}
+    {/*No type checking as these should always be in a complete game*/}
+  </tr>
+  <tr>
+    <td colSpan={2}>{playerGame.scores[0].score}</td>
+    <td colSpan={2}>{playerGame.scores[1].score}</td>
+    <td colSpan={2}>{playerGame.scores[2].score}</td>
+    <td colSpan={2}>{playerGame.scores[3].score}</td>
+    {/*Add the points underneath*/}
+  </tr>
+  </tbody>)
+}
+----
+
+This adds to the table function that if it has 8 playerGames, it must be complete, handle it differently.
+genFullScores gives the values for each player in a game.
+
+As well as this a ScoreGame button is added if table has 6 players and all have 3 scores
+[source, js]
+----
+if (this.state.game.playerGames.length === 6 && this.state.game.playerGames.every(playerGame => playerGame.scores.length === 3)) {
+  tables.push(<Button variant={"raised"} color={"primary"} key={'scoreGame'} id={"scoreGame"} onClick={this.scoreGame}>Score Game</Button>)
+}
+----
+
+==== How does it look
+
+.Button on a full Game
+image::dev-pictures/full-unscored.png[fullUnscored, pdfWidth=100%]
+
+.Complete Game
+image::dev-pictures/full-scored.png[fullScored, pdfWidth=100%]
+
+Shows in green and red thanks to
+[source, css]
+----
+table[class~=winner] th {
+    background: limegreen;
+} // headings in winner tables are limegreen
+
+table[class~=loser] th {
+    background-color: red;
+} // headings in loser tables are red
+----
+
+The winner is now clear from the table.
+
+==== Errors at this stage
+
+===== Missing Links
+When totalPlayerGames are created, they are linked to a team. Without this link, when trying to access team games, the total
+objects are missing from teams. This is not ideal.
+
+image::error-pictures/Expected 4 was 3.png[expected4Was3, pdfwidth=50%]
+
+Just adding the `this.teams.get(0).addPlayerGame(this.playerGames.get(3));` and `this.teams.get(1).addPlayerGame(this.playerGames.get(7));`
+fixed this.
+
+===== Reduce syntax
+In javascript, the reduce syntax is very different.
+This meant that originally the `(a, b) -> a + b` was not present as it is not used in javascript.
+In java it is required so was added to stop
+
+image::error-pictures/streams not that easy.png[reduceSyntaxDifferent.png, pdfWidth=100%]
+
+=== Highest Score is 300
+In one of the examples I showed the client, I added a score over 300. Now apparently that shouldn't happen.
+So now I need to make sure it doesn't.
+
+==== ScoreController.java
+
+[source, java]
+----
+if (! optionalPlayerGame.isPresent() || 0 > score.getScratch() || score.getScratch() > 300){
+    return ResponseEntity.badRequest().build();
+}
+----
+Is now in place instead of just `! optionalPlayerGame.isPresent()`, so any under 0 or over 300 scores are rejected with a `404`.
+
+==== Errors at this Stage
+As complex as this was, there weren't any errors!
+
+=== Calculate Player Handicap
+Now the player's past scores should influence the handicap so handicap = `INT(((200-INT(bowler_average))*0.8)`
+of the last 24 games
+
+==== Player.java
+As a placeholder previously
+
+[source, java]
+----
+public integer getHandicap(){
+    return 2
+}
+----
+was in place. Apparently that wasn't quite `INT(((200-INT(bowler_average))*0.8)` so now
+
+[source, java]
+----
+public Integer getHandicap(){
+    if (this.playerGames == null){return 0;}
+    // If there are no games, return 0 as handicap
+    List<PlayerGame> last24 = this.playerGames.stream()
+            .filter(playerGame -> playerGame.getScores().size() == 3 || playerGame.getScores().size() == 4)
+            .collect(Collectors.toList());
+            // Collect all the playerGames where the game is complete or player has bowled all
+    last24 = last24.subList(last24.size() - 24 >= 0 ? last24.size() - 24 : 0, last24.size());
+    // Get the last 24 of these games
+    if (last24.size() == 0){return 0;}
+    // If it's empty, return 0 as handicap
+    Integer handicap = last24.stream().reduce(0,
+            (a, b) -> a + (b.getScores().subList(0, 3).stream()
+                    .reduce(0, (c, d) -> c + d.getScratch(), (c, d) -> c + d)/3),
+            (a, b) -> a + b)/last24.size();
+    // Get the total scratch for each game and divide it by the number of games to get average
+    handicap = 200 - Math.floorDiv(4 * handicap, 5);
+    // x * 0.8 = x / (5/4) = 4*x / 5
+    // Set handicap to 200 - INT(0.8*bowler average) effectively
+    if (handicap < 0) {
+        return 0;
+        // If under 0, return 0 as minimum handicap
+    } else if (handicap > 80) {
+        return 80;
+        // If over 80 return 80 as max handicap
+    } else {
+        return handicap;
+        // Otherwise return the calculated handicap
+    }
+}
+----
+
+Since the placeholder was already in, it now all works!
+
+=== Generate and display Player stats
+Due to the potentially large volume of data which could be reduced if done via reduce, it is likely faster
+to use database queries to collect the data.
+
+==== PlayerRepositoryTest.java
+So that it can check if it has the right values when writing the queries.
+
+[source, java]
+----
+package com.saskcow.bowling.repository;
+
+import ...
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = {BowlingApplication.class})
+@ActiveProfiles("test")
+public class PlayerRepositoryTest {
+
+    @Autowired
+    // Get a playerRepository from context
+    private PlayerRepository playerRepository;
+    // Have swing for everything in class as the player
+    private Player swing;
+
+    @Before
+    public void populate() {
+        Player swing = new Player("Findthee Swing", null);
+        // Create swing
+        swing.addPlayerGame(new PlayerGame(swing, null, null));
+        // Create swing game
+        swing.getPlayerGames().get(0).setScores(new LinkedList<>(Arrays.asList(
+                new Score(swing.getPlayerGames().get(0), 45, 2),
+                new Score(swing.getPlayerGames().get(0), 22, 2),
+                new Score(swing.getPlayerGames().get(0), 32, 2),
+                new Score(swing.getPlayerGames().get(0), 99, 6, true)
+        )));
+        // Add scores
+        swing.addPlayerGame(new PlayerGame(swing, null, null));
+        // Create another game
+        swing.getPlayerGames().get(1).setScores(new LinkedList<>(Arrays.asList(
+                new Score(swing.getPlayerGames().get(1), 43, 2),
+                new Score(swing.getPlayerGames().get(1), 37, 2),
+                new Score(swing.getPlayerGames().get(1), 42, 2),
+                new Score(swing.getPlayerGames().get(1), 122, 6, true)
+        )));
+        // Add more scores
+        this.swing = playerRepository.save(swing);
+        // Save swing into repository
+    }
+
+    @Test
+    public void highGame() {
+        assertThat(playerRepository.highGame(swing.getId())).isEqualTo(45);
+        // highGame should be 45
+    }
+
+    @Test
+    public void highSeries() {
+        assertThat(playerRepository.highSeries(swing.getId())).isEqualTo(122);
+        // highSeries should be 122
+    }
+
+    @Test
+    public void lowGame() {
+        assertThat(playerRepository.lowGame(swing.getId())).isEqualTo(22);
+        // lowGame should be 22
+    }
+
+    @Test
+    public void lowSeries() {
+        assertThat(playerRepository.lowSeries(swing.getId())).isEqualTo(99);
+        // lowSeries should be 99
+    }
+}
+----
+
+==== PlayerRepository.java
+Queries to access the database and use aggregate functions. Defined in body of PlayerRepository.
+
+[source, java]
+----
+// Get the highest scratch achieved in one game of bowling
+@Query("SELECT MAX(s.scratch) FROM Player p JOIN p.playerGames pg JOIN pg.scores s WHERE p.id = :id AND s.total = FALSE")
+// For every score in every playergame a player has which isn't a total Score, return the highest scratch score
+Integer highGame(Long id);
+// Function to call which takes an id and passes it into :id in the query
+
+// Get the highest scratch total in one series
+@Query("SELECT MAX(s.scratch) FROM Player p JOIN p.playerGames pg JOIN pg.scores s WHERE p.id = :id AND s.total = TRUE ")
+// For every score in every playerGame a okayer has which is a total Score, return the highest scratch score
+Integer highSeries(Long id);
+// Function to call which takes an id and passes it into :id in the query
+
+// Get the lowest scratch achieved in one game of bowling
+@Query("SELECT MIN(s.scratch) FROM Player p JOIN p.playerGames pg JOIN pg.scores s WHERE p.id = :id AND s.total = FALSE")
+// For every score in every playergame a player has which isn't a total Score, return the lowest scratch score
+Integer lowGame(Long id);
+// Function to call which takes an id and passes it into :id in the query
+
+// Get the lowest scratch total in one series
+@Query("SELECT MIN(s.scratch) FROM Player p JOIN p.playerGames pg JOIN pg.scores s WHERE p.id = :id AND s.total = TRUE ")
+// For every score in every playerGame a okayer has which is a total Score, return the lowest scratch score
+Integer lowSeries(Long id);
+// Function to call which takes an id and passes it into :id in the query
+----
+
+IMPORTANT: The queries are not SQL queries, but JPQL, a similar language for JPA.
+
+==== Errors at this stage
+
+===== Learning JPQL
+Many attempts at writing these queries were made. Partly as my SQL wasn't great, let alone my JPQL.
+_versions of highGame_
+[source, sql]
+----
+SELECT MAX(p.playerGames.scores.scratch) FROM Player p WHERE p.id = :id;
+-- Failed particularly badly, cannot load application context, something is probably wrong
+
+SELECT MAX(SELECT MAX(SELECT MAX(s.score) FROM Score s WHERE s.playerGame.id = pg.id) FROM PlayerGames pg WHERE pg.player.id = :id) FROM Player p WHERE p.id = :id;
+-- This was a mistake, nested queries don't work so good here, application context fails to load
+
+-- Here I found about how JOIN worked in JPA, there are many types of JOIN, thankfully just JOIN worked here
+SELECT MAX(s.scratch) FROM Player p JOIN p.playerGames pg JOIN pg.scores s WHERE p.id = :id AND s.total = FALSE;
+-- Final Version
+----
+
+From here everything was a minor variation on what existed.
+
+==== PlayerView.java
+Now has far more details about a player.
+
+[source, java]
+----
+private Integer handicap;
+private List<PlayerGameViewSummary> recentGames;
+private Integer highGame;
+private Integer lowGame;
+private Integer highSeries;
+private Integer lowSeries;
+// Add spaces for data from new queries
+
+if (player.getPlayerGames() != null) {
+    List<PlayerGame> last6 = player.getPlayerGames().stream()
+            .filter(playerGame -> playerGame.getScores().size() == 4)
+            .collect(Collectors.toList());
+    this.recentGames = last6.subList(last6.size - 6 >= 0 ? last6.size - 6 : 0, last6.size(): last6.size()).stream().map(PlayerGameViewSummary::new).collect(Collectors.toList());
+}
+// Get last 6 complete games and make them all into PlayerGameViewSummary
+----
+
+==== PlayerController.java
+The data isn't got from a player anymore, but the repository, so it needs to be added.
+
+[source, java]
+----
+java code...
+----
 
 == Test Formatter
 I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
