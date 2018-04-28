@@ -2,7 +2,7 @@
 
 
 ==== JUnit Tests
-==== com.saskcow.bowling.repository.GameRepositoryTest
+===== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -14,7 +14,7 @@
 
 
 
-==== com.saskcow.bowling.repository.LeagueRepositoryTest
+===== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -28,7 +28,7 @@
 
 
 
-==== com.saskcow.bowling.BowlingApplicationTests
+===== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -40,7 +40,7 @@
 
 
 
-==== com.saskcow.bowling.controller.PlayerGameControllerTest
+===== com.saskcow.bowling.controller.PlayerGameControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -53,7 +53,7 @@
 
 
 
-==== com.saskcow.bowling.controller.TeamControllerTest
+===== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -66,7 +66,7 @@
 
 
 
-==== com.saskcow.bowling.controller.LeagueControllerTest
+===== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -80,7 +80,7 @@
 
 
 
-==== com.saskcow.bowling.controller.PlayerControllerTest
+===== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -93,7 +93,7 @@
 
 
 
-==== com.saskcow.bowling.controller.ScoreControllerTest
+===== com.saskcow.bowling.controller.ScoreControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -106,7 +106,7 @@
 
 
 
-==== com.saskcow.bowling.controller.GameControllerTest
+===== com.saskcow.bowling.controller.GameControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -121,11 +121,22 @@
 
 ==== Nightwatch Tests
 
-==== errors
+==== TestGames
 '''
 Test Results
 
 '''
+
+===== TestGames
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestGames |Setup |11.85 |16
+|TestGames |Test Adding Games |4.636 |4
+|TestGames |Cleanup |1.405 |1
+|TestGames | |17.89  | 
+|======================================
 
 
 '''
@@ -134,6 +145,69 @@ Screenshots
 '''
 
 
+.1-init 4 teams
+[caption="Testing set 4: "]
+image:test/4/TestGames/1-init 4 teams.png[1-init 4 teams,pdfwidth=100%]
+
+.2-Add Game Screen
+[caption="Testing set 4: "]
+image:test/4/TestGames/2-Add Game Screen.png[2-Add Game Screen,pdfwidth=100%]
+
+.3-Added a game
+[caption="Testing set 4: "]
+image:test/4/TestGames/3-Added a game.png[3-Added a game,pdfwidth=100%]
+
+.filled in
+[caption="Testing set 4: "]
+image:test/4/TestGames/filled in.png[filled in,pdfwidth=100%]
+
+
+
+==== TestLeague
+'''
+Test Results
+
+'''
+
+===== TestLeague
+2 tests, 1 failed, 1 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestLeague |Test adding leagues |7.204 |3
+3+|Testing if element <.Leagues> contains text: "nightwatch". Element could not be located.
+|None |None |None |None
+|TestLeague |Test removing leagues |None |None
+|TestLeague | |7.204  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.1-start
+[caption="Testing set 4: "]
+image:test/4/TestLeague/1-start.png[1-start,pdfwidth=100%]
+
+.2-adding a league
+[caption="Testing set 4: "]
+image:test/4/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
+
+.3-Shows League
+[caption="Testing set 4: "]
+image:test/4/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
+
+.4-Second League
+[caption="Testing set 4: "]
+image:test/4/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
+
+.5-Deleted daywatch
+[caption="Testing set 4: "]
+image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
+
 
 
 ==== TestPlayers
@@ -142,7 +216,7 @@ Test Results
 
 '''
 
-==== TestPlayers
+===== TestPlayers
 4 tests, 1 failed, 1 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -199,7 +273,7 @@ Test Results
 
 '''
 
-==== TestTeams
+===== TestTeams
 3 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -240,95 +314,6 @@ image:test/4/TestTeams/5-2 teams.png[5-2 teams,pdfwidth=100%]
 .6-Deleted swing
 [caption="Testing set 4: "]
 image:test/4/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
-
-
-
-==== TestGames
-'''
-Test Results
-
-'''
-
-==== TestGames
-3 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestGames |Setup |11.85 |16
-|TestGames |Test Adding Games |4.636 |4
-|TestGames |Cleanup |1.405 |1
-|TestGames | |17.89  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-init 4 teams
-[caption="Testing set 4: "]
-image:test/4/TestGames/1-init 4 teams.png[1-init 4 teams,pdfwidth=100%]
-
-.2-Add Game Screen
-[caption="Testing set 4: "]
-image:test/4/TestGames/2-Add Game Screen.png[2-Add Game Screen,pdfwidth=100%]
-
-.3-Added a game
-[caption="Testing set 4: "]
-image:test/4/TestGames/3-Added a game.png[3-Added a game,pdfwidth=100%]
-
-.filled in
-[caption="Testing set 4: "]
-image:test/4/TestGames/filled in.png[filled in,pdfwidth=100%]
-
-
-
-==== TestLeague
-'''
-Test Results
-
-'''
-
-==== TestLeague
-2 tests, 1 failed, 1 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestLeague |Test adding leagues |7.204 |3
-3+|Testing if element <.Leagues> contains text: "nightwatch". Element could not be located.
-|None |None |None |None
-|TestLeague |Test removing leagues |None |None
-|TestLeague | |7.204  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-start
-[caption="Testing set 4: "]
-image:test/4/TestLeague/1-start.png[1-start,pdfwidth=100%]
-
-.2-adding a league
-[caption="Testing set 4: "]
-image:test/4/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
-
-.3-Shows League
-[caption="Testing set 4: "]
-image:test/4/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
-
-.4-Second League
-[caption="Testing set 4: "]
-image:test/4/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
-
-.5-Deleted daywatch
-[caption="Testing set 4: "]
-image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 

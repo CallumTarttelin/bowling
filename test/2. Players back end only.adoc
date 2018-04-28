@@ -2,7 +2,7 @@
 
 
 ==== JUnit Tests
-==== com.saskcow.bowling.repository.GameRepositoryTest
+===== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -14,7 +14,7 @@
 
 
 
-==== com.saskcow.bowling.repository.LeagueRepositoryTest
+===== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -28,7 +28,7 @@
 
 
 
-==== com.saskcow.bowling.BowlingApplicationTests
+===== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -40,7 +40,7 @@
 
 
 
-==== com.saskcow.bowling.controller.TeamControllerTest
+===== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -53,7 +53,7 @@
 
 
 
-==== com.saskcow.bowling.controller.LeagueControllerTest
+===== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -67,7 +67,7 @@
 
 
 
-==== com.saskcow.bowling.controller.PlayerControllerTest
+===== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================

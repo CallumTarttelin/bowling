@@ -3,147 +3,13 @@
 
 ==== Nightwatch Tests
 
-==== 2. Creating a Game and Adding Players
-'''
-Test Results
-
-'''
-
-==== 2. Creating a Game and Adding Players
-3 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|2. Creating a Game and Adding Players |Add some Games |10.93 |15
-|2. Creating a Game and Adding Players |Fill in Players for The Night Watch |5.463 |12
-|2. Creating a Game and Adding Players |Fill in Players for Pseudopolis Yard |3.481 |8
-|2. Creating a Game and Adding Players | |19.87  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.01 - The League page, with all the teams
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/01 - The League page, with all the teams.png[01 - The League page, with all the teams,pdfwidth=100%]
-
-.02 - Click add a Game, to go to the add game form
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/02 - Click add a Game, to go to the add game form.png[02 - Click add a Game, to go to the add game form,pdfwidth=100%]
-
-.03 - Fill in the Teams with the dropdown
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/03 - Fill in the Teams with the dropdown.png[03 - Fill in the Teams with the dropdown,pdfwidth=100%]
-
-.04 - Finish completing form
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/04 - Finish completing form.png[04 - Finish completing form,pdfwidth=100%]
-
-.05 - Added the Game
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/05 - Added the Game.png[05 - Added the Game,pdfwidth=100%]
-
-.06 - Add a second Game
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/06 - Add a second Game.png[06 - Add a second Game,pdfwidth=100%]
-
-.07 - Game with no players
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/07 - Game with no players.png[07 - Game with no players,pdfwidth=100%]
-
-.08 - Fill in the Players with the dropdown
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/08 - Fill in the Players with the dropdown.png[08 - Fill in the Players with the dropdown,pdfwidth=100%]
-
-.09 - Rejects duplicates or empty
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/09 - Rejects duplicates or empty.png[09 - Rejects duplicates or empty,pdfwidth=100%]
-
-.10 - Fill in form without empty or duplicates values
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/10 - Fill in form without empty or duplicates values.png[10 - Fill in form without empty or duplicates values,pdfwidth=100%]
-
-.11 - Submit form to generate Game table
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/11 - Submit form to generate Game table.png[11 - Submit form to generate Game table,pdfwidth=100%]
-
-.12 - Fill in form for Pseudopolis Yard
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/12 - Fill in form for Pseudopolis Yard.png[12 - Fill in form for Pseudopolis Yard,pdfwidth=100%]
-
-.13 - Game with all players, ready to play
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/13 - Game with all players, ready to play.png[13 - Game with all players, ready to play,pdfwidth=100%]
-
-
-
-==== errors
-'''
-Test Results
-
-'''
-
-
-'''
-Screenshots
-
-'''
-
-
-
-
-==== 4. Cleaning Up
-'''
-Test Results
-
-'''
-
-==== 4. Cleaning Up
-2 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|4. Cleaning Up |Remove the Day Watch |4.236 |4
-|4. Cleaning Up |League Over |1.255 |3
-|4. Cleaning Up | |5.491  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.01 - The Day Watch no longer want to participate
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/01 - The Day Watch no longer want to participate.png[01 - The Day Watch no longer want to participate,pdfwidth=100%]
-
-.02 - Team Deleted
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/02 - Team Deleted.png[02 - Team Deleted,pdfwidth=100%]
-
-.03 - Leagues both over
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/03 - Leagues both over.png[03 - Leagues both over,pdfwidth=100%]
-
-.04 - Leagues deleted
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/04 - Leagues deleted.png[04 - Leagues deleted,pdfwidth=100%]
-
-
-
 ==== 1. Creating Teams and Players
 '''
 Test Results
 
 '''
 
-==== 1. Creating Teams and Players
+===== 1. Creating Teams and Players
 4 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -240,13 +106,91 @@ image:test/6 - Polished/1. Creating Teams and Players/16 - Sam vimes Profile.png
 
 
 
+==== 2. Creating a Game and Adding Players
+'''
+Test Results
+
+'''
+
+===== 2. Creating a Game and Adding Players
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|2. Creating a Game and Adding Players |Add some Games |10.93 |15
+|2. Creating a Game and Adding Players |Fill in Players for The Night Watch |5.463 |12
+|2. Creating a Game and Adding Players |Fill in Players for Pseudopolis Yard |3.481 |8
+|2. Creating a Game and Adding Players | |19.87  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.01 - The League page, with all the teams
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/01 - The League page, with all the teams.png[01 - The League page, with all the teams,pdfwidth=100%]
+
+.02 - Click add a Game, to go to the add game form
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/02 - Click add a Game, to go to the add game form.png[02 - Click add a Game, to go to the add game form,pdfwidth=100%]
+
+.03 - Fill in the Teams with the dropdown
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/03 - Fill in the Teams with the dropdown.png[03 - Fill in the Teams with the dropdown,pdfwidth=100%]
+
+.04 - Finish completing form
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/04 - Finish completing form.png[04 - Finish completing form,pdfwidth=100%]
+
+.05 - Added the Game
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/05 - Added the Game.png[05 - Added the Game,pdfwidth=100%]
+
+.06 - Add a second Game
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/06 - Add a second Game.png[06 - Add a second Game,pdfwidth=100%]
+
+.07 - Game with no players
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/07 - Game with no players.png[07 - Game with no players,pdfwidth=100%]
+
+.08 - Fill in the Players with the dropdown
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/08 - Fill in the Players with the dropdown.png[08 - Fill in the Players with the dropdown,pdfwidth=100%]
+
+.09 - Rejects duplicates or empty
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/09 - Rejects duplicates or empty.png[09 - Rejects duplicates or empty,pdfwidth=100%]
+
+.10 - Fill in form without empty or duplicates values
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/10 - Fill in form without empty or duplicates values.png[10 - Fill in form without empty or duplicates values,pdfwidth=100%]
+
+.11 - Submit form to generate Game table
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/11 - Submit form to generate Game table.png[11 - Submit form to generate Game table,pdfwidth=100%]
+
+.12 - Fill in form for Pseudopolis Yard
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/12 - Fill in form for Pseudopolis Yard.png[12 - Fill in form for Pseudopolis Yard,pdfwidth=100%]
+
+.13 - Game with all players, ready to play
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/13 - Game with all players, ready to play.png[13 - Game with all players, ready to play,pdfwidth=100%]
+
+
+
 ==== 3. Adding Scores and Scoring the Game
 '''
 Test Results
 
 '''
 
-==== 3. Adding Scores and Scoring the Game
+===== 3. Adding Scores and Scoring the Game
 3 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -295,6 +239,47 @@ image:test/6 - Polished/3. Adding Scores and Scoring the Game/07 - All scores ca
 .08 - Game sorted to bottom and game winner shown
 [caption="Testing set 6 - Polished: "]
 image:test/6 - Polished/3. Adding Scores and Scoring the Game/08 - Game sorted to bottom and game winner shown.png[08 - Game sorted to bottom and game winner shown,pdfwidth=100%]
+
+
+
+==== 4. Cleaning Up
+'''
+Test Results
+
+'''
+
+===== 4. Cleaning Up
+2 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|4. Cleaning Up |Remove the Day Watch |4.236 |4
+|4. Cleaning Up |League Over |1.255 |3
+|4. Cleaning Up | |5.491  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.01 - The Day Watch no longer want to participate
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/01 - The Day Watch no longer want to participate.png[01 - The Day Watch no longer want to participate,pdfwidth=100%]
+
+.02 - Team Deleted
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/02 - Team Deleted.png[02 - Team Deleted,pdfwidth=100%]
+
+.03 - Leagues both over
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/03 - Leagues both over.png[03 - Leagues both over,pdfwidth=100%]
+
+.04 - Leagues deleted
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/04 - Leagues deleted.png[04 - Leagues deleted,pdfwidth=100%]
 
 
 

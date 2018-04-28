@@ -2,7 +2,7 @@
 
 
 ==== JUnit Tests
-==== com.saskcow.bowling.repository.GameRepositoryTest
+===== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -14,7 +14,7 @@
 
 
 
-==== com.saskcow.bowling.repository.LeagueRepositoryTest
+===== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -28,7 +28,7 @@
 
 
 
-==== com.saskcow.bowling.BowlingApplicationTests
+===== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -40,7 +40,7 @@
 
 
 
-==== com.saskcow.bowling.controller.TeamControllerTest
+===== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -53,7 +53,7 @@
 
 
 
-==== com.saskcow.bowling.controller.LeagueControllerTest
+===== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -68,13 +68,58 @@
 
 ==== Nightwatch Tests
 
+==== TestLeague
+'''
+Test Results
+
+'''
+
+===== TestLeague
+2 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestLeague |Test adding leagues |7.651 |5
+|TestLeague |Test removing leagues |1.648 |3
+|TestLeague | |9.299  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.1-start
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/1-start.png[1-start,pdfwidth=100%]
+
+.2-adding a league
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
+
+.3-Shows League
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
+
+.4-Second League
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
+
+.5-Deleted daywatch
+[caption="Testing set 1. Teams Work: "]
+image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
+
+
+
 ==== TestTeams
 '''
 Test Results
 
 '''
 
-==== TestTeams
+===== TestTeams
 3 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -118,58 +163,13 @@ image:test/1. Teams Work/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=
 
 
 
-==== TestLeague
-'''
-Test Results
-
-'''
-
-==== TestLeague
-2 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestLeague |Test adding leagues |7.651 |5
-|TestLeague |Test removing leagues |1.648 |3
-|TestLeague | |9.299  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-start
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/1-start.png[1-start,pdfwidth=100%]
-
-.2-adding a league
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
-
-.3-Shows League
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
-
-.4-Second League
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
-
-.5-Deleted daywatch
-[caption="Testing set 1. Teams Work: "]
-image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
-
-
-
 
 
 === 2. Players back end only
 
 
 ==== JUnit Tests
-==== com.saskcow.bowling.repository.GameRepositoryTest
+===== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -181,7 +181,7 @@ image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pd
 
 
 
-==== com.saskcow.bowling.repository.LeagueRepositoryTest
+===== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -195,7 +195,7 @@ image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pd
 
 
 
-==== com.saskcow.bowling.BowlingApplicationTests
+===== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -207,7 +207,7 @@ image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pd
 
 
 
-==== com.saskcow.bowling.controller.TeamControllerTest
+===== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -220,7 +220,7 @@ image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pd
 
 
 
-==== com.saskcow.bowling.controller.LeagueControllerTest
+===== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -234,7 +234,7 @@ image:test/1. Teams Work/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pd
 
 
 
-==== com.saskcow.bowling.controller.PlayerControllerTest
+===== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -259,7 +259,7 @@ Test Results
 
 '''
 
-==== TestPlayers
+===== TestPlayers
 4 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -308,108 +308,13 @@ image:test/3.Players Front and Back/TestPlayers/7-Deleted Mives.png[7-Deleted Mi
 
 
 
-==== TestTeams
-'''
-Test Results
-
-'''
-
-==== TestTeams
-3 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestTeams |Setup |4.924 |3
-|TestTeams |Test Adding Teams |4.571 |6
-|TestTeams |Deleting |1.790 |4
-|TestTeams | |11.29  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-init league
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestTeams/1-init league.png[1-init league,pdfwidth=100%]
-
-.2-League view
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestTeams/2-League view.png[2-League view,pdfwidth=100%]
-
-.3-Add Team screen
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestTeams/3-Add Team screen.png[3-Add Team screen,pdfwidth=100%]
-
-.4-Sam Vimes in the watch
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestTeams/4-Sam Vimes in the watch.png[4-Sam Vimes in the watch,pdfwidth=100%]
-
-.5-2 teams
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestTeams/5-2 teams.png[5-2 teams,pdfwidth=100%]
-
-.6-Deleted swing
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
-
-
-
-==== TestLeague
-'''
-Test Results
-
-'''
-
-==== TestLeague
-2 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestLeague |Test adding leagues |7.707 |5
-|TestLeague |Test removing leagues |1.584 |3
-|TestLeague | |9.291  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-start
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestLeague/1-start.png[1-start,pdfwidth=100%]
-
-.2-adding a league
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
-
-.3-Shows League
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
-
-.4-Second League
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
-
-.5-Deleted daywatch
-[caption="Testing set 3.Players Front and Back: "]
-image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
-
-
-
 
 
 === 4
 
 
 ==== JUnit Tests
-==== com.saskcow.bowling.repository.GameRepositoryTest
+===== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -421,7 +326,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.repository.LeagueRepositoryTest
+===== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -435,7 +340,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.BowlingApplicationTests
+===== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -447,7 +352,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.controller.PlayerGameControllerTest
+===== com.saskcow.bowling.controller.PlayerGameControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -460,7 +365,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.controller.TeamControllerTest
+===== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -473,7 +378,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.controller.LeagueControllerTest
+===== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -487,7 +392,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.controller.PlayerControllerTest
+===== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -500,7 +405,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.controller.ScoreControllerTest
+===== com.saskcow.bowling.controller.ScoreControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -513,7 +418,7 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 
 
-==== com.saskcow.bowling.controller.GameControllerTest
+===== com.saskcow.bowling.controller.GameControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -528,11 +433,22 @@ image:test/3.Players Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted 
 
 ==== Nightwatch Tests
 
-==== errors
+==== TestGames
 '''
 Test Results
 
 '''
+
+===== TestGames
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestGames |Setup |11.85 |16
+|TestGames |Test Adding Games |4.636 |4
+|TestGames |Cleanup |1.405 |1
+|TestGames | |17.89  | 
+|======================================
 
 
 '''
@@ -541,6 +457,69 @@ Screenshots
 '''
 
 
+.1-init 4 teams
+[caption="Testing set 4: "]
+image:test/4/TestGames/1-init 4 teams.png[1-init 4 teams,pdfwidth=100%]
+
+.2-Add Game Screen
+[caption="Testing set 4: "]
+image:test/4/TestGames/2-Add Game Screen.png[2-Add Game Screen,pdfwidth=100%]
+
+.3-Added a game
+[caption="Testing set 4: "]
+image:test/4/TestGames/3-Added a game.png[3-Added a game,pdfwidth=100%]
+
+.filled in
+[caption="Testing set 4: "]
+image:test/4/TestGames/filled in.png[filled in,pdfwidth=100%]
+
+
+
+==== TestLeague
+'''
+Test Results
+
+'''
+
+===== TestLeague
+2 tests, 1 failed, 1 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|TestLeague |Test adding leagues |7.204 |3
+3+|Testing if element <.Leagues> contains text: "nightwatch". Element could not be located.
+|None |None |None |None
+|TestLeague |Test removing leagues |None |None
+|TestLeague | |7.204  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.1-start
+[caption="Testing set 4: "]
+image:test/4/TestLeague/1-start.png[1-start,pdfwidth=100%]
+
+.2-adding a league
+[caption="Testing set 4: "]
+image:test/4/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
+
+.3-Shows League
+[caption="Testing set 4: "]
+image:test/4/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
+
+.4-Second League
+[caption="Testing set 4: "]
+image:test/4/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
+
+.5-Deleted daywatch
+[caption="Testing set 4: "]
+image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
+
 
 
 ==== TestPlayers
@@ -549,7 +528,7 @@ Test Results
 
 '''
 
-==== TestPlayers
+===== TestPlayers
 4 tests, 1 failed, 1 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -606,7 +585,7 @@ Test Results
 
 '''
 
-==== TestTeams
+===== TestTeams
 3 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -650,102 +629,13 @@ image:test/4/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
 
 
 
-==== TestGames
-'''
-Test Results
-
-'''
-
-==== TestGames
-3 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestGames |Setup |11.85 |16
-|TestGames |Test Adding Games |4.636 |4
-|TestGames |Cleanup |1.405 |1
-|TestGames | |17.89  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-init 4 teams
-[caption="Testing set 4: "]
-image:test/4/TestGames/1-init 4 teams.png[1-init 4 teams,pdfwidth=100%]
-
-.2-Add Game Screen
-[caption="Testing set 4: "]
-image:test/4/TestGames/2-Add Game Screen.png[2-Add Game Screen,pdfwidth=100%]
-
-.3-Added a game
-[caption="Testing set 4: "]
-image:test/4/TestGames/3-Added a game.png[3-Added a game,pdfwidth=100%]
-
-.filled in
-[caption="Testing set 4: "]
-image:test/4/TestGames/filled in.png[filled in,pdfwidth=100%]
-
-
-
-==== TestLeague
-'''
-Test Results
-
-'''
-
-==== TestLeague
-2 tests, 1 failed, 1 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestLeague |Test adding leagues |7.204 |3
-3+|Testing if element <.Leagues> contains text: "nightwatch". Element could not be located.
-|None |None |None |None
-|TestLeague |Test removing leagues |None |None
-|TestLeague | |7.204  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-start
-[caption="Testing set 4: "]
-image:test/4/TestLeague/1-start.png[1-start,pdfwidth=100%]
-
-.2-adding a league
-[caption="Testing set 4: "]
-image:test/4/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
-
-.3-Shows League
-[caption="Testing set 4: "]
-image:test/4/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
-
-.4-Second League
-[caption="Testing set 4: "]
-image:test/4/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
-
-.5-Deleted daywatch
-[caption="Testing set 4: "]
-image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
-
-
-
 
 
 === 4. Games in back end
 
 
 ==== JUnit Tests
-==== com.saskcow.bowling.repository.GameRepositoryTest
+===== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -757,7 +647,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.repository.LeagueRepositoryTest
+===== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -771,7 +661,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.BowlingApplicationTests
+===== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -783,7 +673,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.TeamControllerTest
+===== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -796,7 +686,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.LeagueControllerTest
+===== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -810,7 +700,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.PlayerControllerTest
+===== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -823,7 +713,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.GameControllerTest
+===== com.saskcow.bowling.controller.GameControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -841,7 +731,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 ==== JUnit Tests
-==== com.saskcow.bowling.repository.GameRepositoryTest
+===== com.saskcow.bowling.repository.GameRepositoryTest
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -853,7 +743,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.repository.LeagueRepositoryTest
+===== com.saskcow.bowling.repository.LeagueRepositoryTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -867,7 +757,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.repository.TeamRepositoryTest
+===== com.saskcow.bowling.repository.TeamRepositoryTest
 6 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -884,7 +774,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.BowlingApplicationTests
+===== com.saskcow.bowling.BowlingApplicationTests
 1 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -896,7 +786,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.PlayerGameControllerTest
+===== com.saskcow.bowling.controller.PlayerGameControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -909,7 +799,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.TeamControllerTest
+===== com.saskcow.bowling.controller.TeamControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -922,7 +812,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.LeagueControllerTest
+===== com.saskcow.bowling.controller.LeagueControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -936,7 +826,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.PlayerControllerTest
+===== com.saskcow.bowling.controller.PlayerControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -949,7 +839,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.ScoreControllerTest
+===== com.saskcow.bowling.controller.ScoreControllerTest
 2 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -962,7 +852,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.controller.GameControllerTest
+===== com.saskcow.bowling.controller.GameControllerTest
 3 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -976,7 +866,7 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 
 
-==== com.saskcow.bowling.repository.PlayerRepositoryTest
+===== com.saskcow.bowling.repository.PlayerRepositoryTest
 4 tests, 0 failed, 0 errors,
 [cols="3,3,1",options="header",]
 |======================================
@@ -992,147 +882,13 @@ image:test/4/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
 
 ==== Nightwatch Tests
 
-==== 2. Creating a Game and Adding Players
-'''
-Test Results
-
-'''
-
-==== 2. Creating a Game and Adding Players
-3 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|2. Creating a Game and Adding Players |Add some Games |11.57 |15
-|2. Creating a Game and Adding Players |Fill in Players for The Night Watch |5.481 |12
-|2. Creating a Game and Adding Players |Fill in Players for Pseudopolis Yard |3.788 |8
-|2. Creating a Game and Adding Players | |20.84  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.01 - The League page, with all the teams
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/01 - The League page, with all the teams.png[01 - The League page, with all the teams,pdfwidth=100%]
-
-.02 - Click add a Game, to go to the add game form
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/02 - Click add a Game, to go to the add game form.png[02 - Click add a Game, to go to the add game form,pdfwidth=100%]
-
-.03 - Fill in the Teams with the dropdown
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/03 - Fill in the Teams with the dropdown.png[03 - Fill in the Teams with the dropdown,pdfwidth=100%]
-
-.04 - Finish completing form
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/04 - Finish completing form.png[04 - Finish completing form,pdfwidth=100%]
-
-.05 - Added the Game
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/05 - Added the Game.png[05 - Added the Game,pdfwidth=100%]
-
-.06 - Add a second Game
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/06 - Add a second Game.png[06 - Add a second Game,pdfwidth=100%]
-
-.07 - Game with no players
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/07 - Game with no players.png[07 - Game with no players,pdfwidth=100%]
-
-.08 - Fill in the Players with the dropdown
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/08 - Fill in the Players with the dropdown.png[08 - Fill in the Players with the dropdown,pdfwidth=100%]
-
-.09 - Rejects duplicates or empty
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/09 - Rejects duplicates or empty.png[09 - Rejects duplicates or empty,pdfwidth=100%]
-
-.10 - Fill in form without empty or duplicates values
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/10 - Fill in form without empty or duplicates values.png[10 - Fill in form without empty or duplicates values,pdfwidth=100%]
-
-.11 - Submit form to generate Game table
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/11 - Submit form to generate Game table.png[11 - Submit form to generate Game table,pdfwidth=100%]
-
-.12 - Fill in form for Pseudopolis Yard
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/12 - Fill in form for Pseudopolis Yard.png[12 - Fill in form for Pseudopolis Yard,pdfwidth=100%]
-
-.13 - Game with all players, ready to play
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/2. Creating a Game and Adding Players/13 - Game with all players, ready to play.png[13 - Game with all players, ready to play,pdfwidth=100%]
-
-
-
-==== errors
-'''
-Test Results
-
-'''
-
-
-'''
-Screenshots
-
-'''
-
-
-
-
-==== 4. Cleaning Up
-'''
-Test Results
-
-'''
-
-==== 4. Cleaning Up
-2 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|4. Cleaning Up |Remove the Day Watch |3.620 |4
-|4. Cleaning Up |League Over |1.376 |3
-|4. Cleaning Up | |4.996  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.01 - The Day Watch no longer want to participate
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/01 - The Day Watch no longer want to participate.png[01 - The Day Watch no longer want to participate,pdfwidth=100%]
-
-.02 - Team Deleted
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/02 - Team Deleted.png[02 - Team Deleted,pdfwidth=100%]
-
-.03 - Leagues both over
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/03 - Leagues both over.png[03 - Leagues both over,pdfwidth=100%]
-
-.04 - Leagues deleted
-[caption="Testing set 5 - has all data front and back: "]
-image:test/5 - has all data front and back/4. Cleaning Up/04 - Leagues deleted.png[04 - Leagues deleted,pdfwidth=100%]
-
-
-
 ==== 1. Creating Teams and Players
 '''
 Test Results
 
 '''
 
-==== 1. Creating Teams and Players
+===== 1. Creating Teams and Players
 4 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -1229,13 +985,91 @@ image:test/5 - has all data front and back/1. Creating Teams and Players/16 - Sa
 
 
 
+==== 2. Creating a Game and Adding Players
+'''
+Test Results
+
+'''
+
+===== 2. Creating a Game and Adding Players
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|2. Creating a Game and Adding Players |Add some Games |11.57 |15
+|2. Creating a Game and Adding Players |Fill in Players for The Night Watch |5.481 |12
+|2. Creating a Game and Adding Players |Fill in Players for Pseudopolis Yard |3.788 |8
+|2. Creating a Game and Adding Players | |20.84  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.01 - The League page, with all the teams
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/01 - The League page, with all the teams.png[01 - The League page, with all the teams,pdfwidth=100%]
+
+.02 - Click add a Game, to go to the add game form
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/02 - Click add a Game, to go to the add game form.png[02 - Click add a Game, to go to the add game form,pdfwidth=100%]
+
+.03 - Fill in the Teams with the dropdown
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/03 - Fill in the Teams with the dropdown.png[03 - Fill in the Teams with the dropdown,pdfwidth=100%]
+
+.04 - Finish completing form
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/04 - Finish completing form.png[04 - Finish completing form,pdfwidth=100%]
+
+.05 - Added the Game
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/05 - Added the Game.png[05 - Added the Game,pdfwidth=100%]
+
+.06 - Add a second Game
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/06 - Add a second Game.png[06 - Add a second Game,pdfwidth=100%]
+
+.07 - Game with no players
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/07 - Game with no players.png[07 - Game with no players,pdfwidth=100%]
+
+.08 - Fill in the Players with the dropdown
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/08 - Fill in the Players with the dropdown.png[08 - Fill in the Players with the dropdown,pdfwidth=100%]
+
+.09 - Rejects duplicates or empty
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/09 - Rejects duplicates or empty.png[09 - Rejects duplicates or empty,pdfwidth=100%]
+
+.10 - Fill in form without empty or duplicates values
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/10 - Fill in form without empty or duplicates values.png[10 - Fill in form without empty or duplicates values,pdfwidth=100%]
+
+.11 - Submit form to generate Game table
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/11 - Submit form to generate Game table.png[11 - Submit form to generate Game table,pdfwidth=100%]
+
+.12 - Fill in form for Pseudopolis Yard
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/12 - Fill in form for Pseudopolis Yard.png[12 - Fill in form for Pseudopolis Yard,pdfwidth=100%]
+
+.13 - Game with all players, ready to play
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/2. Creating a Game and Adding Players/13 - Game with all players, ready to play.png[13 - Game with all players, ready to play,pdfwidth=100%]
+
+
+
 ==== 3. Adding Scores and Scoring the Game
 '''
 Test Results
 
 '''
 
-==== 3. Adding Scores and Scoring the Game
+===== 3. Adding Scores and Scoring the Game
 3 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -1287,6 +1121,47 @@ image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game
 
 
 
+==== 4. Cleaning Up
+'''
+Test Results
+
+'''
+
+===== 4. Cleaning Up
+2 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|4. Cleaning Up |Remove the Day Watch |3.620 |4
+|4. Cleaning Up |League Over |1.376 |3
+|4. Cleaning Up | |4.996  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.01 - The Day Watch no longer want to participate
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/4. Cleaning Up/01 - The Day Watch no longer want to participate.png[01 - The Day Watch no longer want to participate,pdfwidth=100%]
+
+.02 - Team Deleted
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/4. Cleaning Up/02 - Team Deleted.png[02 - Team Deleted,pdfwidth=100%]
+
+.03 - Leagues both over
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/4. Cleaning Up/03 - Leagues both over.png[03 - Leagues both over,pdfwidth=100%]
+
+.04 - Leagues deleted
+[caption="Testing set 5 - has all data front and back: "]
+image:test/5 - has all data front and back/4. Cleaning Up/04 - Leagues deleted.png[04 - Leagues deleted,pdfwidth=100%]
+
+
+
 
 
 === 5. Games Front and Back
@@ -1294,133 +1169,13 @@ image:test/5 - has all data front and back/3. Adding Scores and Scoring the Game
 
 ==== Nightwatch Tests
 
-==== errors
-'''
-Test Results
-
-'''
-
-
-'''
-Screenshots
-
-'''
-
-
-
-
-==== TestPlayers
-'''
-Test Results
-
-'''
-
-==== TestPlayers
-4 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestPlayers |Setup |7.269 |6
-|TestPlayers |Test Adding Players |4.508 |5
-|TestPlayers |Test Player |1.395 |2
-|TestPlayers |Deleting |3.799 |4
-|TestPlayers | |16.97  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-init team
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestPlayers/1-init team.png[1-init team,pdfwidth=100%]
-
-.2-Team view
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestPlayers/2-Team view.png[2-Team view,pdfwidth=100%]
-
-.3-Add Player screen
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestPlayers/3-Add Player screen.png[3-Add Player screen,pdfwidth=100%]
-
-.4-Sam Vimes in the Vimes
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestPlayers/4-Sam Vimes in the Vimes.png[4-Sam Vimes in the Vimes,pdfwidth=100%]
-
-.5-2 players
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestPlayers/5-2 players.png[5-2 players,pdfwidth=100%]
-
-.6-Mas Mives
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestPlayers/6-Mas Mives.png[6-Mas Mives,pdfwidth=100%]
-
-.7-Deleted Mives
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestPlayers/7-Deleted Mives.png[7-Deleted Mives,pdfwidth=100%]
-
-
-
-==== TestTeams
-'''
-Test Results
-
-'''
-
-==== TestTeams
-3 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestTeams |Setup |4.887 |3
-|TestTeams |Test Adding Teams |4.564 |6
-|TestTeams |Deleting |3.800 |4
-|TestTeams | |13.25  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-init league
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestTeams/1-init league.png[1-init league,pdfwidth=100%]
-
-.2-League view
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestTeams/2-League view.png[2-League view,pdfwidth=100%]
-
-.3-Add Team screen
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestTeams/3-Add Team screen.png[3-Add Team screen,pdfwidth=100%]
-
-.4-Sam Vimes in the watch
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestTeams/4-Sam Vimes in the watch.png[4-Sam Vimes in the watch,pdfwidth=100%]
-
-.5-2 teams
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestTeams/5-2 teams.png[5-2 teams,pdfwidth=100%]
-
-.6-Deleted swing
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestTeams/6-Deleted swing.png[6-Deleted swing,pdfwidth=100%]
-
-
-
 ==== TestGames
 '''
 Test Results
 
 '''
 
-==== TestGames
+===== TestGames
 3 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -1456,51 +1211,6 @@ image:test/5. Games Front and Back/TestGames/filled in.png[filled in,pdfwidth=10
 
 
 
-==== TestLeague
-'''
-Test Results
-
-'''
-
-==== TestLeague
-2 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|TestLeague |Test adding leagues |6.968 |5
-|TestLeague |Test removing leagues |2.531 |3
-|TestLeague | |9.499  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.1-start
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestLeague/1-start.png[1-start,pdfwidth=100%]
-
-.2-adding a league
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestLeague/2-adding a league.png[2-adding a league,pdfwidth=100%]
-
-.3-Shows League
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestLeague/3-Shows League.png[3-Shows League,pdfwidth=100%]
-
-.4-Second League
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestLeague/4-Second League.png[4-Second League,pdfwidth=100%]
-
-.5-Deleted daywatch
-[caption="Testing set 5. Games Front and Back: "]
-image:test/5. Games Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted daywatch,pdfwidth=100%]
-
-
-
 
 
 === 6 - Polished
@@ -1508,147 +1218,13 @@ image:test/5. Games Front and Back/TestLeague/5-Deleted daywatch.png[5-Deleted d
 
 ==== Nightwatch Tests
 
-==== 2. Creating a Game and Adding Players
-'''
-Test Results
-
-'''
-
-==== 2. Creating a Game and Adding Players
-3 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|2. Creating a Game and Adding Players |Add some Games |10.93 |15
-|2. Creating a Game and Adding Players |Fill in Players for The Night Watch |5.463 |12
-|2. Creating a Game and Adding Players |Fill in Players for Pseudopolis Yard |3.481 |8
-|2. Creating a Game and Adding Players | |19.87  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.01 - The League page, with all the teams
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/01 - The League page, with all the teams.png[01 - The League page, with all the teams,pdfwidth=100%]
-
-.02 - Click add a Game, to go to the add game form
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/02 - Click add a Game, to go to the add game form.png[02 - Click add a Game, to go to the add game form,pdfwidth=100%]
-
-.03 - Fill in the Teams with the dropdown
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/03 - Fill in the Teams with the dropdown.png[03 - Fill in the Teams with the dropdown,pdfwidth=100%]
-
-.04 - Finish completing form
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/04 - Finish completing form.png[04 - Finish completing form,pdfwidth=100%]
-
-.05 - Added the Game
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/05 - Added the Game.png[05 - Added the Game,pdfwidth=100%]
-
-.06 - Add a second Game
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/06 - Add a second Game.png[06 - Add a second Game,pdfwidth=100%]
-
-.07 - Game with no players
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/07 - Game with no players.png[07 - Game with no players,pdfwidth=100%]
-
-.08 - Fill in the Players with the dropdown
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/08 - Fill in the Players with the dropdown.png[08 - Fill in the Players with the dropdown,pdfwidth=100%]
-
-.09 - Rejects duplicates or empty
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/09 - Rejects duplicates or empty.png[09 - Rejects duplicates or empty,pdfwidth=100%]
-
-.10 - Fill in form without empty or duplicates values
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/10 - Fill in form without empty or duplicates values.png[10 - Fill in form without empty or duplicates values,pdfwidth=100%]
-
-.11 - Submit form to generate Game table
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/11 - Submit form to generate Game table.png[11 - Submit form to generate Game table,pdfwidth=100%]
-
-.12 - Fill in form for Pseudopolis Yard
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/12 - Fill in form for Pseudopolis Yard.png[12 - Fill in form for Pseudopolis Yard,pdfwidth=100%]
-
-.13 - Game with all players, ready to play
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/2. Creating a Game and Adding Players/13 - Game with all players, ready to play.png[13 - Game with all players, ready to play,pdfwidth=100%]
-
-
-
-==== errors
-'''
-Test Results
-
-'''
-
-
-'''
-Screenshots
-
-'''
-
-
-
-
-==== 4. Cleaning Up
-'''
-Test Results
-
-'''
-
-==== 4. Cleaning Up
-2 tests, 0 failed, 0 errors,
-[cols=",,,",options="header",]
-|======================================
-|Classname |Name |Time |Assertions
-|4. Cleaning Up |Remove the Day Watch |4.236 |4
-|4. Cleaning Up |League Over |1.255 |3
-|4. Cleaning Up | |5.491  | 
-|======================================
-
-
-'''
-Screenshots
-
-'''
-
-
-.01 - The Day Watch no longer want to participate
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/01 - The Day Watch no longer want to participate.png[01 - The Day Watch no longer want to participate,pdfwidth=100%]
-
-.02 - Team Deleted
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/02 - Team Deleted.png[02 - Team Deleted,pdfwidth=100%]
-
-.03 - Leagues both over
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/03 - Leagues both over.png[03 - Leagues both over,pdfwidth=100%]
-
-.04 - Leagues deleted
-[caption="Testing set 6 - Polished: "]
-image:test/6 - Polished/4. Cleaning Up/04 - Leagues deleted.png[04 - Leagues deleted,pdfwidth=100%]
-
-
-
 ==== 1. Creating Teams and Players
 '''
 Test Results
 
 '''
 
-==== 1. Creating Teams and Players
+===== 1. Creating Teams and Players
 4 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -1745,13 +1321,91 @@ image:test/6 - Polished/1. Creating Teams and Players/16 - Sam vimes Profile.png
 
 
 
+==== 2. Creating a Game and Adding Players
+'''
+Test Results
+
+'''
+
+===== 2. Creating a Game and Adding Players
+3 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|2. Creating a Game and Adding Players |Add some Games |10.93 |15
+|2. Creating a Game and Adding Players |Fill in Players for The Night Watch |5.463 |12
+|2. Creating a Game and Adding Players |Fill in Players for Pseudopolis Yard |3.481 |8
+|2. Creating a Game and Adding Players | |19.87  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.01 - The League page, with all the teams
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/01 - The League page, with all the teams.png[01 - The League page, with all the teams,pdfwidth=100%]
+
+.02 - Click add a Game, to go to the add game form
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/02 - Click add a Game, to go to the add game form.png[02 - Click add a Game, to go to the add game form,pdfwidth=100%]
+
+.03 - Fill in the Teams with the dropdown
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/03 - Fill in the Teams with the dropdown.png[03 - Fill in the Teams with the dropdown,pdfwidth=100%]
+
+.04 - Finish completing form
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/04 - Finish completing form.png[04 - Finish completing form,pdfwidth=100%]
+
+.05 - Added the Game
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/05 - Added the Game.png[05 - Added the Game,pdfwidth=100%]
+
+.06 - Add a second Game
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/06 - Add a second Game.png[06 - Add a second Game,pdfwidth=100%]
+
+.07 - Game with no players
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/07 - Game with no players.png[07 - Game with no players,pdfwidth=100%]
+
+.08 - Fill in the Players with the dropdown
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/08 - Fill in the Players with the dropdown.png[08 - Fill in the Players with the dropdown,pdfwidth=100%]
+
+.09 - Rejects duplicates or empty
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/09 - Rejects duplicates or empty.png[09 - Rejects duplicates or empty,pdfwidth=100%]
+
+.10 - Fill in form without empty or duplicates values
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/10 - Fill in form without empty or duplicates values.png[10 - Fill in form without empty or duplicates values,pdfwidth=100%]
+
+.11 - Submit form to generate Game table
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/11 - Submit form to generate Game table.png[11 - Submit form to generate Game table,pdfwidth=100%]
+
+.12 - Fill in form for Pseudopolis Yard
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/12 - Fill in form for Pseudopolis Yard.png[12 - Fill in form for Pseudopolis Yard,pdfwidth=100%]
+
+.13 - Game with all players, ready to play
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/2. Creating a Game and Adding Players/13 - Game with all players, ready to play.png[13 - Game with all players, ready to play,pdfwidth=100%]
+
+
+
 ==== 3. Adding Scores and Scoring the Game
 '''
 Test Results
 
 '''
 
-==== 3. Adding Scores and Scoring the Game
+===== 3. Adding Scores and Scoring the Game
 3 tests, 0 failed, 0 errors,
 [cols=",,,",options="header",]
 |======================================
@@ -1800,6 +1454,47 @@ image:test/6 - Polished/3. Adding Scores and Scoring the Game/07 - All scores ca
 .08 - Game sorted to bottom and game winner shown
 [caption="Testing set 6 - Polished: "]
 image:test/6 - Polished/3. Adding Scores and Scoring the Game/08 - Game sorted to bottom and game winner shown.png[08 - Game sorted to bottom and game winner shown,pdfwidth=100%]
+
+
+
+==== 4. Cleaning Up
+'''
+Test Results
+
+'''
+
+===== 4. Cleaning Up
+2 tests, 0 failed, 0 errors,
+[cols=",,,",options="header",]
+|======================================
+|Classname |Name |Time |Assertions
+|4. Cleaning Up |Remove the Day Watch |4.236 |4
+|4. Cleaning Up |League Over |1.255 |3
+|4. Cleaning Up | |5.491  | 
+|======================================
+
+
+'''
+Screenshots
+
+'''
+
+
+.01 - The Day Watch no longer want to participate
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/01 - The Day Watch no longer want to participate.png[01 - The Day Watch no longer want to participate,pdfwidth=100%]
+
+.02 - Team Deleted
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/02 - Team Deleted.png[02 - Team Deleted,pdfwidth=100%]
+
+.03 - Leagues both over
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/03 - Leagues both over.png[03 - Leagues both over,pdfwidth=100%]
+
+.04 - Leagues deleted
+[caption="Testing set 6 - Polished: "]
+image:test/6 - Polished/4. Cleaning Up/04 - Leagues deleted.png[04 - Leagues deleted,pdfwidth=100%]
 
 
 

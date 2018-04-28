@@ -1563,7 +1563,7 @@ public class TeamController {
 
     @RequestMapping(value = "/api/team/{id}", method = RequestMethod.GET)
     // Any get requests to /api/team/id calls this function
-    public ResponseEntity<TeamView> findLeague(@PathVariable("id") Long id) {
+    public ResponseEntity<TeamView> findTeam(@PathVariable("id") Long id) {
         Team team = repo.findOne(id);
         // Get the Team
         TeamView teamView = new TeamView(team);
@@ -1574,7 +1574,7 @@ public class TeamController {
 
     @RequestMapping(value = "/api/team", method = RequestMethod.POST)
     // Any post requests to /api/team call this function
-    public ResponseEntity<?> saveLeague(@RequestBody TeamRest team) {
+    public ResponseEntity<?> saveTeam(@RequestBody TeamRest team) {
         // Take the JSON payload as a TeamRest called team
         League league = leagueRepository.findOne(team.getLeagueId());
         // Get the league
@@ -1593,7 +1593,7 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/api/team/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteTeam(@PathVariable("id") Long id) {
         try {
             Team team = repo.findOne(id);
             // Get the team
@@ -2304,7 +2304,7 @@ public class PlayerController {
 
     @RequestMapping(value = "/api/player/{id}", method = RequestMethod.GET)
     // Get requests to /api/player/{id} call this function
-    public ResponseEntity<PlayerView> findLeague(@PathVariable("id") Long id) {
+    public ResponseEntity<PlayerView> findPlayer(@PathVariable("id") Long id) {
         Player player = repo.findOne(id);
         PlayerView playerView = new PlayerView(player);
         // Get a player, then make it a PlayerView
@@ -2314,7 +2314,7 @@ public class PlayerController {
 
     @RequestMapping(value = "/api/player", method = RequestMethod.POST)
     // Post requests to /api/player/ call this function
-    public ResponseEntity<?> saveLeague(@RequestBody PlayerRest player) {
+    public ResponseEntity<?> savePlayer(@RequestBody PlayerRest player) {
         // Get PlayerRest from JSON sent
         Team team = teamRepository.findOne(player.getTeamId());
         // Get the team from the teamId in playerRest
@@ -2334,7 +2334,7 @@ public class PlayerController {
 
     @RequestMapping(value = "/api/player/{id}", method = RequestMethod.DELETE)
     // Delete requests to /api/player/{id} call this function
-    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deletePlayer(@PathVariable("id") Long id) {
         // Take the id from uri
         try {
             Player player = repo.findOne(id);
@@ -3007,6 +3007,8 @@ public class GameView {
 }
 ----
 
+include::test/4. Games in back end.adoc[]
+
 ==== Errors at this stage
 
 ===== @NoArgsConstructor Required
@@ -3314,6 +3316,8 @@ Just adds games, as they don't do anything else, cut out the repeated setup and 
   }
 };
 ----
+
+include::test/5. Games Front and Back.adoc[]
 
 ==== Errors at this stage
 
@@ -5601,9 +5605,7 @@ Integer lowSeries(Long id);
 
 IMPORTANT: The queries are not SQL queries, but JPQL, a similar language for JPA.
 
-==== Errors at this stage
-
-===== Learning JPQL
+==== Learning JPQL
 Many attempts at writing these queries were made. Partly as my SQL wasn't great, let alone my JPQL.
 _versions of highGame_
 [source, sql]
@@ -5643,38 +5645,1447 @@ if (player.getPlayerGames() != null) {
 // Get last 6 complete games and make them all into PlayerGameViewSummary
 ----
 
+==== PlayerGameViewSummary.java
+Players don't need every piece of information, what they need is fairly brief
+
+[source, java]
+----
+package com.saskcow.bowling.view;
+
+import ...
+
+@Data
+@NoArgsConstructor
+// Standard add a constructor and getters and setters
+public class PlayerGameViewSummary {
+    private Long id;
+    private Long gameId;
+    private LocalDateTime date;
+    private TeamViewSummary opposition;
+    private List<ScoreViewSummary> scores;
+    // Has an id, a gameId, a date, an opposition, and the scores
+
+    public PlayerGameViewSummary(PlayerGame playerGame) {
+        this.id = playerGame.getId();
+        this.gameId = playerGame.getGame().getId();
+        this.date = playerGame.getGame().getTime();
+        this.opposition = new TeamViewSummary(playerGame.getGame().getTeams().get((playerGame.getGame().getTeams().indexOf(playerGame.getTeam()) + 1) % 2));
+        // Get the other team in the game
+        this.scores = playerGame.getScores().stream().map(ScoreViewSummary::new).collect(Collectors.toList());
+        // Get the details from playerGames
+    }
+}
+----
+
 ==== PlayerController.java
 The data isn't got from a player anymore, but the repository, so it needs to be added.
 
 [source, java]
 ----
-java code...
+@RequestMapping(value = "/api/player/{id}", method = RequestMethod.GET)
+public ResponseEntity<PlayerView> findPlayer(@PathVariable("id") Long id) {
+    Optional<Player> optionalPlayer = repo.findById(id);
+    if(! optionalPlayer.isPresent()){
+        return ResponseEntity.notFound().build();
+    }
+    Player player = optionalPlayer.get();
+    PlayerView playerView = new PlayerView(player);
+    playerView.setHighGame(repo.highGame(player.getId()));
+    playerView.setHighSeries(repo.highSeries(player.getId()));
+    playerView.setLowGame(repo.lowGame(player.getId()));
+    playerView.setLowSeries(repo.lowSeries(player.getId()));
+    return ResponseEntity.ok(playerView);
+}
 ----
+
+Now for each statistic it is filled in from the repository then sent to the front end.
+
+==== Player.js
+Now the front end should show the information.
+I decided to make it a table as there is a lot of tabular data and it would be a clear and easy way to display it all.
+I decided that I wanted the player details, stats and recent games in one table
+
+[source, js]
+----
+import ...
+
+class Player extends React.Component {
+// Create component Player
+
+  constructor(props) {
+    super();
+    this.state = {status: "Loading"};
+    // Set default state
+    this.getPlayer = this.getPlayer.bind(this);
+    this.getPlayer(props.match.params.id);
+  //  Bind this to getPlayer and call it with the id
+  }
+
+  getPlayer(id) {
+    axios.get('/api/player/' + id)
+      // Send get request to /api/player/{player id}
+      .then(response => {
+        // When complete
+        this.setState({
+          status: "OK",
+          id: id,
+          name: response.data.name,
+          team: response.data.team,
+          handicap: response.data.handicap,
+          recentGames: response.data.recentGames,
+          highGame: response.data.highGame,
+          highSeries: response.data.highSeries,
+          lowGame: response.data.lowGame,
+          lowSeries: response.data.lowSeries
+        //  Assign values from request to state
+        })
+      })
+      .catch(error => {
+        if (error.response) {
+          this.setState({status: "error", err: error.response.data});
+        } else if (error.request) {
+          this.setState({status: "error", err: "No Response"});
+          console.log(error.request);
+        } else {
+          this.setState({status: "error", err: "Error with Request"});
+          console.log('Error', error.message);
+        }
+      //  Catch errors
+      });
+  }
+
+  render() {
+    if(this.state.status === "OK") {
+      return (
+        <div className={'Player'}>
+          {/*Contain in a div with class Player*/}
+          <h1>{this.state.name}</h1>
+          {/*Show player name*/}
+          <table>
+            {/*Create a table*/}
+            <thead>
+            <tr>
+              <th rowSpan={2} colSpan={4}><h2>{this.state.name}</h2></th>
+              <th colSpan={2}>Team</th>
+              <th>Handicap</th>
+              <th>High Game</th>
+              <th>High Series</th>
+              <th>Low Game</th>
+              <th>Low Series</th>
+              <th className={"invis"} />
+            </tr>
+            {/* Table headings, name, Team, Handicap, High Game... with an invis column at end hidden with css*/}
+            <tr>
+              <td colSpan={2}><span className={"back"}><Link to={"/team/" + this.state.team.id} >{this.state.team.name}</Link></span></td>
+              {/*Show a link to the team, give it the class back so it can be used as a back button*/}
+              <td>{Number.isInteger(this.state.handicap) ? this.state.handicap : "-"}</td>
+              <td>{Number.isInteger(this.state.highGame) ? this.state.highGame : "-"}</td>
+              <td>{Number.isInteger(this.state.highSeries) ? this.state.highSeries : "-"}</td>
+              <td>{Number.isInteger(this.state.lowGame) ? this.state.lowGame : "-"}</td>
+              <td>{Number.isInteger(this.state.lowSeries) ? this.state.lowSeries : "-"}</td>
+              {/*Show player stats if exist, otherwise show - character*/}
+              <td className={"invis"}><Delete id={this.state.id} type={'player'} name={this.state.name}/></td>
+              {/*Show the delete button for a player*/}
+            </tr>
+            <tr>
+              <th width="19%">Date</th>
+              <th width="19%">Opposition</th>
+              <th width="14%" colSpan={2}>Set 1</th>
+              <th width="14%" colSpan={2}>Set 2</th>
+              <th width="14%" colSpan={2}>Set 3</th>
+              <th width="14%" colSpan={2}>Total</th>
+              <th width="6%">Points</th>
+              {/*Add recent games headers*/}
+            </tr>
+            </thead>
+            {this.state.recentGames.map(game => (
+              // For every game in recentGames, turn it into this
+              <tbody key={game.id}>
+              {/*tbody to put into table, key used so react doesn't complain*/}
+                <tr>
+                  <td><Link to={"/game/" + game.gameId}>{new Date(Date.parse(game.date)).toLocaleString('en-GB', { timeZone: 'UTC' })}</Link></td>
+                  {/*Link to game page*/}
+                  <td><Link to={"/team/" + game.opposition.id} id={game.opposition.id.toString()}>{game.opposition.name}</Link></td>
+                  {/*Link to opposing team*/}
+                  {game.scores.map(score => (
+                    // For each score show
+                    <React.Fragment key={score.id}>
+                      {/*React fragment allows 2 top level things, usually have to be wrapped in a div, which isn't allowed in tables*/}
+                      <td>{score.scratch}</td>
+                      {/*Show scratch*/}
+                      <td className={"handicapped"}>{score.handicapped}</td>
+                      {/*Show handicap*/}
+                    </React.Fragment>
+                  ))}
+                  <td>{game.scores.reduce((a, b) => a + b.score, 0)}</td>
+                  {/*Show total score for the game*/}
+                </tr>
+              </tbody>
+            ))}
+          </table>
+        </div>
+      )
+    } else if (this.state.status === "error") {
+      // Show any errors
+      return (
+        <h2>{this.state.err}</h2>
+      )
+    } else {
+      // If loading display loading wheel
+      return <CircularProgress color={"primary"} />
+    }
+  }
+}
+
+export default Player;
+// Export for easy importing
+----
+
+==== How does it look
+
+.Sam Vimes Player table
+image::dev-pictures/sam-vimes-table.png[playerTable, pdfwidth=100%]
+
+==== Errors at this stage
+
+===== Cannot be the child of parent
+Cannot use a `div` inside a table as it is not a valid react child.
+This can be swapped for `thead` or `tbody`.
+Due to this error parts don't load properly and this error is thrown.
+
+.Invalid Child
+image::error-pictures/not-valid-child.png[invalidChild, pdfwidth=75%]
+
+This is easily fixed, what's harder is that for scores, one cannot add non `td` to `tr`.
+To fix that I updated react with `npm install --save react@16.0.0` and `npm install --save react-dom@16.0.0`.
+I then used `<React.Fragment>`. This acts as if it doesn't exist to the page, but if means that it can export 2 td easily.
+
+
+=== Generate and display Team stats
+
+==== TeamRepositoryTest.java
+What do we expect the queries to return. Makes it easier to develop the queries.
+
+[source, java]
+----
+package com.saskcow.bowling.repository;
+
+import ...
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = {BowlingApplication.class})
+@ActiveProfiles("test")
+// Run with JUnit 4, it tests BowlingApplication, and it's a test
+public class TeamRepositoryTest {
+
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private GameRepository gameRepository;
+    // Get team and game repositories
+    private Team cableStreet;
+    // Have team Cable Street Particulars available
+
+    @Before
+    public void populate() {
+        // Before running the tests, populate the database with this
+
+        Team cableStreet = new Team("Cable Street Particulars", null);
+        cableStreet.addPlayer(new Player("Findthee Swing", cableStreet));
+        cableStreet.addPlayer(new Player("Carcer", cableStreet));
+        cableStreet.addPlayer(new Player("Todzy", cableStreet));
+        this.cableStreet = teamRepository.save(cableStreet);
+        // Save cableStreet with 3 players
+
+        Team nightWatch = new Team("The Night Watch", null);
+        nightWatch.addPlayer(new Player("Sam Vimes", nightWatch));
+        nightWatch.addPlayer(new Player("Nobby Nobbs", nightWatch));
+        nightWatch.addPlayer(new Player("Carrot Ironfoundersson", nightWatch));
+        teamRepository.save(nightWatch);
+        // Save nightWatch with 3 players
+
+        Game game1 = new Game(null, null, "", new LinkedList<>(Arrays.asList(nightWatch, cableStreet)));
+        Game game2 = new Game(null, null, "", new LinkedList<>(Arrays.asList(nightWatch, cableStreet)));
+        // Create 2 games between the 2 teams
+
+        cableStreet.addGame(game1);
+        cableStreet.addGame(game2);
+        nightWatch.addGame(game1);
+        nightWatch.addGame(game2);
+        // Add games to teams
+
+        gameRepository.save(game1);
+        gameRepository.save(game2);
+        // Save games
+
+        cableStreet.setPlayerGames(new LinkedList<>());
+        nightWatch.setPlayerGames(new LinkedList<>());
+        game1.setPlayerGames(new LinkedList<>());
+        game2.setPlayerGames(new LinkedList<>());
+
+        addPlayerGames(nightWatch, game1, game2);
+
+        addPlayerGames(cableStreet, game1, game2);
+
+        // Add playerGames for both teams using addPlayerGames function
+
+        cableStreet.getPlayerGames().stream().filter(playerGame -> playerGame.getGame() == game1).forEach(playerGame -> {
+            playerGame.addScore(new Score(playerGame, 50));
+            playerGame.addScore(new Score(playerGame, 100));
+            playerGame.addScore(new Score(playerGame, 150));
+        });
+
+        cableStreet.getPlayerGames().stream().filter(playerGame -> playerGame.getGame() == game2).forEach(playerGame -> {
+            playerGame.addScore(new Score(playerGame, 100));
+            playerGame.addScore(new Score(playerGame, 150));
+            playerGame.addScore(new Score(playerGame, 200));
+        });
+
+        nightWatch.getPlayerGames().forEach(playerGame -> {
+            playerGame.addScore(new Score(playerGame, 100));
+            playerGame.addScore(new Score(playerGame, 150));
+            playerGame.addScore(new Score(playerGame, 100));
+        });
+
+        // Add scores to games
+
+        game1.completeGame();
+
+        game2.completeGame();
+
+        gameRepository.save(game1);
+        gameRepository.save(game2);
+
+        // Complete and save games, ready to get statistics
+
+        this.cableStreet = teamRepository.save(cableStreet);
+        // Save team and make it available in this
+
+    }
+
+    private void addPlayerGames(Team cableStreet, Game game1, Game game2) {
+        cableStreet.getPlayers().forEach(player -> {
+            // For every player in team
+            player.addPlayerGame(new PlayerGame(player, cableStreet, game1));
+            player.addPlayerGame(new PlayerGame(player, cableStreet, game2));
+            // Add playerGame for each game
+            game1.addPlayerGame(player.getPlayerGames().get(0));
+            game2.addPlayerGame(player.getPlayerGames().get(1));
+            // Add playerGame to each game
+            cableStreet.addAllPlayerGame(player.getPlayerGames());
+            // Add playerGames to the team
+        });
+    }
+
+    // The Actual Tests!
+
+    @Test
+    public void highHandicapGame() {
+        assertThat(teamRepository.highHandicapGame(this.cableStreet.getId())).isEqualTo(600);
+        // Make sure high handicap game is 600 (highest team scratch in one set)
+    }
+
+    @Test
+    public void highHandicapSeries() {
+        assertThat(teamRepository.highHandicapSeries(this.cableStreet.getId())).isEqualTo(1350);
+        // Make sure high handicap series is 1350 (highest team scratch in one full game)
+    }
+
+    @Test
+    public void pinsFor() {
+        assertThat(teamRepository.pinsFor(cableStreet.getId())).isEqualTo(2250);
+        // Make sure Total pins scored is 2250
+    }
+
+    @Test
+    public void pinsAgainst() {
+        assertThat(teamRepository.pinsAgainst(cableStreet.getId())).isEqualTo(2100);
+        // Check Total pins opposing team scored in games against team is 2100
+    }
+
+    @Test
+    public void teamPoints() {
+        assertThat(teamRepository.teamPoints(cableStreet.getId())).isEqualTo(8);
+        // Check that the team player has got 8 points
+    }
+
+    @Test
+    public void totalPoints() {
+        assertThat(teamRepository.totalPoints(cableStreet.getId())).isEqualTo(32);
+        // Check that the team has scored 32 points total
+    }
+}
+----
+
+==== TeamRepository.java
+Now the queries happen
+These were put in `@Query("$Query")` and then called by `Integer funcName(Long id);`
+
+[source, sql]
+----
+-- highHandicapGame
+SELECT MAX(s.scratch) FROM Team t JOIN t.playerGames pg JOIN pg.scores s WHERE t.id = :id AND s.total = FALSE AND pg.player IS NULL
+-- Get the maximum scratch from team's playergame's scores which is of the teams id, is not a total, and doesn't have a player, (player is NULL)
+
+-- highHandicapSeries
+SELECT MAX(s.scratch) FROM Team t JOIN t.playerGames pg JOIN pg.scores s WHERE t.id = :id AND s.total = TRUE AND pg.player IS NULL
+-- Get the maximum scratch from team's playergame's scores which is of the teams id, it is a total, and doesn't have a player, (player is NULL)
+
+-- pinsFor
+SELECT SUM(s.scratch) FROM Team t JOIN t.playerGames pg JOIN pg.scores s WHERE t.id = :id AND s.total = TRUE AND pg.player IS NULL
+-- Get the total of the totals scratch scores (less work than totalling all 3 again) and don't have a player.
+
+-- pinsAgainst
+SELECT SUM(s.scratch) FROM Team t JOIN t.games g JOIN g.playerGames pg JOIN pg.scores s WHERE t.id = :id AND pg.team.id <> :id AND pg.player IS NULL AND s.total = TRUE
+-- For every game the team has get the playerGames, for every playerGame where the team is NOT the team given, add up the scratch scores of those with no player and are totals
+
+-- teamPoints
+SELECT SUM(s.score) FROM Team t JOIN t.playerGames pg JOIN pg.scores s WHERE t.id = :id AND pg.player IS NULL
+-- Same as pinsFor except adds score, not scratch and adds totals as well for
+
+-- totalPoints
+SELECT SUM(s.score) FROM Team t JOIN t.playerGames pg JOIN pg.scores s WHERE t.id = :id
+-- Get the total score of every score of every playergame, ignoring if real player or not or total or not.
+----
+
+These function very similarly to the player ones, but get team statistics.
+
+==== TeamView.java
+Getting more data.
+
+[source, java]
+----
+private Integer pinsFor;
+private Integer pinsAgainst;
+private Integer highHandicapGame;
+private Integer highHandicapSeries;
+private Integer teamPoints;
+private Integer totalPoints;
+private Integer numGames;
+// Stats asdded to things it has
+
+// In constructor
+this.numGames = team.getGames() != null ? (int) team.getGames().stream().filter(a -> a.getPlayerGames().size() == 8).count() : 0;
+// Count the number of games which are completed ans save it to numGames as int
+----
+
+==== TeamController.java
+Needs to populate the data.
+
+[source, java]
+----
+TeamView teamView = new TeamView(team);
+teamView.setPinsFor(repo.pinsFor(team.getId()));
+teamView.setPinsAgainst(repo.pinsAgainst(team.getId()));
+teamView.setHighHandicapGame(repo.highHandicapGame(team.getId()));
+teamView.setHighHandicapSeries(repo.highHandicapSeries(team.getId()));
+teamView.setTeamPoints(repo.teamPoints(team.getId()));
+teamView.setTotalPoints(repo.totalPoints(team.getId()));
+----
+
+Done very similarly to PlayerController
+
+==== Team.js
+Players have, little information. Why do they need a page of their own? They don't. So now the Team will have all the
+player data as well.
+
+[source, js]
+----
+import ...
+
+class Team extends React.Component {
+
+  constructor(props) {
+    super();
+    this.state = {status: "Loading"};
+    // Set default state
+    this.getTeam = this.getTeam.bind(this);
+    this.getNewTeam = this.getNewTeam.bind(this);
+    // Bind this to things
+    this.getTeam(props.match.params.id);
+  //   Get the team details with id from path
+  }
+
+  getTeam(id) {
+    axios.get('/api/team/' + id)
+      .then(response => {
+        this.setState({
+          status: "OK",
+          id: id,
+          name: response.data.name,
+          league: response.data.league,
+          players: response.data.players,
+          games: response.data.games,
+          numGames: response.data.numGames,
+          pinsFor: response.data.pinsFor,
+          pinsAgainst: response.data.pinsAgainst,
+          highHandicapGame: response.data.highHandicapGame,
+          highHandicapSeries: response.data.highHandicapSeries,
+          teamPoints: response.data.teamPoints,
+          totalPoints: response.data.totalPoints
+        //  Put response into state
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      //  Log errors
+      })
+  };
+
+
+  getNewTeam(event) {
+    event.preventDefault();
+    console.log(event.currentTarget);
+    this.getTeam(event.currentTarget.id);
+    // getTeam, for the team given in the event
+  }
+
+  // For getting opposition team
+
+  render() {
+    if(this.state.status === "OK") {
+      return (
+        <div className={'Team'}>
+
+          <h1>{this.state.name}</h1>
+          <Link className={"back"} to={"/league/" + this.state.league.id}><Button variant={"raised"}>{this.state.league.name}</Button></Link>
+          {/*Link back and have title of page*/}
+
+          <table className={"Stats"}>
+            <thead>
+            <tr>
+              <th>Games</th>
+              <th>Pins For</th>
+              <th>Pins Against</th>
+              <th>HHG</th>
+              <th>HHS</th>
+              <th>Team Pts</th>
+              <th>Total Pts</th>
+            </tr>
+            {/*Table headings for team details*/}
+            </thead>
+            <tbody>
+            <tr>
+              <td>{this.state.numGames}</td>
+              <td>{this.state.pinsFor}</td>
+              <td>{this.state.pinsAgainst}</td>
+              <td>{this.state.highHandicapGame}</td>
+              <td>{this.state.highHandicapSeries}</td>
+              <td>{this.state.teamPoints}</td>
+              <td>{this.state.totalPoints}</td>
+            </tr>
+            {/*Values of the information*/}
+            </tbody>
+          </table>
+
+          <h3>Players</h3>
+          {/*Players subtitle*/}
+
+          <ul className={"Players"}>
+            {this.state.players.map(player => (
+              // For every player
+              <ExpansionPanel key={player.id} className={'player-' + player.name.replace(/\s+/g, '-').toLowerCase()}>
+                {/*Create an expansion panel to hide the table in, make it look cleaner*/}
+                <ExpansionPanelSummary expandIcon={<KeyboardArrowDown />}>
+                  <Typography className={"Player"}>{player.name}</Typography>
+                  {/*Show player name and down icon when hidden*/}
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Player refresh={this.getNewTeam} id={player.id}/>
+                  {/*Create player of playerId*/}
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            ))}
+          </ul>
+          <Link to={{pathname: ("/team/" + this.state.id + '/add-player'), state: {teamName: this.state.name}}}><Button className={"addPlayer"} variant={"raised"} color={"primary"}>Add A Player</Button></Link>
+          {/*Add a player button*/}
+          <h3>Games</h3>
+          <ul className={"Games"}>
+            {/*Create a list of games like League has*/}
+            {this.state.games.map(game => (
+              <GameSummary key={game.id} id={game.id} winner={game.winner} time={game.time} teams={game.teams}>{game.venue}</GameSummary>
+            //   Create a list of GameSumamry
+            )).sort((a, b) => {
+              // Sort them before displaying
+              if(Number.isInteger(a.props.winner) && !Number.isInteger(b.props.winner)) {
+                return 1;
+              //  If one of the games is finished, move it to the bottom
+              } else if(!Number.isInteger(a.props.winner) && Number.isInteger(b.props.winner)) {
+                return -1;
+                //  If one of the games is finished, move it to the bottom
+              } else {
+                const aTime = Date.parse(a.props.time);
+                const bTime = Date.parse(b.props.time);
+                return aTime - bTime;
+                // If neither complete, or both complete, sort them by time, recent games top
+              }}
+            )}
+          </ul>
+        </div>
+      )
+    } else if (this.state.status === "error") {
+      return (
+        <h2>{this.state.err}</h2>
+      //  Show errors
+      )
+    } else {
+      return <CircularProgress color={"primary"} />
+    //  If not loaded show a loading wheel
+    }
+  }
+}
+
+export default Team;
+----
+
+==== Player.js
+Small modifications so it fits in the table.
+
+[source, js]
+----
+this.getPlayer(props.id);
+// Gets id from Team, doesn't need one from route anymore
+
+onClick={this.props.refresh}
+// Added to opposition link, this calls the refresh which takes the id and displays the other team
+----
+That was it.
+
+==== App.js
+Players no longer have their own page, their route has been removed.
+
+==== Errors at this stage
+
+===== TeamRepositoryTesting incomplete data
+When writing the test I forgot to add playerGames to a game.
+This led to pinsAgainst being far lower than expected, `0` not `2100`.
+
+===== Not getting opposition team
+Since Team object to Team object now instead of Player to Team, react-router isn't refreshing the page.
+This meant that clicking the opponent team, changed the url, and that was it.
+Thus I made it get the other teams data and display that.
+`onClick={this.props.refresh}` was added to the button so it would call function given in props by team.
+Therefore it can call the `getNewTeam` function and change the team to the opposing team.
+
+=== League shows a table of all the Teams stats
+League wants this information too, shouldn't have to find each team individually to compare.
+
+==== LeagueView.java
+Now has `TeamViewLeague` not `TeamViewSummary` objects.
+
+==== TeamViewLeague.java
+A `TeamViewSummary` but with
+
+[source, java]
+----
+private Integer pinsFor;
+private Integer pinsAgainst;
+private Integer highHandicapGame;
+private Integer highHandicapSeries;
+private Integer teamPoints;
+private Integer totalPoints;
+private Integer numGames;
+----
+
+these stats added.
+
+==== LeagueController.java
+Needs a sorted list by total points where points can be null
+
+[source, java]
+----
+leagueView.getTeams().forEach(team -> {
+    // For every team
+    Long x = team.getId();
+    // Get the id
+    team.setPinsFor(teamRepository.pinsFor(x));
+    team.setPinsAgainst(teamRepository.pinsAgainst(x));
+    team.setHighHandicapGame(teamRepository.highHandicapGame(x));
+    team.setHighHandicapSeries(teamRepository.highHandicapSeries(x));
+    team.setTeamPoints(teamRepository.teamPoints(x));
+    team.setTotalPoints(teamRepository.totalPoints(x));
+    // Set stats on the TeamViewLeague
+});
+
+leagueView.getTeams().sort(Comparator.comparing(team -> team.getTotalPoints() != null ? -team.getTotalPoints() : 0));
+// Get the teams and sort them so that if points are null, it goes bottom, and otherwise compares team by highest points.
+----
+
+==== League.js
+The hard bit, now how should this be displayed. It seems logical to use a table again as it is tabular data.
+So it will have a table with a row for each team. main return in render now returns this.
+
+[source, js]
+----
+<div className={'League'}>
+  {/*Contain in League div*/}
+
+  <h1>{this.state.name}</h1>
+  <Link className={"back"} to={"/league/"}><Button variant={"raised"}>Back to Leagues</Button></Link>
+
+  <h3>Team Standings</h3>
+  <table className={"Teams"}>
+    {/*Create Teams table*/}
+    <thead>
+    <tr>
+      <th width="5%">Position</th>
+      <th width="20%">Team</th>
+      <th width="10%">Games</th>
+      <th width="10%">Pins For</th>
+      <th width="10%">Pins Against</th>
+      <th width="10%">HHG</th>
+      <th width="10%">HHS</th>
+      <th width="10%">Team Pts</th>
+      <th width="10%">Total Pts</th>
+      <th width="5%" className={"invis"} />
+    </tr>
+    </thead>
+    {/*Add table headings, with invis far right for delete button*/}
+    {this.state.teams.map((team) => (
+      // For every team, make a team summary with the team
+      <TeamSummary
+        key={team.id}
+        id={team.id}
+        position={index + 1}
+        numGames={team.numGames !== null ? team.numGames : "-"}
+        pinsFor={team.pinsFor !== null ? team.pinsFor : "-"}
+        pinsAgainst={team.pinsAgainst !== null ? team.pinsAgainst : "-"}
+        highHandicapGame={team.highHandicapGame !== null ? team.highHandicapGame : "-"}
+        highHandicapSeries={team.highHandicapSeries !== null ? team.highHandicapSeries : "-"}
+        teamPoints={team.teamPoints !== null ? team.teamPoints : "-"}
+        totalPoints={team.totalPoints !== null ? team.totalPoints : "-"}
+      >
+        {team.name}
+      </TeamSummary>
+    ))}
+  </table>
+  <Link to={{pathname: ("/league/" + this.state.id + '/add-team'), state: {leagueName: this.state.name}}}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
+  {/*Link to add a new team*/}
+
+  <h3>Games</h3>
+  {/*Games section*/}
+  <ul className={"Games"}>
+    {this.state.games.map(game => (
+      <GameSummary key={game.id} id={game.id} winner={game.winner} time={game.time} teams={game.teams}>{game.venue}</GameSummary>
+    //  Create a GameSummary for every game
+    )).sort((a, b) => {
+      if(Number.isInteger(a.props.winner) && !Number.isInteger(b.props.winner)) {
+        return 1;
+      } else if(!Number.isInteger(a.props.winner) && Number.isInteger(b.props.winner)) {
+        return -1;
+      } else {
+        const aTime = Date.parse(a.props.time);
+        const bTime = Date.parse(b.props.time);
+        return aTime - bTime;
+      }}
+    //  Sort so incomplete games first, earliest games first
+    )}
+  </ul>
+  {/*No change*/}
+  <Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>
+  {/*Link to add a game page*/}
+
+</div>
+----
+
+==== TeamSummary.js
+Teams are now a bit more detailed, and now a table, so this needs updating.
+
+[source, js]
+----
+import ...
+
+class TeamSummary extends React.Component {
+  // Create a Component
+  render() {
+    return (
+      // When displayed to screen show this
+      <tbody>
+      {/*Wrapped in tbody so it's a valid child*/}
+      <tr className={this.props.children.replace(/\s+/g, '-').toLowerCase()}>
+        {/*Create a row in the table*/}
+        <td>{this.props.position}</td>
+        <td><Link to={'/team/' + this.props.id}>{this.props.children}</Link></td>
+        <td>{this.props.numGames}</td>
+        <td>{this.props.pinsFor}</td>
+        <td>{this.props.pinsAgainst}</td>
+        <td>{this.props.highHandicapGame}</td>
+        <td>{this.props.highHandicapSeries}</td>
+        <td>{this.props.teamPoints}</td>
+        <td>{this.props.totalPoints}</td>
+        <td className={"invis"}><Delete id={this.props.id} type={'team'} name={this.props.children}/></td>
+        {/*Add all the stats in columns and add a delete button*/}
+      </tr>
+      </tbody>
+    )
+  }
+}
+// Export for easier imports
+export default TeamSummary;
+----
+
+And now it's displayed.
+
+==== Errors at this stage
+
+===== Sorting in reverse
+In java a Comparator comparing does it in ascending order. To fix this `-` was added so it sorted the other order as the highest
+values were now the lowest.
+
+===== Many nulls in output
+This wasn't crashing anything, but it was not ideal modifying `TeamViewSummary` to have all the details as many places
+wouldn't need the data, so it was null. Thus `TeamViewLeague` was created.
+
+=== Nightwatch rewrite
+Before it is finished, it needs a more thorough test. The easiest way to do this was not to rewrite the entire thing.
+But it was done.
+
+The new tests had to have less redundancy than the old tests (Therefore shorter), and work with the newer version.
+It also had to name the screenshots to give a more obvious idea of what was done to anyone reading the writeup.
+It also needed to have less unnecessary pauses as it takes too long to run.
+
+It also, most importantly, had to have nicer names for Leagues, Teams and Players. So a test name scheme was created.
+It was then only used for these.
+
+==== 1. Creating Teams and Players.js
+This creates everything a game needs.
+
+[source, js]
+----
+const dir = './reports/screenshots/1. Creating Teams and Players/';
+// Set screenshot directory
+
+module.exports = {
+  // Export TestCases
+  'Add some Leagues' : (browser) => {
+    // Create TestCase Add some Leagues, nightwatch will give it a browser when called
+    browser
+      .url('http://user:saskcow@localhost:8080/league')
+      // Give auth if required
+      .waitForElementVisible('body', 2000)
+      .waitForElementVisible('.Leagues', 2000)
+      // Wait for page to load for 2 seconds, then a further 2 for leagues to be visible
+      .saveScreenshot(dir + '01 - Before any data entry.png')
+      // Save a screenshot of the empty program
+      .click('button[class~=add]')
+      // Click add
+      .waitForElementVisible('input[id=LeagueName]', 2000)
+      .saveScreenshot(dir + '02 - Click add a League button.png')
+      // Screenshot the add League page
+      .setValue('input[id=LeagueName]', 'City Watch')
+      .saveScreenshot(dir + '03 - Add the name of the League.png')
+      // Set input to have City Watch
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('.Leagues', 2000)
+      .assert.containsText('.Leagues', 'City Watch')
+      .saveScreenshot(dir + '04 - Submit the form to add the league.png')
+      // Click submit, wait for leagues to load, check league added, save a screenshot
+
+      // Do it all again, but with less screenshots, and with The Disc instead
+      .click('button[class~=add]')
+      .waitForElementVisible('input[id=LeagueName]', 2000)
+      .setValue('input[id=LeagueName]', 'The Disc')
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('.Leagues', 2000)
+      .assert.containsText('.Leagues', 'The Disc')
+      .saveScreenshot(dir + '05 - Add another League.png');
+  },
+
+  'Add some Teams to the City Watch' : (browser) => {
+    // Create another TestCase
+    browser
+      .click('li[class~=city-watch]>a')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('h2', 'City Watch')
+      .saveScreenshot(dir + '06 - Click on the League to view the League page.png')
+      // Click the link to city watch page, wait for it to load, check header and save a screenshot
+
+      .click('button[class~=addTeam]')
+      .waitForElementVisible('input[id=TeamName]', 2000)
+      .saveScreenshot(dir + '07 - Click on the add a Team button, to add a Team.png')
+      // Click add team, wait for page to load, and save a screenshot
+      .setValue('input[id=TeamName]', 'The Night Watch')
+      .saveScreenshot(dir + '08 - Enter the Team name.png')
+      // Enter the teams name, and save a screenshot
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('.Teams', 'The Night Watch')
+      .saveScreenshot(dir + '09 - One Team added to the League.png')
+      // Wait till League page loaded and check team added, then of course, save a screenshot
+
+      .click('button[class~=addTeam]')
+      .waitForElementVisible('input[id=TeamName]', 2000)
+      .setValue('input[id=TeamName]', 'The Day Watch')
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('.Teams', 'The Day Watch')
+      // Add another
+
+      .click('button[class~=addTeam]')
+      .waitForElementVisible('input[id=TeamName]', 2000)
+      .setValue('input[id=TeamName]', 'Cable Street Particulars')
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('.Teams', 'Cable Street Particulars')
+      // And another
+
+      .click('button[class~=addTeam]')
+      .waitForElementVisible('input[id=TeamName]', 2000)
+      .setValue('input[id=TeamName]', 'Pseudopolis Yard')
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('.Teams', 'Pseudopolis Yard')
+      // One more
+
+      .assert.containsText('.Teams', 'The Night Watch')
+      .assert.containsText('.Teams', 'The Day Watch')
+      .assert.containsText('.Teams', 'Cable Street Particulars')
+      .assert.containsText('.Teams', 'Pseudopolis Yard')
+      // Check they all still exist
+
+      .saveScreenshot(dir + '10 - Added all the Teams now, can\'t play with one team.png');
+      // Save another screenshot
+  },
+
+  'Add some Players to these Teams' : (browser) => {
+    // Another TestCase
+    browser
+      .click('tr[class~=the-night-watch] a')
+      .waitForElementVisible('.Team', 2000)
+      .saveScreenshot(dir + '11 - Click a team to go to the team page.png')
+      // Click on The Night Watch team
+
+      .click('button[class~=addPlayer]')
+      .saveScreenshot(dir + '12 - Click add a Player to go to the add a player page.png')
+      // Click add player to go to the page, save a screenshot
+      .waitForElementVisible('input[id=PlayerName]', 2000)
+      .setValue('input[id=PlayerName]', 'Sam Vimes')
+      .saveScreenshot(dir + '13 - Insert desired Player name into the input.png')
+      // Input name, save screenshot
+      .click('button[class~=submitForm')
+      .waitForElementVisible('.Team', 2000)
+      .assert.containsText('.Players', 'Sam Vimes')
+      .saveScreenshot(dir + '14 - Submit the form to finish adding player.png')
+      // Save the screenshot of adding a player
+      .click('.back');
+      // Click back
+
+    const playersTeams = {the_night_watch: ["Carrot Ironfoundersson", "Nobby Nobbs", "Fred Colon"],
+      the_day_watch: ["Mayonnaise Quirke", "Skully Muldoon", "Doxie"],
+      cable_street_particulars: ["Findthee Swing", "Carcer", "Gerald Leastways, a.k.a. Ferret", "Todzy"],
+      pseudopolis_yard: ["Igor", "Mad Arthur", "Reginald Shoe", "Angua Von Überwald"]
+    };
+    // Create a dictionary of teams and the players hich need adding
+
+    const keys = Object.keys(playersTeams);
+    // Save playerTeams keys to an array
+    for(let i = 0; i < keys.length; i++) {
+      // For every team
+      const team = keys[i];
+      // The team = the name of the team
+      browser
+        .waitForElementVisible('.League', 2000)
+        .click('tr[class~=' + team.replace(/(_)+/g, '-') + ']>td>a')
+        .waitForElementVisible('.Team', 2000);
+        // Click on the team in the list of teams and wait for it to load
+      playersTeams[team].forEach(player => {
+        // For every player on the team
+        browser
+          .click('button[class~=addPlayer]')
+          // Click on add a player
+          .waitForElementVisible('input[id=PlayerName]', 2000)
+          .setValue('input[id=PlayerName', player)
+          // Wait for it to load and set playername
+          .click('button[class~=submitForm]')
+          .waitForElementVisible('.Team', 2000)
+          .assert.containsText('.Players', player)
+          // Submit and check it was added
+      });
+      browser
+        // When done, save a screenshot of the completed team
+        .saveScreenshot(dir + '15 - Added the rest of the Players to ' + team + '.png')
+        .click('.back')
+        .waitForElementVisible('.League', 2000);
+        // Go back to league page
+    }
+  },
+
+  'Look at the Players' : (browser) => {
+  browser
+    .click('tr[class~=the-night-watch]>td>a')
+    // Click on the night watch
+    .waitForElementVisible('.Team', 2000)
+    .click('div[class~=player-sam-vimes]>div>div')
+    // Click on the Sam Vimes dropdown
+    .waitForElementVisible('.Player', 2000)
+    .pause(500)
+    // Wait for it to be fully extended
+    .saveScreenshot(dir + '16 - Sam vimes Profile.png')
+    .end();
+    // Save a screenshot and close the browser
+  }
+
+};
+----
+
+==== 2. Creating a Game and Adding Players.js
+Create the game and add players to it
+
+[source, js]
+----
+const dir = './reports/screenshots/2. Creating a Game and Adding Players/';
+// Set image directory
+
+module.exports = {
+  'Add some Games' : (browser) => {
+    browser
+      .url('http://user:saskcow@localhost:8080/league')
+      // Give auth if required
+      .waitForElementVisible('body', 2000)
+      .waitForElementVisible('.Leagues', 2000)
+      .click('li[class~=city-watch]>a')
+      .waitForElementVisible('.League', 2000)
+      .saveScreenshot(dir + '01 - The League page, with all the teams.png')
+      // Navigate to the league page and save a screenshot
+      .click('button[class~=addGame]')
+      .waitForElementVisible('.theGameForm', 2000)
+      .assert.containsText('h1', 'City Watch')
+      .saveScreenshot(dir + '02 - Click add a Game, to go to the add game form.png')
+      // Click the add game button and wait till loaded, then save a screenshot
+
+      .setValue('input[id=Venue]', 'Dolly Sisters')
+      .setValue('input[id=datetime-local]', "14-03-2020")
+      // Set venue to Dolly Sisters, set time to the 14th of march 2020
+
+      .click("div[class~=team1] div[role=button]")
+      .waitForElementVisible('div[id=menu-team1] > div > ul > li[name=team1-the-night-watch]', 2000)
+      // Click on team 1 dropdown and wait for it do have extended
+      .saveScreenshot(dir + "03 - Fill in the Teams with the dropdown.png")
+      .click("li[name=team1-the-night-watch]")
+      // Click The Night Watch in dropdown
+
+      .pause(300)
+      // Wait for it to close
+
+      .click("div[class~=team2] div[role=button]")
+      .waitForElementVisible('div[id=menu-team2] > div > ul > li[name=team2-pseudopolis-yard]', 2000)
+      .click("li[name=team2-pseudopolis-yard]")
+      .pause(300)
+      // Set second team to Pseudopolis Yard
+
+      .saveScreenshot(dir + '04 - Finish completing form.png')
+      // Save a screenshot of the complete form
+      .click('.theGameForm button[type=submit]')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('.Games', 'Dolly Sisters')
+      .saveScreenshot(dir + '05 - Added the Game.png')
+      // Submit, check everything exists, and save a screenshot
+
+
+      .click('button[class~=addGame]')
+      .waitForElementVisible('.theGameForm', 2000)
+      .assert.containsText('h1', 'City Watch')
+      .setValue('input[id=Venue]', 'Treacle Mine Road')
+      .setValue('input[id=datetime-local]', "14-03-2020")
+      .click("div[class~=team1] div[role=button]")
+      .waitForElementVisible('div[id=menu-team1] > div > ul > li[name=team1-cable-street-particulars]', 2000)
+      .click("li[name=team1-cable-street-particulars]")
+      .pause(300)
+      .click("div[class~=team2] div[role=button]")
+      .waitForElementVisible('div[id=menu-team2] > div > ul > li[name=team2-the-night-watch]', 2000)
+      .click("li[name=team2-the-night-watch]")
+      .pause(300)
+      .click('.theGameForm button[type=submit]')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('.Games', 'Treacle Mine Road')
+      // Add a second game between Cable Street Particulars and The Night Watch at Treacle Mine Road
+
+      .saveScreenshot(dir + "06 - Add a second Game.png")
+  },
+
+  'Fill in Players for The Night Watch' : (browser) => {
+    browser
+      .waitForElementVisible('.League', 2000)
+      .click('li[class~=the-night-watch-vs-pseudopolis-yard-at-dolly-sisters]>p>a')
+      .waitForElementVisible('.Game', 2000)
+      .saveScreenshot(dir + '07 - Game with no players.png')
+      // Click on the game to see the add players dropdown
+      .click('div[class~=add-to-the-night-watch]>div>div')
+      .waitForElementVisible('.thePlayersForm', 2000)
+      // Click on the add players to Night Watch and wait for form to load
+
+      .click("div[class~=player1] div[role=button]")
+      // Click on player dropdown 1
+      .waitForElementVisible('div[id=menu-player1] > div > ul > li[name=player1-sam-vimes]', 2000)
+      .saveScreenshot(dir + "08 - Fill in the Players with the dropdown.png")
+      // Wait for it to load and save a screenshot
+      .click("li[name=player1-sam-vimes]")
+      .pause(300)
+      // Click Sam Vimes and wait for it to close
+
+      .click("div[class~=player2] div[role=button]")
+      .waitForElementVisible('div[id=menu-player2] > div > ul > li[name=player2-nobby-nobbs]', 2000)
+      .click("li[name=player2-nobby-nobbs]")
+      .pause(300)
+
+      .click("div[class~=player3] div[role=button]")
+      .waitForElementVisible('div[id=menu-player3] > div > ul > li[name=player3-nobby-nobbs]', 2000)
+      .click("li[name=player3-nobby-nobbs]")
+      .pause(300)
+
+      // Set 2 and 3 to Nobby Nobbs
+
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('.errorMessage', 2000)
+      .saveScreenshot(dir + '09 - Rejects duplicates or empty.png')
+      // Check it displays an error message and screenshot it
+
+      .click("div[class~=player3] div[role=button]")
+      .waitForElementVisible('div[id=menu-player3] > div > ul > li[name=player3-carrot-ironfoundersson]', 2000)
+      .click("li[name=player3-carrot-ironfoundersson]")
+      .pause(300)
+      // Change 3 to Carrot instead
+
+      .saveScreenshot(dir + '10 - Fill in form without empty or duplicates values.png')
+      .click('.thePlayersForm > button[class~=submitForm]')
+      .waitForElementVisible('table[id=the-night-watch]', 2000)
+      // Submit the form and wait for team table in game to load
+
+      .assert.containsText('#the-night-watch', 'Sam Vimes')
+      .assert.containsText('#the-night-watch', 'Nobby Nobbs')
+      .assert.containsText('#the-night-watch', 'Carrot Ironfoundersson')
+
+      .saveScreenshot(dir + '11 - Submit form to generate Game table.png');
+      // Check all 3 players in table and save screenshot of it
+
+  },
+
+  'Fill in Players for Pseudopolis Yard' : (browser) => {
+    browser
+      .click('div[class~=add-to-pseudopolis-yard]>div>div')
+      .waitForElementVisible('.thePlayersForm', 2000)
+
+      .click("div[class~=player1] div[role=button]")
+      .waitForElementVisible('div[id=menu-player1] > div > ul > li[name=player1-igor]', 2000)
+      .click("li[name=player1-igor]")
+      .pause(300)
+
+      .click("div[class~=player2] div[role=button]")
+      .waitForElementVisible('div[id=menu-player2] > div > ul > li[name=player2-reginald-shoe]', 2000)
+      .click("li[name=player2-reginald-shoe]")
+      .pause(300)
+
+      .click("div[class~=player3] div[role=button]")
+      .waitForElementVisible('div[id=menu-player3] > div > ul > li[name=player3-angua-von-überwald]', 2000)
+      .click("li[name=player3-angua-von-überwald]")
+      .pause(300)
+
+      .saveScreenshot(dir + '12 - Fill in form for Pseudopolis Yard.png')
+      .click('button[class~=submitForm]')
+      .waitForElementVisible('table[id=pseudopolis-yard]', 2000)
+
+      .assert.containsText('#pseudopolis-yard', 'Igor')
+      .assert.containsText('#pseudopolis-yard', 'Reginald Shoe')
+      .assert.containsText('#pseudopolis-yard', 'Angua Von Überwald')
+
+      // Add players in the same way to the second team
+
+      .saveScreenshot(dir + '13 - Game with all players, ready to play.png')
+      .end();
+      // Save a screenshot and close browser
+
+  }
+
+};
+----
+
+==== 3. Adding Scores and Scoring the Game.js
+This just adds scores to the game and completes the game, then goes through to league to show changes and check game is complete.
+
+[source, js]
+----
+const dir = './reports/screenshots/3. Adding Scores and Scoring the Game/';
+
+module.exports = {
+  // Export TestCases
+  'Get to the Game' : (browser) => {
+    // Create testCase Get to the Game
+    browser
+      .url('http://user:saskcow@localhost:8080/league')
+      // Give auth if required
+      .waitForElementVisible('body', 2000)
+      .waitForElementVisible('.Leagues', 2000)
+      .click('li[class~=city-watch]>a')
+      .waitForElementVisible('.League', 2000)
+      .click('li[class~=the-night-watch-vs-pseudopolis-yard-at-dolly-sisters]>p>a')
+      .waitForElementVisible('.Game', 2000)
+      .saveScreenshot(dir + "01 - The game.png")
+      // Click buttons till arrived at the game page
+  },
+
+  'Add Scores to the Game' : (browser) => {
+    browser
+      .setValue('#sam-vimes-scratch', 120)
+      .saveScreenshot(dir + '02 - Just enter a scratch score and the handicap will be added from the backend.png')
+      // Enter scratch score, adjusted for handicap (0)
+      .click('#sam-vimes-submit')
+      // Submit score
+      .waitForElementVisible('#sam-vimes-scratch', 2000)
+      .setValue('#sam-vimes-scratch', 120)
+      .setValue('#sam-vimes-handicap', 20)
+      .click('#sam-vimes-checkHandicap')
+      // Override handicap as 20
+      .waitForElementVisible('#sam-vimes-scratch', 2000)
+      .saveScreenshot(dir + "03 - Can also enter a value into handicap and check box to overrule the existing value.png")
+      .click('#sam-vimes-submit')
+      .waitForElementVisible('#sam-vimes-scratch', 2000)
+      .setValue('#sam-vimes-scratch', 350)
+      .click('#sam-vimes-submit')
+      .waitForElementVisible('.errorMessage', 2000)
+      // Enter an impossible score, get rejected
+      .saveScreenshot(dir + "04 - Rejects impossible scores.png")
+      .clearValue('#sam-vimes-scratch')
+      .setValue('#sam-vimes-scratch', 300)
+      .click('#sam-vimes-submit')
+      // Enter a valid score and submit it
+      .waitForElementVisible('.Game', 2000)
+      .waitForElementVisible('#sam-vimes-full', 2000)
+      .saveScreenshot(dir + "05 - A complete row of Scores.png");
+      // Check full row and save screenshot
+
+    const players = ["Carrot Ironfoundersson", "Nobby Nobbs", "Igor", "Reginald Shoe", "Angua Von Überwald"].map(player => player.replace(/\s+/g, '-').toLowerCase());
+    players.forEach(player => {
+      // For every player in the game
+      for(let i = 0; i < 3; i++) {
+        // Do this 3 times
+        browser
+          .setValue('#' + player + '-scratch', Math.floor(Math.random()*300))
+          // Add a random score 0-300
+          .click('#' + player + '-submit')
+          // Submit score
+          .waitForElementVisible('.Game', 2000)
+      }
+      browser.waitForElementVisible('#' + player + '-full', 2000)
+      // Check each player has all scores
+    });
+
+    browser
+      .waitForElementVisible('#scoreGame', 2000)
+      // Check scoreGame shown, should appear when all scores are entered
+      .saveScreenshot(dir + '06 - All scores added.png')
+  },
+
+  'Finish the Game' : browser => {
+    browser
+      .waitForElementVisible('#scoreGame', 2000)
+      .click('#scoreGame')
+      .waitForElementVisible('.winner, .loser', 2000)
+      // Score the game and expect a winner or a loser to appear, both should
+      .saveScreenshot(dir + '07 - All scores calculated, winner and loser selected.png')
+      .click('.back')
+      .waitForElementVisible('.League', 2000)
+      .assert.containsText('.Games', 'won!')
+      // On league page check that the game is marked as complete
+      .saveScreenshot(dir + '08 - Game sorted to bottom and game winner shown.png')
+      .end();
+      // Close browser
+  }
+};
+----
+
+==== 4. Cleaning Up
+Just deletes what it created so it can be run multiple times.
+
+[source, js]
+----
+const dir = './reports/screenshots/4. Cleaning Up/';
+
+module.exports = {
+  'Remove the Day Watch' : browser => {
+    browser
+      .url('http://user:saskcow@localhost:8080/league')
+      // Give auth if required
+      .waitForElementVisible('body', 2000)
+      .waitForElementVisible('.Leagues', 2000)
+      .click('li[class~=city-watch]>a')
+      .waitForElementVisible('.League', 2000)
+      .saveScreenshot(dir + '01 - The Day Watch no longer want to participate.png')
+      // Navigate to league page
+      .click('button[name=delete-the-day-watch]')
+      .waitForElementNotPresent('tr[class~=the-day-watch]', 2000)
+      .saveScreenshot(dir + '02 - Team Deleted.png')
+      // Delete day watch
+  },
+
+  'League Over' : browser => {
+    browser
+      .click('.back')
+      .waitForElementVisible('.Leagues', 2000)
+      .saveScreenshot(dir + '03 - Leagues both over.png')
+      .click('button[name=delete-city-watch]')
+      .waitForElementNotPresent('li[class~=city-watch]', 2000)
+      .click('button[name=delete-the-disc]')
+      .waitForElementNotPresent('li[class~=the-disc]', 2000)
+      .saveScreenshot(dir + '04 - Leagues deleted.png')
+      // Click delete on both leagues, check both are gone
+      .end();
+      // Close browser
+  }
+};
+----
+
+==== Errors at this stage
+
+===== Test ordering
+Tests have to be ran in the correct order or it will expect a league to exist, and it may not. To solve this the tests
+all start with a number so they run in the correct order.
+
+===== Wait a second
+A second was too long, but occasionally with a 250ms pause it would take too long. Now it waits 300ms for dialogues to close
+to reduce errors occurring.
+
+===== Incorrect naming
+Tests and the image folder have to have the same name to be compatible with the testtoadoc program I wrote to add it to the writeup.
+This is also case sensitive and a capital letter in the test caused the testtoadoc program to crash.
+
+===== Picture numbering
+Pictures are added in number order in testtoadoc, there is no other good way I found to order them correctly.
+Therefore when no numbers were in the screenshot names, the screenshots were in random order.
+
+include::test/5 - has all data front and back.adoc[]
+
+=== Polish
+No backend changed, just making the front end nicer to use and more consistent.
+
+==== Headers
+I really liked how games looked with the header at the top. So I used this in every other screen.
+
+[source, js]
+----
+<header className="App-header">
+  <Link className={"back"} to={"/object/"}><Button variant={"raised"}>Back to Previous</Button></Link>
+  <h1 className="App-title">{this.state.name}</h1>
+</header>
+----
+
+Added to all Components with routes. On add screens the back button will name what it links back to as well.
+For example in `AddTeam.js`
+
+[source, js]
+----
+if (this.state.leagueName === null || this.state.leagueName === undefined) {
+  this.getLeague(this.state.leagueId)
+}
+// Check if league name known, if not get it
+// Then will use a placeholder if leagueName is null or undefined
+
+getLeague(id) {
+  axios.get('/api/league/' + id)
+    .then(response => {
+      this.setState({leagueName: response.data.name})
+    })
+    .catch(error => {
+      console.log(error)
+    })
+};
+
+// Gets the name of the league to replace the placeholder in title and back button
+----
+
+==== Header CSS
+Currently it's a back button then an h1. Nothing special.
+This is where some css I found and modified a bit helps.
+
+[source, css]
+----
+.App-header {
+    background-color: #222;
+    height: 75px;
+    padding: 20px;
+    color: white;
+}
+
+.Game .App-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+}
+
+.App-title {
+    font-size: 3em;
+    width: 80%;
+    display: inline-block;
+}
+
+.App-title-game {
+    font-size: 1.5em;
+    width: 90%;
+    display: inline-block;
+}
+
+.back {
+    float: right;
+}
+----
+
+A new set of css was added for game as the header needed to be taller to facilitate the date.
+The titles are set to a width of 80% so the floating right back button is inline with the title. This makes it Always
+in the top right of the page for easier navigation.
+
+==== Back Buttons
+Back buttons should be consistent in placement. It makes the website easier to navigate. So on every page part of the header.
+
+include::test/6 - Polished.adoc[]
+
+== Evaluation
+
+=== My thoughts
+I don't think the program is complete, but I think it offers a nicer interface to use for the league. However due to a
+lack of some features it is not currently fit to be a full replacement of the current system.
+
+=== Client thoughts
+The client agrees that some crucial features are missing before it could be implemented as a replacement, however the
+features present are far easier to use than uploading all the HTML every time anything changes. Thus the client is
+interested in adding blind scores and similar features so it can replace the existing system.
+
+=== Continued development
+The project is up on github with an open source license. Anyone can add issues of required features and anyone can
+create a fork, modify it and send a pull request to merge the code on bowling with their branch.
 
 == Test Formatter
 I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
 doing all this manually now can I?
 
 === Research
+TODO
 
 === Planning
+TODO
 
 === Development
+TODO
 
 === Testing
+TODO
 
 ==== Writeup errors
 All the JSX commenting was JS style
-find (.*\{\/\**.*) replace with $1*/}
-to add end to all the // replaced with {/*
+find `(.*\{\/\**.*)` replace with `$1*/}`
+to add end to all the // replaced with `{/*`
 
 path relative to file which imported it, not file which link originally in.
-
-== Testing
-
-It is important to do testing throughout the project, screenshots and logs start from an early stage in development,
-test data logs begin when basic functionality starts. Most of this is with the associated version.
 
 //include::test/test.adoc[]
 
 include::api/index.adoc[]
+
+//_The Pragmatic Programmer_ <<prag>> should be required reading for
+//all developers.
+//
+//[bibliography]
+//- [[[prag]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer:
+//  From Journeyman to Master. Addison-Wesley. 1999.
+//- [[[regina]]] Erik Pragt. Groovy in Action, Second Edition. Manning Publications.
+//  2015.
+
