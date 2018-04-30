@@ -12,7 +12,7 @@ Callum Tarttelin, 1164, 51617
 ifdef::backend-pdf[]
 :title-logo-image: image:other-pictures/bowling_ball.png[pdfwidth=4.25in,align=center]
 
-:source-highlighter: pygments
+:source-highlighter: rouge
 endif::[]
 // URIs:
 
@@ -101,35 +101,35 @@ On top of this existing criteria the current project should have a login system 
 [source,json]
 ----
 League{
-	teams: [Team, Team ...],
-	rota: [Game, Game ...]
-	ranking: computed
+	"teams": ["Team", "Team", "..."],
+	"rota": ["Game", "Game", "..."],
+	"ranking": computed
 }
 
 Team{
-    name: String
-    Image: Image
-	players: [Player, Player ...]
-	score: Score Object
+    "name": "String"
+    "Image": "Image"
+	"players": ["Player", "Player", "..."]
+	"score": "Score Object"
 }
 
 Player{
-    name: String
-	score: Score Object
+    "name": "String"
+	"score": "Score Object"
 }
 
 User{
-	ID: 47q047309-47120-97410-298490
-    team: Team
-    player: Player
-    rank: leagueAdmin || teamOwner || scoreAdder
+	"ID": "47q047309-47120-97410-298490"
+    "team": "Team"
+    "player": "Player"
+    "rank": "leagueAdmin || teamOwner || scoreAdder"
 }
 
 Game{
-	score: Score Object
-	time: yyyy/mm/dd 
-	venue: Venue
-	status: complete || in progress || not started
+	"score": "Score Object"
+	"time": "yyyy/mm/dd"
+	"venue": "Venue"
+	"status": "complete || in progress || not started"
 }
 ----
 
@@ -388,8 +388,8 @@ package com.saskcow.bowling.repository;
 import ...
 
 // Create a new Repository which copies a CrudRepository so it has all the functions
-//<{ObjectName}, Long> shows it stores {ObjectName} by a Long, the Long being the id of the object.
-public interface {ObjectName}Repository extends CrudRepository<{ObjectName}, Long> {
+//<ObjectName, Long> shows it stores ObjectName by a Long, the Long being the id of the object.
+public interface ObjectName Repository extends CrudRepository<ObjectName, Long> {
 }
 ----
 
@@ -416,12 +416,12 @@ with the frontend to start with, a HomeController will be made to return some ba
 
 ==== index.ftl
 This file is where all the front end will be, currently it will just show a blank page,
-due to spring security, a default password can be set in spring application.properties
+due to spring security, a default password can be set in spring application.properties.
 
 .Authentication
 image::dev-pictures/auth.png[Auth]
 
-[source,html]
+[source]
 ----
 <html>
 <head lang="en">
@@ -576,7 +576,7 @@ public class LeagueControllerTest {
         when(repo.findAll()).thenReturn(Arrays.asList(dave, david, brian));
         // when it calls findByNameContaining("Dav") then it should return all which have "Dav" in the name
         // findByNameContaining must be added as it is not in CrudRepository
-        when(repo.findByNameContaining("Dav")).thenReturn(Arrays.asList(dave, david));#
+        when(repo.findByNameContaining("Dav")).thenReturn(Arrays.asList(dave, david));
         // Same but with Bri
         when(repo.findByNameContaining("Bri")).thenReturn(Collections.singletonList(brian));
 
@@ -1268,7 +1268,7 @@ image::other-pictures/little-leaguey-tables.png[SqlInjection]
 
 So a deletion method is in order, so we need something to call the Delete from the backend.
 
-[source,js]
+[source,jsx]
 ----
 import ...
 
@@ -1325,7 +1325,7 @@ There were numerous errors at this stage, some harder to fix than others.
 When using the add league form, the form, could not be submitted by pressing enter.
 This can be fixed by instead of button.
 
-[source,js]
+[source,jsx]
 ----
 + <Button type={"submit"} variant={"raised"} color={"primary"} className={"submitForm"}>Submit</Button>
 
@@ -1525,11 +1525,11 @@ public class TeamRest {
 
 This we can construct with the following JSON from the front end.
 
-[source, JSON]
+[source, json]
 ----
 {
-    name: "Team Name",
-    leagueId: 314
+    "name": "Team Name",
+    "leagueId": 314
 }
 ----
 
@@ -1650,7 +1650,7 @@ public class TeamView {
 
 Makes it into JSON like
 
-[source, JSON]
+[source, json]
 ----
 {
     "league": {
@@ -1725,7 +1725,7 @@ public class TeamViewSummary {
 
 Nice and simple, sends like
 
-[source, JSON]
+[source, json]
 ----
 {
     "id": 3,
@@ -1755,8 +1755,9 @@ Now the back end for teams is done, we need to give a league some teams, and be 
 ==== League.js
 Leagues now have teams, let's show that.
 
-[source, js]
+[source, jsx]
 ----
+// Added to return (
 <h3>Teams</h3>
 <ul className={"Teams"}>
   {/*Create a list of all the teams*/}
@@ -1765,7 +1766,7 @@ Leagues now have teams, let's show that.
   ))}
 </ul>
 <Link to={"/league/" + this.state.id + '/add-team'}><Button className={"addTeam"} variant={"raised"} color={"primary"}>Add A Team</Button></Link>
-{/*Link to the add a team to the league page*/}
+{/*Link to the add a team to the league page*/})
 ----
 
 This allows the league to show a list of its teams.
@@ -1773,9 +1774,9 @@ This allows the league to show a list of its teams.
 ==== App.js
 We need routes to add and show teams.
 
-[source, js]
+[source, jsx]
 ----
-<Router>
+(<Router>
   {/*React Router BrowserRouter which creates a router which can have routes here*/}
   <div className="App">
     {/*Following added*/}
@@ -1784,13 +1785,13 @@ We need routes to add and show teams.
     <Route path={"/league/:id/add-team"} component={AddTeam}/>
     {/*at /league/{id}/add-team show the add team to league page*/}
   </div>
-</Router>
+</Router>)
 ----
 
 ==== AddTeam.js
 Page to add teams to league id specified in URL
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -1859,7 +1860,7 @@ export default AddTeam // Export AddTeam for easy imports;
 ==== TeamSummary.js
 Simple version to show in the lists of other objects like League.js
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -1887,7 +1888,7 @@ export default TeamSummary // Export for easy imports;
 ==== Team.js
 A page to see details of the team, currently not much
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -2003,7 +2004,7 @@ test_settings mostly say take screenshots and use chrome.
 ==== TestLeague.js
 Now we have the immense functionality of adding some leagues, and then give them some teams, we now need to test, just the league bit here.
 
-[source, js]
+[source, jsx]
 ----
 module.exports = {
   // Export this
@@ -2079,7 +2080,7 @@ See, far easier than doing it manually 100 odd times, checks I haven't broken an
 ==== TestTeams.js
 Well Teams exist, so those should be tested, so this is the test.
 
-[source, js]
+[source, jsx]
 ----
 module.exports = {
   // Export this
@@ -2374,11 +2375,11 @@ public class PlayerRest {
 
 So it takes JSON
 
-[source, JSON]
+[source, json]
 ----
 {
-  name: "Player Name",
-  teamId: 314
+  "name": "Player Name",
+  "teamId": 314
 }
 ----
 
@@ -2455,7 +2456,7 @@ To give routes for adding and showing Player.
 ==== Team.js
 Included in .Team to display all the players in the team.
 
-[source, js]
+[source, jsx]
 ----
 <h3>Players</h3>
 {/*Title Players*/}
@@ -2474,7 +2475,7 @@ Included in .Team to display all the players in the team.
 ==== AddPlayer.js
 We need to add players, so this will call the controller add player.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -2539,7 +2540,7 @@ export default AddPlayer;
 ==== PlayerSummary.js
 Team needs to show players, with PlayerSummarys, so we implement them.
 
-[source, js]
+[source, jsx]
 ----
 import {Link} from "react-router-dom";
 
@@ -2565,7 +2566,7 @@ export default PlayerSummary;
 ==== Player.js
 Display more details of the player.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -2961,14 +2962,14 @@ public class GameRest {
 
 JSON Equivalent
 
-[source, JSON]
+[source, json]
 ----
 {
-  time: "2018-04-16T13:48:16",
-  venue: "The Shades",
-  rotaId: 3,
-  teamId1: 1,
-  teamId2: 4
+  "time": "2018-04-16T13:48:16",
+  "venue": "The Shades",
+  "rotaId": 3,
+  "teamId1": 1,
+  "teamId2": 4
 }
 ----
 
@@ -3028,9 +3029,9 @@ include::test/4. Games in back end.adoc[]
 ==== App.js
 Now we have the standard rewrite the router, we need to add the game and addGame pages.
 
-[source, js]
+[source, jsx]
 ----
-<Route exact path="/" component={LeagueList}/>
+(<Route exact path="/" component={LeagueList}/>
 <Route exact path="/league" component={LeagueList}/>
 <Route exact path="/league/:id" component={League}/>
 <Route exact path="/team/:id" component={Team}/>
@@ -3038,7 +3039,8 @@ Now we have the standard rewrite the router, we need to add the game and addGame
 <Route path={"/league/:id/add-team"} component={AddTeam}/>
 <Route path={"/league/:id/add-game"} component={AddGame}/>
 <Route path={"/team/:id/add-player"} component={AddPlayer}/>
-<Route path="/add/league" component={AddLeague}/>
+<Route path="/add/league" component={AddLeague}/>)
+// Added to <Router>
 ----
 
 Routes are now this, this will be like this for a while.
@@ -3046,21 +3048,22 @@ Routes are now this, this will be like this for a while.
 ==== League.js
 Games need to show somewhere, so a League can show all the games.
 
-[source, js]
+[source, jsx]
 ----
-<h3>Games</h3>
+(<h3>Games</h3>
 <ul className={"Games"}>
   {this.state.games.map(game => (
     <GameSummary key={game.id} id={game.id} time={game.time} teams={game.teams}>{game.venue}</GameSummary>
   ))}
 </ul>
-<Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>
+<Link to={"/league/" + this.state.id + '/add-game'}><Button className={"addGame"} variant={"raised"} color={"primary"}>Add A Game</Button></Link>)
+// Added to main part of render
 ----
 
 ==== AddGame.js
 Now with more menus than ever (more than just a name) we have the next generation of add screen, AddGame.js!
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -3241,7 +3244,7 @@ Well that was certainly longer than the rest, the Rest objects were short.
 ==== GameSummary.js
 If the League is going to display Games, we need the summary, as games don't have a name or something, we require a lot more detail.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -3328,12 +3331,12 @@ With addGame and it's 4 update state functions, there was a problem with the tea
 [source, js]
 ----
 updateTeam1(event) {
-    this.setState({team1: event.target.value});
-  };
+  this.setState({team1: event.target.value});
+};
 
-  updateTeam2(event) {
-    this.setState({team1: event.target.value});
-  };
+updateTeam2(event) {
+  this.setState({team1: event.target.value});
+};
 ----
 
 Both were updating team 1, causing the lower dropdown to change the upper dropdown. This wasn't ideal.
@@ -3519,7 +3522,7 @@ Fairly simple, follows a pattern.
 
 ==== Login.ftl
 
-[source, html]
+[source]
 ----
 <html>
 <head lang="en">
@@ -3534,7 +3537,7 @@ Fairly simple, follows a pattern.
 <h1>Login to Bowling!</h1>
 
 <a href="/oauth2/authorization/google">Login with google!</a>
-// Link to the made oauth google endpoint on click
+<#-- Link to the made oauth google endpoint on click -->
 
 </body>
 </html>
@@ -3975,7 +3978,7 @@ And that's the necessary changes.
 Rather crucially in adding playerGames, we require playerGames to have an add ui, since it adds players plural,
 it is called AddPlayers.js.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -4238,7 +4241,7 @@ Once again, we need a route `<Route exact path="/game/:id/" component={Game}/>` 
 ==== Game.js
 Now we need to write `Game.js` to show on the path. By making tables, lots of table generating.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -4385,7 +4388,7 @@ For once something is getting removed from App.js. This is a first, add-game wil
 ==== AddPlayers.js
 This will now need to work off of props and 2 teams, it shouldn't be too drastic a change.
 
-[source, js]
+[source, jsx]
 ----
 this.getData(props.game.teams);
 // Game passes in Game, so just take team data, as that's all it needs right now.
@@ -4416,7 +4419,7 @@ getData(teams) {
 ==== Game.js
 This will have to contain addPlayers, a dropdown should be nice.
 
-[source, js]
+[source, jsx]
 ----
 addPlayers(team) {
   return (
@@ -4774,7 +4777,7 @@ public class ScoreRest {
 ==== AddScore.js
 Need to add scores, this will be contained in a cell in the table.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -4890,7 +4893,7 @@ export default AddScore; // Easier imports elsewhere
 ==== Game.js
 Where else would we add scores, more adding to Game.js time!
 
-[source, js]
+[source, jsx]
 ----
 tables.push(
 <React.Fragment key={i + "-empty"}>
@@ -5302,7 +5305,7 @@ The client gave feedback that it's great that the points are added. But he also 
 So here they are getting displayed as part of showing the winner.
 
 ==== Game.js
-[source, js]
+[source, jsx]
 ----
 table() {
   if(this.state.game.playerGames.length !== 8){
@@ -5382,7 +5385,7 @@ This adds to the table function that if it has 8 playerGames, it must be complet
 genFullScores gives the values for each player in a game.
 
 As well as this a ScoreGame button is added if table has 6 players and all have 3 scores
-[source, js]
+[source, jsx]
 ----
 if (this.state.game.playerGames.length === 6 && this.state.game.playerGames.every(playerGame => playerGame.scores.length === 3)) {
   tables.push(<Button variant={"raised"} color={"primary"} key={'scoreGame'} id={"scoreGame"} onClick={this.scoreGame}>Score Game</Button>)
@@ -5402,11 +5405,13 @@ Shows in green and red thanks to
 ----
 table[class~=winner] th {
     background: limegreen;
-} // headings in winner tables are limegreen
+}
+/* headings in winner tables are limegreen */
 
 table[class~=loser] th {
     background-color: red;
-} // headings in loser tables are red
+}
+/* headings in loser tables are red */
 ----
 
 The winner is now clear from the table.
@@ -5705,7 +5710,7 @@ Now the front end should show the information.
 I decided to make it a table as there is a lot of tabular data and it would be a clear and easy way to display it all.
 I decided that I wanted the player details, stats and recent games in one table
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -6089,7 +6094,7 @@ Done very similarly to PlayerController
 Players have, little information. Why do they need a page of their own? They don't. So now the Team will have all the
 player data as well.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -6241,7 +6246,7 @@ export default Team;
 ==== Player.js
 Small modifications so it fits in the table.
 
-[source, js]
+[source, jsx]
 ----
 this.getPlayer(props.id);
 // Gets id from Team, doesn't need one from route anymore
@@ -6315,7 +6320,7 @@ leagueView.getTeams().sort(Comparator.comparing(team -> team.getTotalPoints() !=
 The hard bit, now how should this be displayed. It seems logical to use a table again as it is tabular data.
 So it will have a table with a row for each team. main return in render now returns this.
 
-[source, js]
+[source, jsx]
 ----
 <div className={'League'}>
   {/*Contain in League div*/}
@@ -6391,7 +6396,7 @@ So it will have a table with a row for each team. main return in render now retu
 ==== TeamSummary.js
 Teams are now a bit more detailed, and now a table, so this needs updating.
 
-[source, js]
+[source, jsx]
 ----
 import ...
 
@@ -6960,12 +6965,13 @@ No backend changed, just making the front end nicer to use and more consistent.
 ==== Headers
 I really liked how games looked with the header at the top. So I used this in every other screen.
 
-[source, js]
+[source, jsx]
 ----
-<header className="App-header">
+(<header className="App-header">
   <Link className={"back"} to={"/object/"}><Button variant={"raised"}>Back to Previous</Button></Link>
   <h1 className="App-title">{this.state.name}</h1>
-</header>
+</header>)
+// Added to most components to replace existing h1/h2 title and back buttons
 ----
 
 Added to all Components with routes. On add screens the back button will name what it links back to as well.
@@ -7053,39 +7059,40 @@ interested in adding blind scores and similar features so it can replace the exi
 The project is up on github with an open source license. Anyone can add issues of required features and anyone can
 create a fork, modify it and send a pull request to merge the code on bowling with their branch.
 
-== Test Formatter
-I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
-doing all this manually now can I?
-
-=== Research
-TODO
-
-=== Planning
-TODO
-
-=== Development
-TODO
-
-=== Testing
-TODO
-
-==== Writeup errors
-All the JSX commenting was JS style
-find `(.*\{\/\**.*)` replace with `$1*/}`
-to add end to all the // replaced with `{/*`
-
-path relative to file which imported it, not file which link originally in.
+//== Test Formatter
+//I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
+//doing all this manually now can I?
+//
+//=== Research
+//
+//
+//=== Planning
+//
+//
+//=== Development
+//
+//
+//=== Testing
+//
+//
+//==== Writeup errors
+//All the JSX commenting was JS style
+//find `(.*\{\/\**.*)` replace with `$1*/}`
+//to add end to all the // replaced with `{/*`
+//
+//path relative to file which imported it, not file which link originally in.
 
 //include::test/test.adoc[]
 
 include::api/index.adoc[]
 
-//_The Pragmatic Programmer_ <<prag>> should be required reading for
-//all developers.
-//
-//[bibliography]
-//- [[[prag]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer:
-//  From Journeyman to Master. Addison-Wesley. 1999.
-//- [[[regina]]] Erik Pragt. Groovy in Action, Second Edition. Manning Publications.
-//  2015.
+== Bibliography
 
+[bibliography]
+- [[[JPQL]]] Oracle. JPQL Language Reference : https://docs.oracle.com/html/E13946_01/ejb3_langref.html . Accessed April 2018.
+- [[[StackOverflow]]] Various. Many parts of the site : https://stackoverflow.com/ . Accessed 2018.
+- [[[SpringBoot]]] Spring. SpringBoot 2.0.0 Reference : https://docs.spring.io/spring-boot/docs/2.0.1.RELEASE/reference/htmlsingle/ . Accessed April 2018
+- [[[JavaDocs]]] Oracle. Java SE 8 docs : https://docs.oracle.com/javase/8/docs/ . Accessed April 2018
+- [[[ReactTraining]]] ReactRouter. React Router Documentation : https://reacttraining.com/ . Accessed April 2018
+- [[[ReactDocs]]] Facebook. React docs : https://reactjs.org/ . Accessed April 2018
+- [[[AsciiDoctorPdf]]] Asciidoctor. AsciiDoctor pdf reference for writeup : https://asciidoctor.org/docs/asciidoctor-pdf/ . Accessed April 2018
