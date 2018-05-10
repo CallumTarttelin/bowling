@@ -100,32 +100,32 @@ On top of this existing criteria the current project should have a login system 
 === What objects, and what do they have
 [source,json]
 ----
-League{
+"League"{
 	"teams": ["Team", "Team", "..."],
 	"rota": ["Game", "Game", "..."],
-	"ranking": computed
+	"ranking": "computed"
 }
 
-Team{
+"Team"{
     "name": "String"
     "Image": "Image"
 	"players": ["Player", "Player", "..."]
 	"score": "Score Object"
 }
 
-Player{
+"Player"{
     "name": "String"
 	"score": "Score Object"
 }
 
-User{
+"User"{
 	"ID": "47q047309-47120-97410-298490"
     "team": "Team"
     "player": "Player"
     "rank": "leagueAdmin || teamOwner || scoreAdder"
 }
 
-Game{
+"Game"{
 	"score": "Score Object"
 	"time": "yyyy/mm/dd"
 	"venue": "Venue"
@@ -186,6 +186,14 @@ implementation of the object. The ordering will be League, Team, Player, Match, 
 Every time a feature is implemented, changes will be pushed to a github repository. Any in progress changes will be pushed to a
 separate "dev" branch and merged into master when feature is complete and tested. This allows users and stakeholders to always have
 an up to date version of the code to continuously provide feedback on future versions.
+
+=== Development methodologies
+This will follow the rapid application development by iteratively adding features from user stories. The first part will
+be creating the objects and controllers. From there I will gather more user stories for specific parts of the application.
+
+=== Variable naming
+Variable names will be clear from context and names. Single letter variables will be used sparingly, mostly as iterators
+and occasionally in lambda functions.
 
 == Development
 
@@ -402,7 +410,7 @@ They weren't.
 
 [#crud-repo]
 ===== CrudRepository checking
-If the <{ObjectName}, Long> is changed it stores a different type object and returns a different type,
+If the `<{ObjectName}, Long>` is changed it stores a different type object and returns a different type,
 so the object cannot be retrieved as itself.
 
 .Compiler Error
@@ -414,14 +422,14 @@ this occurs as a Game object cannot be made from a String, which is the returned
 There are a lot of controllers in this project, and they are a crucial part to communicate
 with the frontend to start with, a HomeController will be made to return some basic HTML
 
-==== index.ftl
+==== index.html
 This file is where all the front end will be, currently it will just show a blank page,
 due to spring security, a default password can be set in spring application.properties.
 
 .Authentication
 image::dev-pictures/auth.png[Auth]
 
-[source]
+[source, html]
 ----
 <html>
 <head lang="en">
@@ -430,24 +438,24 @@ image::dev-pictures/auth.png[Auth]
     <link rel="stylesheet" href="/style.css"/>
     <link rel="stylesheet" href="/material.min.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <#--These are in place to get some css to make some elements look slightly nicer-->
-    <#--/style.css is currently blank-->
+    <!--These are in place to get some css to make some elements look slightly nicer-->
+    <!--/style.css is currently blank-->
 </head>
 <body>
 
 <div id="react"></div>
-<#--create a div for ReactDOM to later use-->
+<!--create a div for ReactDOM to later use-->
 
 <script src="/built/bundle.js"></script>
-<#--load the webpack script, this will be created later-->
-<#--webpack is what takes all the js and makes it one file-->
+<!--load the webpack script, this will be created later-->
+<!--webpack is what takes all the js and makes it one file-->
 
 </body>
 </html>
 ----
 
 ==== HomeController.java
-This will route to the javascript and ftl to sort out the front end
+This will route to the javascript and html to sort out the front end
 
 [source,java]
 ----
@@ -464,7 +472,7 @@ public class HomeController {
     // Later more will be added as more paths are in the front end
     public String index(){
         return "index";
-        // Show index file extension guessed, currently .ftl
+        // Show index file extension guessed, currently .html
     }
 }
 ----
@@ -907,7 +915,7 @@ This includes the dependencies I added after.
 
 ==== webpack.config.js
 I created this top level file which details how webpack should "bundle" the files before use. Webpack should put all the
-js into one bundle.js file to be sourced from the template (index.ftl). By editing a basic one I found in docs I made
+js into one bundle.js file to be sourced from the template (index.html). By editing a basic one I found in docs I made
 [source,js]
 ----
 const path = require('path');
@@ -978,7 +986,7 @@ icons to make it look nicer as well as react-router-dom.
 In src/main/js App.js is added. This is the main file which the front end is made off of. This will be used to route the
 front end paths.
 
-[source,js]
+[source,jsx]
 ----
 import ...
 
@@ -1017,7 +1025,7 @@ ReactDOM.render(
 We need a way to display the summary information, which is pretty much just a name and an ID. Using the id to link to
 more information we are able to just have a hyperlinked name and we can put many of these in a list
 
-[source,js]
+[source,jsx]
 ----
 import ...
 
@@ -1043,7 +1051,7 @@ export default LeagueSummary;
 ==== LeagueList.js
 Here is where the LeagueSummary will be used, this needs to get all the leagues from the java and display them all.
 
-[source,js]
+[source,jsx]
 ----
 import ...
 
@@ -1131,7 +1139,7 @@ export default LeagueList; // Export LeagueList by default when LeagueList.js im
 This is the page corresponding to /api/league/id, at /league/id there will be a front end representation of the data.
 This will be accessed from when a user clicks on a link to here.
 
-[source,js]
+[source,jsx]
 ----
 import ...
 
@@ -1201,7 +1209,7 @@ export default League;
 ==== AddLeague.js
 Page where one can add a league.
 
-[source,js]
+[source,jsx]
 ----
 import ...
 
@@ -2004,7 +2012,7 @@ test_settings mostly say take screenshots and use chrome.
 ==== TestLeague.js
 Now we have the immense functionality of adding some leagues, and then give them some teams, we now need to test, just the league bit here.
 
-[source, jsx]
+[source, js]
 ----
 module.exports = {
   // Export this
@@ -2080,7 +2088,7 @@ See, far easier than doing it manually 100 odd times, checks I haven't broken an
 ==== TestTeams.js
 Well Teams exist, so those should be tested, so this is the test.
 
-[source, jsx]
+[source, js]
 ----
 module.exports = {
   // Export this
@@ -3520,9 +3528,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ----
 Fairly simple, follows a pattern.
 
-==== Login.ftl
+==== Login.html
 
-[source]
+[source, html]
 ----
 <html>
 <head lang="en">
@@ -3537,7 +3545,7 @@ Fairly simple, follows a pattern.
 <h1>Login to Bowling!</h1>
 
 <a href="/oauth2/authorization/google">Login with google!</a>
-<#-- Link to the made oauth google endpoint on click -->
+<!-- Link to the made oauth google endpoint on click -->
 
 </body>
 </html>
@@ -7046,18 +7054,58 @@ include::test/6 - Polished.adoc[]
 
 == Evaluation
 
+=== Functionality
+The program in it's current state provides an user friendly interface to add leagues, teams, players, games and scores.
+It has features additionally which generates statistics on players based on the games. It is missing features such as blind score
+and some options for tournaments. It also includes input checking to reduce crashes and invalid data.
+
+==== What it should do, and what it does
+
+[source, diff]
+----
++ Can add Leagues, Teams, Players, Scores, and Games
++ Can generate points on games
++ Can show Player, Team, and League statistics in nice tables
+- Cannot generate games for a season based on availability
+- Cannot automatically add blind scores
+- Minimal authentication administration options
+----
+
+==== Usability
+The program has many aspects to make it easy for a client to use. Especially in the polish step, many parts were added
+to provide continuity in the user interface. These include a consistent back button in the top right of the page,
+a consistently placed title header at the top with crucial detail, and use of the same type of buttons for the same tasks
+(back white, submit/add blue). Alongside the tables and lists to nicely display all the data it provides a functional
+and easy to use interface for the client and anyone else using it.
+
 === My thoughts
 I don't think the program is complete, but I think it offers a nicer interface to use for the league. However due to a
-lack of some features it is not currently fit to be a full replacement of the current system.
+lack of some features it is not currently fit to be a full replacement of the current system. Despite this I think
+that the solution functions well and is very stable as shown by the testing.
+
 
 === Client thoughts
 The client agrees that some crucial features are missing before it could be implemented as a replacement, however the
-features present are far easier to use than uploading all the HTML every time anything changes. Thus the client is
-interested in adding blind scores and similar features so it can replace the existing system.
+features present are far easier to use than uploading all the HTML every time anything changes.
+In particular the client likes the interface as a time saving measure to display near instantly updated statistics as
+soon as the scores are added. He also likes the options to save a lot of effort in modifying the existing excel spreadsheet
+by instead using the UI or being able to allow other people to use the UI, so he can have a break.
+The client is very interested in adding blind scores and similar features so it can replace the existing system entirely.
 
 === Continued development
 The project is up on github with an open source license. Anyone can add issues of required features and anyone can
 create a fork, modify it and send a pull request to merge the code on bowling with their branch.
+This will allow the project to get new features. An example is someone could add an issue for blind scores.
+Add the function to `Game.js` to show it in front end. Add it to the `Player` object, and submit a pull request.
+Then I can review the pull request and merge it to add the feature.
+
+=== Maintenance
+The code should stay functioning with the correct versions of the libraries. For deployment it should be
+put into a docker container on a server. The database should then be frequently backed up in order to prevent data loss.
+It includes commented code and a readme to make it easy for future contributors to contribute to the project without
+requiring a lot of time to learn how it works.
+Due to the current implementation however it may be harder to add many features without making controllers a lot longer
+and more cryptic than the current state.
 
 //== Test Formatter
 //I wrote a test formatter in python to format the xml into asciidoc for the writeup, can't be
@@ -7096,3 +7144,4 @@ include::api/index.adoc[]
 - [[[ReactTraining]]] ReactRouter. React Router Documentation : https://reacttraining.com/ . Accessed April 2018
 - [[[ReactDocs]]] Facebook. React docs : https://reactjs.org/ . Accessed April 2018
 - [[[AsciiDoctorPdf]]] Asciidoctor. AsciiDoctor pdf reference for writeup : https://asciidoctor.org/docs/asciidoctor-pdf/ . Accessed April 2018
+- [[[MyRepo]]] Callum Tarttelin. The repository I used for version control, full code is available here : github.com/saskcow/bowling . Accessed April 2018
