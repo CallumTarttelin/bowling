@@ -8,7 +8,7 @@ Callum Tarttelin, 1164, 51617
 :listing-caption: Listing
 :sectnums:
 :toc:
-:toclevels: 3
+:toclevels: 2
 ifdef::backend-pdf[]
 :title-logo-image: image:other-pictures/bowling_ball.png[pdfwidth=4.25in,align=center]
 
@@ -194,6 +194,37 @@ be creating the objects and controllers. From there I will gather more user stor
 === Variable naming
 Variable names will be clear from context and names. Single letter variables will be used sparingly, mostly as iterators
 and occasionally in lambda functions.
+
+=== Success Criteria
+What needs to be done.
+
+* Supports adding League
+* Supports adding Teams
+* Supports adding Players
+* Supports adding Games
+* Supports adding Players to Games
+* Supports adding Scores to Players in Games
+* Shows all the Leagues, Teams, Players, Games and Scores
+* Shows High Game on Player Level
+* Shows Low Game on Player Level
+* Shows High Series on Player Level
+* Shows Low Series on Player Level
+* Shows Recent Games on Player Level
+* Shows HHG on Team level
+* Shows HHS on Team level
+* Shows Pins For on Team level
+* Shows Pins Against on Team level
+* Shows Games Played on Team level
+* Shows a comparison of all team stats on League Level
+* Shows upcoming games at league level
+* Requires users to be authenticated by OAuth 2
+* Supports calculating and using a handicap for a player
+* Supports scoring a game and adding totals
+* Supports setting blind scores in a Game
+* Supports creating a rota of games from length and availability
+* Supports elimination tournaments
+* Supports different authentication levels
+
 
 == Development
 
@@ -403,6 +434,9 @@ public interface ObjectName Repository extends CrudRepository<ObjectName, Long> 
 
 At this stage this is all that was done for each object and it was saved as {ObjectName}Repository.java
 inside com.saskcow.bowling.repository
+
+These were necessary as it gives a place to store all the objects. Anything here goes through hibernate to
+communicate with the H2 database with SQL.
 
 ==== Errors at this stage
 Errors this stage were created by trying to figure out whether or not some CrudRepository things were worth changing +
@@ -964,6 +998,7 @@ Which is of course, unheard of, and also rather convenient.
 === Front End for leagues
 A bit of back end and preparation later and we are ready to create a front end, this will be rather ugly for now, but
 later some css can be thrown at it till it looks less bad, but css is not something I'm good at.
+This will provide places for users to add and remove leagues.
 
 ==== Dependencies
 First I need to add some dependencies to my package.json the main ones are axios for REST requests, and material-ui and
@@ -1414,6 +1449,7 @@ This added all current and soon to be added routes, so that this would no longer
 
 === Team Controller
 Adding teams was fairly similar to adding leagues.
+This is a similar controller supporting adding and removing teams.
 
 ==== TeamControllerTest.java
 This is very similar to LeagueControllerTest as both do similar things.
@@ -2199,6 +2235,7 @@ Others include mistyping classes or ids in selectors.
 
 === Player Controller
 Teams have players, as do games, so it seems a good place to go next. Again it'll start with tests then continue onwards.
+This will support addition of player to Teams and deletion of players from Teams.
 
 ==== PlayerControllerTest.java
  This will be very similar to Team Controller as it does similar things.
@@ -2417,7 +2454,7 @@ public class PlayerView {
 ----
 
 ==== PlayerViewSummary.java
-Once again, a name and an id
+Once again, a name and an id for identification and redirects.
 
 [source, java]
 ----
@@ -2449,6 +2486,7 @@ image::error-pictures/incompatible-types.png[invalidType, pdfwidth=100%]
 include::test/2. Players back end only.adoc[]
 
 === Player Front End
+Gives users the ability to create and remove players from the front end.
 
 ==== App.js
 Added
@@ -2740,6 +2778,7 @@ include::test/3.Players Front and Back.adoc[]
 Game is a bit different, teams are a oneToMany with League,
 players are a manyToMany with Team,
 games have oneToMany with Team and League. Despite this this is still fairly similar.
+This will allow games to be created and removed.
 
 ==== GameControllerTest.java
 Got to test the controller to save time later on.
@@ -3033,6 +3072,7 @@ Now with the `@NoArgsConstructor`, which creates an empty constructor, it works.
 include::test/4. Games in back end.adoc[]
 
 === Games in the front end
+This will make it available for users to create and remove games from the front end.
 
 ==== App.js
 Now we have the standard rewrite the router, we need to add the game and addGame pages.
@@ -7063,12 +7103,33 @@ and some options for tournaments. It also includes input checking to reduce cras
 
 [source, diff]
 ----
-+ Can add Leagues, Teams, Players, Scores, and Games
-+ Can generate points on games
-+ Can show Player, Team, and League statistics in nice tables
-- Cannot generate games for a season based on availability
-- Cannot automatically add blind scores
-- Minimal authentication administration options
++ Supports adding League
++ Supports adding Teams
++ Supports adding Players
++ Supports adding Games
++ Supports adding Players to Games
++ Supports adding Scores to Players in Games
++ Shows all the Leagues, Teams, Players, Games and Scores
++ Shows High Game on Player Level
++ Shows Low Game on Player Level
++ Shows High Series on Player Level
++ Shows Low Series on Player Level
++ Shows Recent Games on Player Level
++ Shows HHG on Team level
++ Shows HHS on Team level
++ Shows Pins For on Team level
++ Shows Pins Against on Team level
++ Shows Games Played on Team level
++ Shows a comparison of all team stats on League Level
++ Shows upcoming games at league level
++ Requires users to be authenticated by OAuth 2
+* Supports calculating and using a handicap for a player
+* Supports scoring a game and adding totals
+- Supports setting blind scores in a Game
+- Supports creating a rota of games from length and availability
+- Supports elimination tournaments
+- Supports different authentication levels
+
 ----
 
 ==== Usability
